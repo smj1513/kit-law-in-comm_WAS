@@ -1,0 +1,93 @@
+name: CICD
+on: 
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+#      - name: Docker Compose Start
+#        run: |
+#         docker-compose start | true
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Build with Gradle
+        run: ./gradlew clean build
+
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Check Docker version
+        run: |
+          docker --version
+          
+      - name: Stop existing application
+        run: |
+          docker ps -q --filter "name=capstone2" | xargs -r docker stop
+          docker ps -aq --filter "name=capstone2" | xargs -r docker rm
+
+      - name: Remove old Docker image
+        run: |
+          docker rmi capstone2:latest || true  # 이미지가 없을 경우 오류를 무시
+          
+      - name: Build Docker image
+        run: |
+          docker build -t capstone2:latest .
+
+      - name: Run Docker container
+        run: |
+          docker run -d --restart=always --name capstone2 -p 8080:8080 revieweye:latest
+      - name: Connect Docker network
+        run: |
+          docker network connect llm-network capstone2
+          
+      - name: Check Docker network
+        run: |
+          docker network inspect llm-network
+
+      - name: Check application logs
+        run: |
+          docker logs capstone2
+  
+#  deploy:
+#    needs: build
+#    runs-on: self-hosted
+#    steps:
+#      - name: Check Java version
+#        run: java -version
+        
+#      - name: Stop existing application
+#        run: |
+#          pid=$(ps aux | grep 'reviewEye.jar' | grep -v grep | awk '{print $2}')
+#          if [ -n "$pid" ]; then
+#            echo "Stopping existing application (PID: $pid)"
+#            kill $pid
+#          fi
+#      - name: Remove old server in ~/source (ignore error)
+#        run: |
+#          rm -rf ~/revieweye/source || true
+
+#      - name: Copy new server to ~/soruce
+#        run: |
+#          mkdir -p ~/revieweye/source
+#          cp -R ./ ~/revieweye/source
+
+#      - name: docker test
+#        run: |
+#         echo '3296' | sudo -S docker ps -a || true
+      
+#      - name: Start Spring Boot application
+#        run: |
+#          nohup java -jar ~/revieweye/source/build/libs/reviewEye.jar > ~/revieweye/source/nohup.out 2>&1 &
+#          sleep 10  # 애플리케이션이 시작될 때까지 대기
+#          cat ~/revieweye/source/nohup.out  # 로그 출력
+#          disown
