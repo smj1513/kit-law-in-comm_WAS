@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: capstone2
+  profiles:
+    active: dev
