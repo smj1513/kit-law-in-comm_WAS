@@ -20,7 +20,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build with Gradle
-        run: ./gradlew clean build -Dspring.profiles.active=proc
+        run: ./gradlew clean build -Dspring.profiles.active=prod
 
   deploy:
     needs: build
@@ -45,7 +45,7 @@ jobs:
 
       - name: Run Docker container
         run: |
-          docker run -d --restart=always --name capstone2 -p 8080:8080 revieweye:latest
+          docker run -d --restart=always --name capstone2 -p 80:8080 capstone2:latest
       - name: Connect Docker network
         run: |
           docker network connect llm-network capstone2

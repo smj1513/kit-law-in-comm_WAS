@@ -3,6 +3,7 @@ spring:
     name: capstone2
   profiles:
     active: dev
+    default: prod
 
 springdoc:
   swagger-ui:
