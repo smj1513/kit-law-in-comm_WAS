@@ -19,8 +19,7 @@ jobs:
 #         docker-compose start | true
       - name: Print Spring Profile
         run: |
-          echo "Active profile: ${{ env.SPRING_PROFILES_ACTIVE}}"  
-          echo "Connection Info: ${{ secrets.DATABASE_URL}}"
+          echo "Active profile: ${{ env.SPRING_PROFILES_ACTIVE}}"
         env:
           SPRING_PROFILES_ACTIVE: prod
 

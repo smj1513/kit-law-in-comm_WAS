@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestDocsController {
 
 	@GetMapping("/test")
-	public Void testResponse(){
-		return null;
+	public String testResponse(){
+		return "Hello";
 	}
 }
