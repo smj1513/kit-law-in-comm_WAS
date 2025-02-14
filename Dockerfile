@@ -8,4 +8,4 @@ WORKDIR /app
 COPY build/libs/capstone2.jar capstone2.jar
 
 # Run the jar file
-ENTRYPOINT ["java", "-jar", "capstone2.jar"]
+ENTRYPOINT ["java", "-Dspring.profiles.active=${ACTIVE_PROFILE}","-jar", "capstone2.jar"]

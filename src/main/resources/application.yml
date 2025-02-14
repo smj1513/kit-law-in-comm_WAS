@@ -2,8 +2,7 @@ spring:
   application:
     name: capstone2
   profiles:
-    active: dev
-    default: prod
+    default: dev
 
 springdoc:
   swagger-ui:
@@ -31,4 +30,4 @@ server:
       charset: UTF-8
       enabled: true
       force: true
-  port: 8090
+  port: 8080
