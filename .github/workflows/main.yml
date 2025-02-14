@@ -17,13 +17,14 @@ jobs:
 #      - name: Docker Compose Start
 #        run: |
 #         docker-compose start | true
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
       - name: Print Spring Profile
         run: |
           echo "Active profile: ${{ env.SPRING_PROFILES_ACTIVE}}"  # [1][5]
         env:
           SPRING_PROFILES_ACTIVE: prod
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew clean build -Dspring.profiles.active=prod
 
