@@ -2,8 +2,8 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/was #${{secrets.DATABASE_URL}}
-    username: postgres #${{secrets.DATABASE_USERNAME}}
-    password: ***REMOVED*** #${{secrets.DATABASE_PASSWORD}}
+    username: "postgres" #${{secrets.DATABASE_USERNAME}}
+    password: "***REMOVED***" #${{secrets.DATABASE_PASSWORD}}
 
   jpa:
     hibernate:
