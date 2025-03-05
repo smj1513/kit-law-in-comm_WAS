@@ -12,8 +12,8 @@ public class SwaggerConfig {
 	public OpenAPI openAPI(){
 		Info info = new Info()
 				.version("v0.1")
-				.title("캡스톤2 API")
-				.description("AI 어시스턴트 기반 법률 상담 커뮤니티 플랫폼 API 문서");
+				.title("LC Inside API")
+				.description("LC Inside API 문서");
 		return new OpenAPI().info(info);
 	}
 
