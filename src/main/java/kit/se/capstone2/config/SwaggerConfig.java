@@ -9,11 +9,15 @@ import org.springframework.context.annotation.Configuration;
 public class SwaggerConfig {
 
 	@Bean
-	public OpenAPI openAPI(){
+	public OpenAPI openAPI() {
 		Info info = new Info()
 				.version("v1.0")
 				.title("LC Inside API")
-				.description("LC Inside API 문서");
+				.description("""
+								레전드 캡스톤 디자인2 프로젝트
+								AI 어시스턴트 기반 법률 상담 커뮤니티 플랫폼
+								LC Inside API 문서
+						""");
 		return new OpenAPI().info(info);
 	}
 
