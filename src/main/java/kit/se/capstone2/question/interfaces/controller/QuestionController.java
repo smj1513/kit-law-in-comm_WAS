@@ -2,6 +2,7 @@ package kit.se.capstone2.question.interfaces.controller;
 
 import kit.se.capstone2.common.api.code.SuccessCode;
 import kit.se.capstone2.common.api.response.CommonResponse;
+import kit.se.capstone2.docs.QuestionDocsController;
 import kit.se.capstone2.question.interfaces.response.QuestionResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/questions")
 @RequiredArgsConstructor
-public class QuestionController {
+public class QuestionController implements QuestionDocsController {
 
 	@GetMapping
 	public CommonResponse<Page<QuestionResponse.Question>> getQuestion(
