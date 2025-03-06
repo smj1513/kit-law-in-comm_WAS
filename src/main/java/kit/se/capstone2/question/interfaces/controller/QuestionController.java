@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class QuestionController implements QuestionDocsController {
 
 	@GetMapping
-	public CommonResponse<Page<QuestionResponse.Post>> getQuestion(
+	public CommonResponse<Page<QuestionResponse.Post>> getQuestions(
 			@RequestParam int page,
 			@RequestParam int size
 	) {

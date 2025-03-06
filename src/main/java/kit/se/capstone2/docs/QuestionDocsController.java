@@ -14,7 +14,7 @@ import org.springframework.data.domain.Page;
 public interface QuestionDocsController {
 	@Operation(summary = "질문글 목록 조회", description = "질문 글에 대한 목록을 페이지네이션으로 조회한다.")
 	@ApiResponse(responseCode = "200", description = "성공")
-	public CommonResponse<Page<QuestionResponse.Post>> getQuestion(
+	public CommonResponse<Page<QuestionResponse.Post>> getQuestions(
 			@Schema(description = "페이지 번호", example = "0")
 			int page,
 			@Schema(description = "페이지 크기", example = "10")
@@ -31,7 +31,7 @@ public interface QuestionDocsController {
 	@Operation(summary = "질문 작성", description = "일반 사용자가 질문 글을 작성한다.")
 	@ApiResponse(responseCode = "200", description = "성공")
 	public CommonResponse<QuestionResponse.Post> createQuestion(
-			@Schema(description = "질문글 생성 요청", implementation = QuestionResponse.Post.class)
+			@Schema(description = "질문글 생성 요청", implementation = QuestionRequest.Post.class)
 			QuestionRequest.Post request
 	);
 
@@ -47,7 +47,7 @@ public interface QuestionDocsController {
 	CommonResponse<QuestionResponse.Post> updateQuestion(
 			@Schema(description = "질문글 ID", example = "1")
 			Long id,
-			@Schema(description = "질문글 수정 요청", implementation = QuestionResponse.Post.class)
+			@Schema(description = "질문글 수정 요청", implementation = QuestionRequest.Post.class)
 			QuestionRequest.Post request
 	);
 }
