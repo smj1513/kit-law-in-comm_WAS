@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
 
@@ -15,13 +14,14 @@ public class QuestionResponse
 	@Builder
 	@NoArgsConstructor
 	@AllArgsConstructor
-	public static class Question{
+	public static class Post {
 		private Long questionId;
 		private String title;
 		private String content;
 		@Schema(description = "최초 사건 발생일")
 		private LocalDate firstOccurrenceDate;
 		private int viewCount;
+		private boolean isAnonymous;
 	}
 
 }

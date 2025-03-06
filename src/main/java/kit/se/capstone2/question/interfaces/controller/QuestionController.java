@@ -3,6 +3,7 @@ package kit.se.capstone2.question.interfaces.controller;
 import kit.se.capstone2.common.api.code.SuccessCode;
 import kit.se.capstone2.common.api.response.CommonResponse;
 import kit.se.capstone2.docs.QuestionDocsController;
+import kit.se.capstone2.question.interfaces.request.QuestionRequest;
 import kit.se.capstone2.question.interfaces.response.QuestionResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class QuestionController implements QuestionDocsController {
 
 	@GetMapping
-	public CommonResponse<Page<QuestionResponse.Question>> getQuestion(
+	public CommonResponse<Page<QuestionResponse.Post>> getQuestion(
 			@RequestParam int page,
 			@RequestParam int size
 	) {
@@ -22,30 +23,30 @@ public class QuestionController implements QuestionDocsController {
 	}
 
 	@GetMapping("/{id}")
-	public CommonResponse<QuestionResponse.Question> getQuestionById(
+	public CommonResponse<QuestionResponse.Post> getQuestionById(
 			@PathVariable Long id
 	) {
 		return CommonResponse.success(SuccessCode.OK, null);
 	}
 
 	@PostMapping
-	public CommonResponse<QuestionResponse.Question> createQuestion(
-			@RequestBody QuestionResponse.Question request
+	public CommonResponse<QuestionResponse.Post> createQuestion(
+			@RequestBody QuestionRequest.Post request
 	) {
 		return CommonResponse.success(SuccessCode.OK, null);
 	}
 
 	@DeleteMapping("/{id}")
-	public CommonResponse<QuestionResponse.Question> deleteQuestion(
+	public CommonResponse<QuestionResponse.Post> deleteQuestion(
 			@PathVariable Long id
 	) {
 		return CommonResponse.success(SuccessCode.OK, null);
 	}
 
 	@PutMapping("/{id}")
-	public CommonResponse<QuestionResponse.Question> updateQuestion(
+	public CommonResponse<QuestionResponse.Post> updateQuestion(
 			@PathVariable Long id,
-			@RequestBody QuestionResponse.Question request
+			@RequestBody QuestionRequest.Post request
 	) {
 		return CommonResponse.success(SuccessCode.OK, null);
 	}
