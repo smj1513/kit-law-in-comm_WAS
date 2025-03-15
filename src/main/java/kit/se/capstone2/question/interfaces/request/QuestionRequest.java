@@ -14,7 +14,7 @@ public class QuestionRequest {
 	@Builder
 	@NoArgsConstructor
 	@AllArgsConstructor
-	public static class Post {
+	public static class Create {
 		private String title;
 		private LegalSpecialty legalSpecialty;
 		private String content;

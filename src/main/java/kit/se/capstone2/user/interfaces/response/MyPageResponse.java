@@ -1,4 +1,4 @@
-package kit.se.capstone2.user.interfaces.request;
+package kit.se.capstone2.user.interfaces.response;
 
 import kit.se.capstone2.user.domain.enums.LegalSpecialty;
 import lombok.AllArgsConstructor;
@@ -10,44 +10,39 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserRequest {
+public class MyPageResponse {
+
 	@Data
 	@Builder
 	@NoArgsConstructor
 	@AllArgsConstructor
-	public static class JoinGeneralUser {
-		private String id;
+	public static class GeneralInfo {
 		private String name;
 		private String nickname;
-		private String password;
-		private String passwordCheck;
-		private LocalDate birthDate;
+		private LocalDate birth;
 	}
 
 	@Data
 	@Builder
 	@NoArgsConstructor
 	@AllArgsConstructor
-	public static class JoinLawyer {
-		private String id;
-		private String password;
-		private String passwordCheck;
+	public static class LawyerInfo {
 		private String name;
 		private String phoneNumber;
+		private String description;
+
 		@Builder.Default
 		private List<LegalSpecialty> legalSpecialties = new ArrayList<>();
-		@Builder.Default
-		private List<String> careers = new ArrayList<>();
-		@Builder.Default
-		private List<String> educations = new ArrayList<>();
-
+		private List<String> careers;
+		private List<String> educations;
 		private OfficeInfo officeInfo;
 	}
+
 	@Data
 	@Builder
 	@NoArgsConstructor
 	@AllArgsConstructor
-	public static class OfficeInfo{
+	private static class OfficeInfo {
 		private String officeName;
 		private String officePhoneNumber;
 		private String officeAddress;
