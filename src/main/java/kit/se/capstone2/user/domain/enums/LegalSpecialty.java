@@ -66,20 +66,15 @@ public enum LegalSpecialty {
 	MEDICAL_TAX("의료/세금/행정"),
 	IT_IP_FINANCE("IT/지식재산/금융");
 
-	private final String koreanName;
+	private final String description;
 
-	LegalSpecialty(String koreanName) {
-		this.koreanName = koreanName;
+	LegalSpecialty(String description) {
+		this.description = description;
 	}
-
-	public String getKoreanName() {
-		return koreanName;
-	}
-
-	// 한국어 이름으로 enum 조회
-	public static Optional<LegalSpecialty> fromKoreanName(String koreanName) {
+	// 한국어 이름으로 enums 조회
+	public static Optional<LegalSpecialty> fromDescription(String description) {
 		return Arrays.stream(values())
-				.filter(field -> field.koreanName.equals(koreanName))
+				.filter(field -> field.description.equals(description))
 				.findFirst();
 	}
 }
