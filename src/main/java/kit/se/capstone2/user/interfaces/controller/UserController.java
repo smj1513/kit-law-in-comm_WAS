@@ -23,7 +23,7 @@ public class UserController implements UserDocsController {
 		return CommonResponse.success(SuccessCode.OK, null);
 	}
 
-	@PostMapping(name = "/join/lawyer", consumes = {"multipart/form-data"})
+	@PostMapping(path = "/join/lawyer", consumes = {"multipart/form-data"})
 	public CommonResponse<UserResponse.Lawyer> joinLawyer(
 			@RequestPart("data") UserRequest.JoinLawyer data,
 			@RequestPart MultipartFile licenseImage) {
