@@ -21,11 +21,11 @@ import java.util.stream.Stream;
 @Tag(name = "사용자 관련 API", description = "사용자 관련 API 문서")
 public interface UserDocsController {
 
-	@Operation(summary = "일반 사용자 가입", description = "일반 사용자로 가입한다.")
+	@Operation(summary = "일반 사용자 회원 가입", description = "일반 사용자로 가입한다.")
 	@ApiResponse(responseCode = "200", description = "성공")
 	CommonResponse<UserResponse.General> joinGeneral(@RequestBody UserRequest.JoinGeneralUser request);
 
-	@Operation(summary = "변호사 가입", description = "변호사로 가입한다.")
+	@Operation(summary = "변호사 회원 가입", description = "변호사로 가입한다.")
 	@ApiResponse(responseCode = "200", description = "성공")
 	CommonResponse<UserResponse.Lawyer> joinLawyer(
 			@RequestPart("data") UserRequest.JoinLawyer data,
