@@ -30,7 +30,7 @@ public class UserController implements UserDocsController {
 		return CommonResponse.success(SuccessCode.OK, null);
 	}
 
-	@GetMapping("/legal-specialists")
+	@GetMapping("/legal-speciality")
 	public CommonResponse<List<UserResponse.LegalSpecialtyInfo>> getLegalSpecialists() {
 		return CommonResponse.success(SuccessCode.OK, Stream.of(LegalSpecialty.values()).map(UserResponse.LegalSpecialtyInfo::from).toList());
 	}

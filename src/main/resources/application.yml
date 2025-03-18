@@ -13,7 +13,6 @@ springdoc:
     display-request-duration: true
     defaultModelsExpandDepth: 2
     defaultModelExpandDepth: 2
-    path: /swagger-ui.html
   api-docs:
     path: /api-docs
   show-actuator: true
@@ -30,4 +29,5 @@ server:
       charset: UTF-8
       enabled: true
       force: true
+    context-path: /api
   port: 8080

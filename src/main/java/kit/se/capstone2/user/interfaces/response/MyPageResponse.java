@@ -1,5 +1,6 @@
 package kit.se.capstone2.user.interfaces.response;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import kit.se.capstone2.user.domain.enums.LegalSpecialty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,4 +49,35 @@ public class MyPageResponse {
 		private String officePhoneNumber;
 		private String officeAddress;
 	}
+
+	@Data
+	@Builder
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class QuestionInfo{
+		@Schema(description = "질문글 ID - 클릭시 해당 질문글로 이동")
+		private Long questionId;
+		private String title;
+		private String content;
+		private LocalDateTime createdAt;
+		private LocalDateTime updatedAt;
+		private Long reportCount;
+		private Long viewCount;
+	}
+
+
+	@Data
+	@Builder
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class AnswerInfo {
+		@Schema(description = "질문글 ID - 클릭시 해당 질문글로 이동")
+		private Long questionId;
+		private Long answerId;
+		private String content;
+		private LocalDateTime createdAt;
+		private LocalDateTime updatedAt;
+		private Long reportCount;
+	}
+
 }

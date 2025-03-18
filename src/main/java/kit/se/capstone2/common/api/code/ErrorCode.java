@@ -16,6 +16,7 @@ public enum ErrorCode {
 	INFERENCE_FAILURE(HttpStatus.FAILED_DEPENDENCY, EntityCode.COMMON, ExceptionCode.CONFLICT, "Inference Failure"),
 	NOT_FOUND_ENTITY(HttpStatus.NOT_FOUND, EntityCode.COMMON, ExceptionCode.NOT_FOUND, "Entity Not Found"),
 	INTENAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, EntityCode.COMMON, ExceptionCode.INTERNAL_SERVER_ERROR, "Internal Server Error"),
+	NOT_FOUND_USER(HttpStatus.NOT_FOUND, EntityCode.USER, ExceptionCode.NOT_FOUND, "User Not Found"),
 	;
 
 	private final HttpStatus httpStatus;

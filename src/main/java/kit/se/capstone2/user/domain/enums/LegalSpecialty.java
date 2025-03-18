@@ -8,14 +8,7 @@ import java.util.Optional;
 @Getter
 public enum LegalSpecialty {
 	// 성범죄 분야
-	SEXUAL_CRIMES_PROSTITUTION("성매매"),
-	SEXUAL_CRIMES_CONDITIONAL_MEETING("조건만남"),
-	SEXUAL_CRIMES_RANDOM_CHAT("랜덤채팅"),
-	SEXUAL_CRIMES_ENTERTAINMENT_VENUE("유흥업소"),
-	SEXUAL_CRIMES_SEXUAL_VIOLENCE("성폭력/강제추행"),
-	SEXUAL_CRIMES_ASSAULT("성폭행"),
-	SEXUAL_CRIMES_MINOR_CRIMES("미성년 대상 성범죄"),
-	SEXUAL_CRIMES_DIGITAL_CRIMES("디지털 성범죄"),
+	SEXUAL_CRIMES("성범죄"),
 
 	// 재산범죄 분야
 	PROPERTY_CRIMES_EMBEZZLEMENT("횡령/배임"),
