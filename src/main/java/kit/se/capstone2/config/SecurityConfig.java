@@ -49,10 +49,11 @@ public class SecurityConfig {
 		http.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		http.authorizeHttpRequests(authorizeRequests ->
 				authorizeRequests
-						.requestMatchers("/", "/api", "/api/swagger-ui/**", "/api/api-docs/**").permitAll()
-						.requestMatchers("/api/users/admin/**").hasRole(Role.ROLE_ADMIN.name())
-						.requestMatchers("/api/question/{questionId}/answers/**").hasRole(Role.ROLE_LAWYER.name())
-						.requestMatchers("/api/answers/**").hasRole(Role.ROLE_LAWYER.name())
+
+						.requestMatchers("/", "/api", "/api/swagger-ui/**", "/api/api-docs/**", "/api/common/**","/api/auth/**").permitAll()
+						.requestMatchers("/api/users/admin/**").hasAnyAuthority(Role.ROLE_ADMIN.name())
+						.requestMatchers("/api/question/{questionId}/answers/**").hasAnyAuthority(Role.ROLE_LAWYER.name())
+						.requestMatchers("/api/answers/**").hasAnyAuthority(Role.ROLE_LAWYER.name())
 
 						.anyRequest()
 						.permitAll()

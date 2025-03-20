@@ -16,28 +16,14 @@ public class JwtTokenValidator {
 	@Setter
 	private SecretKey key;
 
-	public boolean validateToken(String token) {
-		try {
-			Jwts.parser().verifyWith(key).build().parseSignedClaims(token);
-			return true;
-		} catch (SecurityException | MalformedJwtException e) {
-			log.info("잘못된 JWT 서명입니다.");
-		} catch (ExpiredJwtException e) {
-			log.info("만료된 JWT 토큰입니다.");
-		} catch (UnsupportedJwtException e) {
-			log.info("지원되지 않는 JWT 토큰입니다.");
-		} catch (IllegalArgumentException e) {
-			log.info("JWT 토큰이 잘못되었습니다.");
-		}
-		return false;
-	}
-	public Boolean isExpired(String accessToken) {
+	public Boolean isExpired(String token) {
 		return Jwts.parser()
 				.verifyWith(key)
 				.build()
-				.parseSignedClaims(accessToken)
+				.parseSignedClaims(token)
 				.getPayload()
 				.getExpiration()
 				.before(Date.from(LocalDateTime.now().atZone(TimeZone.getDefault().toZoneId()).toInstant()));
 	}
+
 }

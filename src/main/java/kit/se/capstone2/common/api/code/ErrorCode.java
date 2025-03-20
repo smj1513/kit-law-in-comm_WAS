@@ -19,7 +19,8 @@ public enum ErrorCode {
 	INTENAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, EntityCode.COMMON, ExceptionCode.INTERNAL_SERVER_ERROR, "Internal Server Error"),
 	NOT_FOUND_USER(HttpStatus.NOT_FOUND, EntityCode.USER, ExceptionCode.NOT_FOUND, "User Not Found"),
 	INVALID_TOKEN(HttpStatus.BAD_REQUEST, EntityCode.TOKEN , ExceptionCode.BAD_REQUEST , "Invalid Token"),
-	LOGIN_FAILED(HttpStatus.UNAUTHORIZED, EntityCode.USER, ExceptionCode.UNAUTHORIZED, "Login Failed"),;
+	LOGIN_FAILED(HttpStatus.UNAUTHORIZED, EntityCode.USER, ExceptionCode.UNAUTHORIZED, "Login Failed"),
+	REFRESH_TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, EntityCode.TOKEN ,ExceptionCode.EXPIRATION , "RefreshToken Expired" );
 
 	private final HttpStatus httpStatus;
 	private final EntityCode entityCode;
