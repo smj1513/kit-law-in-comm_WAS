@@ -4,12 +4,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import kit.se.capstone2.answer.interfaces.request.AnswerRequest;
-import kit.se.capstone2.answer.interfaces.response.AnswerResponse;
-import kit.se.capstone2.common.api.code.SuccessCode;
+import kit.se.capstone2.posts.answer.interfaces.request.AnswerRequest;
+import kit.se.capstone2.posts.answer.interfaces.response.AnswerResponse;
 import kit.se.capstone2.common.api.response.CommonResponse;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "답변글 관련 API", description = "답변글 관련 API 문서")
 public interface AnswerDocsController {

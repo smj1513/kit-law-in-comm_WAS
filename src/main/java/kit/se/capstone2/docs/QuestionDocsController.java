@@ -6,9 +6,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kit.se.capstone2.common.api.response.CommonResponse;
-import kit.se.capstone2.question.interfaces.request.QuestionRequest;
-import kit.se.capstone2.question.interfaces.response.QuestionResponse;
-import kit.se.capstone2.user.domain.enums.LegalSpecialty;
+import kit.se.capstone2.posts.question.interfaces.request.QuestionRequest;
+import kit.se.capstone2.posts.question.interfaces.response.QuestionResponse;
+import kit.se.capstone2.user.domain.enums.LegalSpeciality;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -17,7 +17,7 @@ public interface QuestionDocsController {
 
 	@Operation(summary = "특정 법률 분야의 상담글 목록 조회", description = "특정 법률 분야의 상담글을 페이지네이션으로 조회한다.")
 	@ApiResponse(responseCode = "200", description = "성공")
-	CommonResponse<Page<QuestionResponse.PostQuestion>> getQuestionByLegalSpeciality(@RequestParam LegalSpecialty legalSpecialty,
+	CommonResponse<Page<QuestionResponse.PostQuestion>> getQuestionByLegalSpeciality(@RequestParam LegalSpeciality legalSpeciality,
 	                                                                                 @RequestParam int page,
 	                                                                                 @RequestParam int size);
 

@@ -3,7 +3,7 @@ package kit.se.capstone2.user.interfaces.controller;
 import kit.se.capstone2.common.api.code.SuccessCode;
 import kit.se.capstone2.common.api.response.CommonResponse;
 import kit.se.capstone2.docs.UserDocsController;
-import kit.se.capstone2.user.domain.enums.LegalSpecialty;
+import kit.se.capstone2.user.domain.enums.LegalSpeciality;
 import kit.se.capstone2.user.interfaces.request.UserRequest;
 import kit.se.capstone2.user.interfaces.response.UserResponse;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class UserController implements UserDocsController {
 	}
 
 	@PostMapping(path = "/join/lawyer", consumes = {"multipart/form-data"})
-	public CommonResponse<UserResponse.Lawyer> joinLawyer(
+	public CommonResponse<UserResponse.LawyerRes> joinLawyer(
 			@RequestPart("data") UserRequest.JoinLawyer data,
 			@RequestPart MultipartFile licenseImage) {
 		return CommonResponse.success(SuccessCode.OK, null);
@@ -32,6 +32,6 @@ public class UserController implements UserDocsController {
 
 	@GetMapping("/legal-speciality")
 	public CommonResponse<List<UserResponse.LegalSpecialtyInfo>> getLegalSpecialists() {
-		return CommonResponse.success(SuccessCode.OK, Stream.of(LegalSpecialty.values()).map(UserResponse.LegalSpecialtyInfo::from).toList());
+		return CommonResponse.success(SuccessCode.OK, Stream.of(LegalSpeciality.values()).map(UserResponse.LegalSpecialtyInfo::from).toList());
 	}
 }

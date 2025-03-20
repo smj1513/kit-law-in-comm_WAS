@@ -1,7 +1,7 @@
 package kit.se.capstone2.user.interfaces.request;
 
 
-import kit.se.capstone2.user.domain.enums.LegalSpecialty;
+import kit.se.capstone2.user.domain.enums.LegalSpeciality;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class MyPageRequest {
 		private List<String> educations = new ArrayList<>();
 
 		@Builder.Default
-		private List<LegalSpecialty> legalSpecialties = new ArrayList<>();
+		private List<LegalSpeciality> legalSpecialties = new ArrayList<>();
 	}
 
 	@Data

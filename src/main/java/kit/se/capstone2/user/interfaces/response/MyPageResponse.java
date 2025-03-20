@@ -1,7 +1,7 @@
 package kit.se.capstone2.user.interfaces.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import kit.se.capstone2.user.domain.enums.LegalSpecialty;
+import kit.se.capstone2.user.domain.enums.LegalSpeciality;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,7 +34,7 @@ public class MyPageResponse {
 		private String description;
 
 		@Builder.Default
-		private List<LegalSpecialty> legalSpecialties = new ArrayList<>();
+		private List<LegalSpeciality> legalSpecialties = new ArrayList<>();
 		private List<String> careers;
 		private List<String> educations;
 		private OfficeInfo officeInfo;

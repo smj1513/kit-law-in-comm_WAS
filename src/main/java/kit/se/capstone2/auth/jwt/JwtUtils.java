@@ -1,0 +1,63 @@
+package kit.se.capstone2.auth.jwt;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+import kit.se.capstone2.auth.domain.enums.Role;
+import kit.se.capstone2.auth.jwt.model.JwtToken;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
+
+import javax.crypto.SecretKey;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.TimeZone;
+
+@Component
+@RequiredArgsConstructor
+public class JwtUtils {
+
+	@Value("${jwt.secret}")
+	private String secret;
+	private SecretKey key;
+
+	private final JwtTokenProvider provider;
+	private final JwtTokenExtractor extractor;
+	private final JwtTokenValidator validator;
+
+	@PostConstruct
+	public void init(){
+		key = Keys.hmacShaKeyFor(secret.getBytes());
+		extractor.setKey(key);
+		validator.setKey(key);
+		provider.setKey(key);
+	}
+
+	public JwtToken generateToken(Authentication auth){
+		return provider.generateToken(auth);
+	}
+
+	public String extractToken(String authHeader){
+		return extractor.extractToken(authHeader);
+	}
+
+	public Role getAuthorities(String token){
+		return extractor.extractAuthorities(token);
+	}
+
+
+	public Boolean isExpired(String accessToken) {
+		return validator.isExpired(accessToken);
+	}
+
+	public Boolean isAccessToken(String token) {
+		String category = extractor.extractCategory(token);
+		return JwtProperties.ACCESS_TOKEN_TYPE.equals(category);
+	}
+
+	public String getUsername(String token) {
+		return extractor.extractUsername(token);
+	}
+}

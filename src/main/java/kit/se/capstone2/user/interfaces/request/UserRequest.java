@@ -1,6 +1,6 @@
 package kit.se.capstone2.user.interfaces.request;
 
-import kit.se.capstone2.user.domain.enums.LegalSpecialty;
+import kit.se.capstone2.user.domain.enums.LegalSpeciality;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,7 +35,7 @@ public class UserRequest {
 		private String name;
 		private String phoneNumber;
 		@Builder.Default
-		private List<LegalSpecialty> legalSpecialties = new ArrayList<>();
+		private List<LegalSpeciality> legalSpecialties = new ArrayList<>();
 		@Builder.Default
 		private List<String> careers = new ArrayList<>();
 		@Builder.Default

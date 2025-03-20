@@ -2,7 +2,7 @@ package kit.se.capstone2.user.interfaces.response;
 
 import kit.se.capstone2.auth.domain.enums.Role;
 import kit.se.capstone2.user.domain.enums.ApprovalStatus;
-import kit.se.capstone2.user.domain.enums.LegalSpecialty;
+import kit.se.capstone2.user.domain.enums.LegalSpeciality;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,10 +18,10 @@ public class UserResponse  {
 		private String legalSpecialtyName;
 		private String legalSpecialtyDescription;
 
-		public static LegalSpecialtyInfo from(LegalSpecialty legalSpecialty){
+		public static LegalSpecialtyInfo from(LegalSpeciality legalSpeciality){
 			return LegalSpecialtyInfo.builder()
-					.legalSpecialtyName(legalSpecialty.name())
-					.legalSpecialtyDescription(legalSpecialty.getDescription())
+					.legalSpecialtyName(legalSpeciality.name())
+					.legalSpecialtyDescription(legalSpeciality.getDescription())
 					.build();
 		}
 	}
@@ -39,7 +39,7 @@ public class UserResponse  {
 	@Builder
 	@NoArgsConstructor
 	@AllArgsConstructor
-	public static class Lawyer {
+	public static class LawyerRes {
 		private String id;
 		private Role role;
 		private ApprovalStatus approvalStatus;

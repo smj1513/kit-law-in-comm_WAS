@@ -14,3 +14,8 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         default_batch_fetch_size: 1000
         default_schema:
+  data:
+    redis:
+      port: 6379
+      host: redis
+      password:

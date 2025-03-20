@@ -1,11 +1,10 @@
 package kit.se.capstone2.user.interfaces.controller;
 
-import kit.se.capstone2.answer.interfaces.response.AnswerResponse;
+import kit.se.capstone2.posts.answer.interfaces.response.AnswerResponse;
 import kit.se.capstone2.common.api.code.SuccessCode;
 import kit.se.capstone2.common.api.response.CommonResponse;
 import kit.se.capstone2.docs.MyPageDocsController;
 import kit.se.capstone2.user.interfaces.request.MyPageRequest;
-import kit.se.capstone2.user.interfaces.request.UserRequest;
 import kit.se.capstone2.user.interfaces.response.MyPageResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
