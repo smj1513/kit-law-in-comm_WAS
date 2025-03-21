@@ -3,6 +3,7 @@ package kit.se.capstone2.user.interfaces.controller;
 import kit.se.capstone2.common.api.code.SuccessCode;
 import kit.se.capstone2.common.api.response.CommonResponse;
 import kit.se.capstone2.docs.UserDocsController;
+import kit.se.capstone2.user.application.UserAppService;
 import kit.se.capstone2.user.domain.enums.LegalSpeciality;
 import kit.se.capstone2.user.interfaces.request.UserRequest;
 import kit.se.capstone2.user.interfaces.response.UserResponse;
@@ -18,9 +19,11 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class UserController implements UserDocsController {
 
+	private final UserAppService appService;
+
 	@PostMapping("/join/general")
 	public CommonResponse<UserResponse.General> joinGeneral(@RequestBody UserRequest.JoinGeneralUser request) {
-		return CommonResponse.success(SuccessCode.OK, null);
+		return CommonResponse.success(SuccessCode.OK, appService.joinGeneralUser(request));
 	}
 
 	@PostMapping(path = "/join/lawyer", consumes = {"multipart/form-data"})

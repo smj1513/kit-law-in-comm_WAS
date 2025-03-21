@@ -49,12 +49,11 @@ public class SecurityConfig {
 		http.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		http.authorizeHttpRequests(authorizeRequests ->
 				authorizeRequests
-
 						.requestMatchers("/", "/api", "/api/swagger-ui/**", "/api/api-docs/**", "/api/common/**","/api/auth/**").permitAll()
+						.requestMatchers("/api/users/**").permitAll()
 						.requestMatchers("/api/users/admin/**").hasAnyAuthority(Role.ROLE_ADMIN.name())
-						.requestMatchers("/api/question/{questionId}/answers/**").hasAnyAuthority(Role.ROLE_LAWYER.name())
-						.requestMatchers("/api/answers/**").hasAnyAuthority(Role.ROLE_LAWYER.name())
-
+						.requestMatchers("/api/question/{question-id}/answers").hasAnyAuthority(Role.ROLE_LAWYER.name()) //TODO: 조회는 모두 가능하도록 변경
+						.requestMatchers("/api/answers/**").hasAnyAuthority(Role.ROLE_LAWYER.name())//TODO: 조회는 모두 가능하도록 변경
 						.anyRequest()
 						.permitAll()
 		);

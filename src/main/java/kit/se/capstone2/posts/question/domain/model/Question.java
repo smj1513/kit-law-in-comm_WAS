@@ -1,14 +1,16 @@
-package kit.se.capstone2.posts.answer.domain.model;
+package kit.se.capstone2.posts.question.domain.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import kit.se.capstone2.common.entity.BaseTime;
-import kit.se.capstone2.posts.question.domain.model.Answer;
+import kit.se.capstone2.posts.answer.domain.model.Answer;
 import kit.se.capstone2.reports.domain.model.QuestionReport;
 import kit.se.capstone2.user.domain.enums.LegalSpeciality;
 import kit.se.capstone2.user.domain.model.ClientUser;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,14 +29,20 @@ public class Question extends BaseTime {
 
 	private String content;
 
+	private LocalDate firstOccurrenceDate;
+
+	private Boolean isAnonymous;
+
 	private long viewCount;
+
 
 	@Enumerated(EnumType.STRING)
 	private LegalSpeciality legalSpeciality;
 
 	@ManyToOne
 	@JoinColumn(name = "client_user_id")
-	private ClientUser clientUser;
+	@NotNull
+	private ClientUser author;
 
 	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Builder.Default
@@ -43,4 +51,14 @@ public class Question extends BaseTime {
 	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Builder.Default
 	private List<Answer> answers = new ArrayList<>();
+
+	public void addAnswer(Answer answer) {
+		this.answers.add(answer);
+		answer.setQuestion(this);
+	}
+
+	public void addAuthor(ClientUser author) {
+		this.author = author;
+		author.addQuestion(this);
+	}
 }

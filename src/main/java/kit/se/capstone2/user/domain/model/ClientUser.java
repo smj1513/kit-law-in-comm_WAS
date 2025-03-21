@@ -20,4 +20,5 @@ import java.time.LocalDate;
 public class ClientUser extends BaseUser {
 	private String nickname;
 	private LocalDate birthDate;
+
 }

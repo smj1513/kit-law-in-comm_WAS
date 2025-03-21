@@ -11,13 +11,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Stream;
 
 @Tag(name = "공통 API", description = "공통 API")
-@RestController("/common")
+@RestController
+@RequestMapping("/common")
 public class CommonDocsController {
 	@GetMapping("/errors")
 	@Operation(summary = "에러 코드 목록 조회", description = "에러 코드 목록을 조회합니다.")

@@ -3,6 +3,7 @@ package kit.se.capstone2.posts.question.interfaces.controller;
 import kit.se.capstone2.common.api.code.SuccessCode;
 import kit.se.capstone2.common.api.response.CommonResponse;
 import kit.se.capstone2.docs.QuestionDocsController;
+import kit.se.capstone2.posts.question.application.QuestionAppService;
 import kit.se.capstone2.posts.question.interfaces.request.QuestionRequest;
 import kit.se.capstone2.posts.question.interfaces.response.QuestionResponse;
 import kit.se.capstone2.user.domain.enums.LegalSpeciality;
@@ -15,9 +16,11 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class QuestionController implements QuestionDocsController {
 
+	private final QuestionAppService questionAppService;
+
 	@GetMapping("/legal-speciality")
 	public CommonResponse<Page<QuestionResponse.PostQuestion>> getQuestionByLegalSpeciality(@RequestParam LegalSpeciality legalSpeciality, @RequestParam int page, @RequestParam int size) {
-		return CommonResponse.success(SuccessCode.OK, null);
+		return CommonResponse.success(SuccessCode.OK, questionAppService.getQuestionByLegalSpeciality(legalSpeciality, page, size));
 	}
 
 	@GetMapping
@@ -25,28 +28,28 @@ public class QuestionController implements QuestionDocsController {
 			@RequestParam int page,
 			@RequestParam int size
 	) {
-		return CommonResponse.success(SuccessCode.OK, null);
+		return CommonResponse.success(SuccessCode.OK, questionAppService.getQuestions(page, size));
 	}
 
 	@GetMapping("/{id}")
 	public CommonResponse<QuestionResponse.PostQuestion> getQuestionById(
 			@PathVariable Long id
 	) {
-		return CommonResponse.success(SuccessCode.OK, null);
+		return CommonResponse.success(SuccessCode.OK, questionAppService.getQuestionById(id));
 	}
 
 	@PostMapping
 	public CommonResponse<QuestionResponse.PostQuestion> createQuestion(
 			@RequestBody QuestionRequest.Create request
 	) {
-		return CommonResponse.success(SuccessCode.CREATED, null);
+		return CommonResponse.success(SuccessCode.CREATED, questionAppService.createQuestion(request));
 	}
 
 	@DeleteMapping("/{id}")
 	public CommonResponse<QuestionResponse.PostQuestion> deleteQuestion(
 			@PathVariable Long id
 	) {
-		return CommonResponse.success(SuccessCode.DELETED, null);
+		return CommonResponse.success(SuccessCode.DELETED, questionAppService.deleteQuestion(id));
 	}
 
 	@PutMapping("/{id}")
@@ -54,7 +57,16 @@ public class QuestionController implements QuestionDocsController {
 			@PathVariable Long id,
 			@RequestBody QuestionRequest.Create request
 	) {
-		return CommonResponse.success(SuccessCode.MODIFIED, null);
+		return CommonResponse.success(SuccessCode.MODIFIED, questionAppService.updateQuestion(id, request));
+	}
+
+	@GetMapping("/search")
+	public CommonResponse<Page<QuestionResponse.PostQuestion>> searchQuestions(
+			@RequestParam String keyword,
+			@RequestParam int page,
+			@RequestParam int size
+	) {
+		return CommonResponse.success(SuccessCode.OK, questionAppService.searchQuestions(keyword, page, size));
 	}
 
 

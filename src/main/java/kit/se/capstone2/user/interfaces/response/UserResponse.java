@@ -31,8 +31,9 @@ public class UserResponse  {
 	@NoArgsConstructor
 	@AllArgsConstructor
 	public static class General {
-		private String id;
+		private String username;
 		private Role role;
+		private ApprovalStatus approvalStatus;
 	}
 
 	@Data
@@ -40,7 +41,7 @@ public class UserResponse  {
 	@NoArgsConstructor
 	@AllArgsConstructor
 	public static class LawyerRes {
-		private String id;
+		private String username;
 		private Role role;
 		private ApprovalStatus approvalStatus;
 	}

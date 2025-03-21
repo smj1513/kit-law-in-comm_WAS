@@ -1,5 +1,6 @@
 package kit.se.capstone2.user.interfaces.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import kit.se.capstone2.user.domain.enums.LegalSpeciality;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,11 +17,11 @@ public class UserRequest {
 	@NoArgsConstructor
 	@AllArgsConstructor
 	public static class JoinGeneralUser {
-		private String id;
+		@Schema(description = "로그인 할때 사용할 아이디", example = "user1")
+		private String username;
 		private String name;
 		private String nickname;
 		private String password;
-		private String passwordCheck;
 		private LocalDate birthDate;
 	}
 
@@ -29,9 +30,9 @@ public class UserRequest {
 	@NoArgsConstructor
 	@AllArgsConstructor
 	public static class JoinLawyer {
-		private String id;
+		@Schema(description = "로그인 할때 사용할 아이디", example = "lawyer1")
+		private String username;
 		private String password;
-		private String passwordCheck;
 		private String name;
 		private String phoneNumber;
 		@Builder.Default

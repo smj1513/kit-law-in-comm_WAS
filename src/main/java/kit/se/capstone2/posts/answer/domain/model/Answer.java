@@ -1,8 +1,8 @@
-package kit.se.capstone2.posts.question.domain.model;
+package kit.se.capstone2.posts.answer.domain.model;
 
 import jakarta.persistence.*;
 import kit.se.capstone2.common.entity.BaseTime;
-import kit.se.capstone2.posts.answer.domain.model.Question;
+import kit.se.capstone2.posts.question.domain.model.Question;
 import kit.se.capstone2.reports.domain.model.AnswerReport;
 import kit.se.capstone2.user.domain.model.lawyer.Lawyer;
 import lombok.*;

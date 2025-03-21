@@ -1,7 +1,7 @@
 package kit.se.capstone2.reports.domain.model;
 
 import jakarta.persistence.*;
-import kit.se.capstone2.posts.answer.domain.model.Question;
+import kit.se.capstone2.posts.question.domain.model.Question;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

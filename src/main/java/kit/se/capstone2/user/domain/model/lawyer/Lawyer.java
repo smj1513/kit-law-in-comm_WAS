@@ -1,6 +1,7 @@
 package kit.se.capstone2.user.domain.model.lawyer;
 
 import jakarta.persistence.*;
+import kit.se.capstone2.posts.answer.domain.model.Answer;
 import kit.se.capstone2.user.domain.model.BaseUser;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -23,6 +24,10 @@ public class Lawyer extends BaseUser {
 
 	@OneToOne(mappedBy = "lawyer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private OfficeInfo officeInfo;
+
+	@OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@Builder.Default
+	private List<Answer> answers = new ArrayList<>();
 
 	@OneToMany(mappedBy = "lawyer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Builder.Default
