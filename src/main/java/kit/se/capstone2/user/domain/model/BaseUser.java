@@ -2,6 +2,7 @@ package kit.se.capstone2.user.domain.model;
 
 import jakarta.persistence.*;
 import kit.se.capstone2.auth.domain.model.Account;
+import kit.se.capstone2.file.domain.model.ProfileImageProperty;
 import kit.se.capstone2.posts.question.domain.model.Question;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -20,15 +21,19 @@ import java.util.List;
 public abstract class BaseUser {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	private String name;
 
+	@Column(unique = true)
 	private String phoneNumber;
 
 	@OneToOne(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Account account;
+
+	@OneToOne(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private ProfileImageProperty profileImage;
 
 	@OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@Builder.Default

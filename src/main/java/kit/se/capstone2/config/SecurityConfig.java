@@ -23,6 +23,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -49,13 +50,16 @@ public class SecurityConfig {
 		http.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		http.authorizeHttpRequests(authorizeRequests ->
 				authorizeRequests
-						.requestMatchers("/", "/api", "/api/swagger-ui/**", "/api/api-docs/**", "/api/common/**","/api/auth/**").permitAll()
-						.requestMatchers("/api/users/**").permitAll()
-						.requestMatchers("/api/users/admin/**").hasAnyAuthority(Role.ROLE_ADMIN.name())
-						.requestMatchers("/api/question/{question-id}/answers").hasAnyAuthority(Role.ROLE_LAWYER.name()) //TODO: 조회는 모두 가능하도록 변경
-						.requestMatchers("/api/answers/**").hasAnyAuthority(Role.ROLE_LAWYER.name())//TODO: 조회는 모두 가능하도록 변경
+						.requestMatchers("/", "/api", "/swagger-ui/**","/api-docs/**", "/auth/**").permitAll()
+						.requestMatchers("/users/**").permitAll()
+						.requestMatchers("/users/admin/**").hasAnyAuthority(Role.ROLE_ADMIN.name())
+						.requestMatchers("/question/{question-id}/answers").hasAnyAuthority(Role.ROLE_LAWYER.name())
+						.requestMatchers(new AntPathRequestMatcher("/questions/**", "GET")).permitAll()
+						.requestMatchers(new AntPathRequestMatcher("/questions/**", "GET")).permitAll()
+						.requestMatchers("/answers/**").hasAnyAuthority(Role.ROLE_LAWYER.name())
+						.requestMatchers(new AntPathRequestMatcher("/answers/**", "GET")).permitAll()
 						.anyRequest()
-						.permitAll()
+						.authenticated()
 		);
 
 		http.addFilterAt(customLoginFilter(), UsernamePasswordAuthenticationFilter.class);

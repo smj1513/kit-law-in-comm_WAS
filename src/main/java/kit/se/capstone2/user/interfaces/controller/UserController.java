@@ -8,6 +8,8 @@ import kit.se.capstone2.user.domain.enums.LegalSpeciality;
 import kit.se.capstone2.user.interfaces.request.UserRequest;
 import kit.se.capstone2.user.interfaces.response.UserResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationContext;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,11 +28,11 @@ public class UserController implements UserDocsController {
 		return CommonResponse.success(SuccessCode.OK, appService.joinGeneralUser(request));
 	}
 
-	@PostMapping(path = "/join/lawyer", consumes = {"multipart/form-data"})
+	@PostMapping(path = "/join/lawyer", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public CommonResponse<UserResponse.LawyerRes> joinLawyer(
-			@RequestPart("data") UserRequest.JoinLawyer data,
-			@RequestPart MultipartFile licenseImage) {
-		return CommonResponse.success(SuccessCode.OK, null);
+			@RequestPart(value = "data", required = true) UserRequest.JoinLawyer data,
+			@RequestPart(value = "licenseImage", required = true) MultipartFile licenseImage) {
+		return CommonResponse.success(SuccessCode.OK, appService.joinLawyer(data, licenseImage));
 	}
 
 	@GetMapping("/legal-speciality")

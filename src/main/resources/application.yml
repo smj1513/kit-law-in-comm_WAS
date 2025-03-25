@@ -3,6 +3,19 @@ spring:
     name: capstone2
   profiles:
     default: dev
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+aws:
+  s3:
+    credentials:
+      accessKey: ***REMOVED***
+      secretKey: ***REMOVED***
+      region: ***REMOVED***
+    bucket: ***REMOVED***
 
 jwt:
   secret: ***REMOVED***c0YTE3NWZhODBhYWNkYWZhZDM1MTJmODQ0ODU0YmQ4ZmI2M2Q4ODAwZTFiNTY0ZTYzNWE3NGNkNzc1NDY3Njc=

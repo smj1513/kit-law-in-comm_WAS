@@ -13,8 +13,6 @@ public class AdminRequest {
 	@AllArgsConstructor
 	public static class Confirmation{
 		@NotNull
-		private Long lawyerId;
-		@NotNull
 		private Boolean isApprove;
 	}
 }

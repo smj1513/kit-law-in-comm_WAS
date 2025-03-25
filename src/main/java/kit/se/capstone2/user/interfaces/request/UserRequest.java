@@ -1,7 +1,9 @@
 package kit.se.capstone2.user.interfaces.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import kit.se.capstone2.user.domain.enums.LegalSpeciality;
+import kit.se.capstone2.user.domain.model.lawyer.OfficeInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,11 +32,15 @@ public class UserRequest {
 	@NoArgsConstructor
 	@AllArgsConstructor
 	public static class JoinLawyer {
+
 		@Schema(description = "로그인 할때 사용할 아이디", example = "lawyer1")
 		private String username;
 		private String password;
 		private String name;
+
 		private String phoneNumber;
+		private String description;
+
 		@Builder.Default
 		private List<LegalSpeciality> legalSpecialties = new ArrayList<>();
 		@Builder.Default
@@ -52,5 +58,13 @@ public class UserRequest {
 		private String officeName;
 		private String officePhoneNumber;
 		private String officeAddress;
+
+		public kit.se.capstone2.user.domain.model.lawyer.OfficeInfo toEntity(){
+			return kit.se.capstone2.user.domain.model.lawyer.OfficeInfo.builder()
+					.address(officeAddress)
+					.name(officeName)
+					.phoneNumber(officePhoneNumber)
+					.build();
+		}
 	}
 }

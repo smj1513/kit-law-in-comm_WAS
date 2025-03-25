@@ -1,6 +1,7 @@
 package kit.se.capstone2.user.domain.model.lawyer;
 
 import jakarta.persistence.*;
+import kit.se.capstone2.file.domain.model.LicenseImageProperty;
 import kit.se.capstone2.posts.answer.domain.model.Answer;
 import kit.se.capstone2.user.domain.model.BaseUser;
 import lombok.*;
@@ -18,12 +19,16 @@ import java.util.List;
 @SuperBuilder
 public class Lawyer extends BaseUser {
 
-	private String phoneNumber;
+
 
 	private String description;
 
 	@OneToOne(mappedBy = "lawyer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private OfficeInfo officeInfo;
+
+	@OneToOne(mappedBy = "lawyer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private LicenseImageProperty license;
+
 
 	@OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Builder.Default
@@ -40,4 +45,15 @@ public class Lawyer extends BaseUser {
 	@OneToMany(mappedBy = "lawyer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Builder.Default
 	private List<Education> educations = new ArrayList<>();
+
+	public void addLicense(LicenseImageProperty license) {
+		this.license = license;
+		license.setLawyer(this);
+		license.setUploader(this);
+	}
+
+	public void addOfficeInfo(OfficeInfo officeInfo) {
+		this.officeInfo = officeInfo;
+		officeInfo.setLawyer(this);
+	}
 }

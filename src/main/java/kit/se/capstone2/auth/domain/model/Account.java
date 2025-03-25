@@ -2,10 +2,11 @@ package kit.se.capstone2.auth.domain.model;
 
 import jakarta.persistence.*;
 import kit.se.capstone2.auth.domain.enums.Role;
+import kit.se.capstone2.common.entity.BaseTime;
 import kit.se.capstone2.user.domain.enums.ApprovalStatus;
 import kit.se.capstone2.user.domain.model.BaseUser;
 import lombok.*;
-import org.hibernate.annotations.SQLRestriction;
+import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -15,11 +16,11 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 //@SQLRestriction("approval_status != 'REJECTED'")
-public class Account implements UserDetails {
+public class Account extends BaseTime implements UserDetails {
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -38,6 +39,15 @@ public class Account implements UserDetails {
 	//일반 사용자는 회원가입시 바로 승인, 변호사는 관리자 승인 후 승인
 	@Enumerated(EnumType.STRING)
 	private ApprovalStatus approvalStatus;
+
+	public void changeApprovalStatus(boolean isApproval){
+		if(isApproval){
+			this.approvalStatus = ApprovalStatus.APPROVED;
+		}else{
+			this.approvalStatus = ApprovalStatus.REJECTED;
+		}
+	}
+
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
