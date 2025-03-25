@@ -73,4 +73,5 @@ public class JwtUtils {
 	public String getUsername(String token) {
 		return extractor.extractUsername(token);
 	}
+
 }
