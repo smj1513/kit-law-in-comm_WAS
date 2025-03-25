@@ -32,23 +32,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 		String authHeader = request.getHeader(JwtProperties.AUTH_HEADER);
-		if(authHeader == null){
+		if (authHeader == null) {
 			filterChain.doFilter(request, response);
 			return;
 		}
-		PrintWriter writer = getWriter(response);
 
 		String token = jwtUtils.extractToken(authHeader);
 		try {
 			jwtUtils.isExpired(token);
-		} catch (ExpiredJwtException e){
+		} catch (ExpiredJwtException e) {
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
-			writer.print(objectMapper.writeValueAsString(CommonResponse.error(ErrorCode.ACCESS_TOKEN_EXPIRED)));
+			response.getOutputStream().write(objectMapper.writeValueAsBytes(CommonResponse.error(ErrorCode.ACCESS_TOKEN_EXPIRED)));
 			return;
 		}
-		if(!jwtUtils.isAccessToken(token)){
-			writer.print(objectMapper.writeValueAsString(CommonResponse.error(ErrorCode.INVALID_TOKEN)));
+
+		if (!jwtUtils.isAccessToken(token)) {
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
+			response.getOutputStream().write(objectMapper.writeValueAsBytes(CommonResponse.error(ErrorCode.INVALID_TOKEN)));
 			return;
 		}
 

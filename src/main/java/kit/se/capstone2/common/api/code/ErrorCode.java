@@ -20,7 +20,8 @@ public enum ErrorCode {
 	NOT_FOUND_USER(HttpStatus.NOT_FOUND, EntityCode.USER, ExceptionCode.NOT_FOUND, "User Not Found"),
 	INVALID_TOKEN(HttpStatus.BAD_REQUEST, EntityCode.TOKEN , ExceptionCode.BAD_REQUEST , "Invalid Token"),
 	LOGIN_FAILED(HttpStatus.UNAUTHORIZED, EntityCode.USER, ExceptionCode.UNAUTHORIZED, "Login Failed"),
-	REFRESH_TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, EntityCode.TOKEN ,ExceptionCode.EXPIRATION , "RefreshToken Expired" );
+	REFRESH_TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, EntityCode.TOKEN ,ExceptionCode.EXPIRATION , "RefreshToken Expired" ),
+	NO_PERMISSION(HttpStatus.FORBIDDEN, EntityCode.USER, ExceptionCode.BAD_REQUEST ,"You don't have Authority" );
 
 	private final HttpStatus httpStatus;
 	private final EntityCode entityCode;

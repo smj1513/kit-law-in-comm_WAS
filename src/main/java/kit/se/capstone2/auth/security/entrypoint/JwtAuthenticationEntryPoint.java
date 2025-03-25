@@ -20,11 +20,11 @@ import java.io.PrintWriter;
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
 	private final ObjectMapper objectMapper;
+
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-		PrintWriter writer = response.getWriter();
 		response.setStatus(HttpStatus.UNAUTHORIZED.value());
-		writer.print(objectMapper.writeValueAsString(CommonResponse.error(ErrorCode.LOGIN_FAILED)));
+		response.getOutputStream().print(objectMapper.writeValueAsString(CommonResponse.error(ErrorCode.LOGIN_FAILED)));
 	}
 
 }

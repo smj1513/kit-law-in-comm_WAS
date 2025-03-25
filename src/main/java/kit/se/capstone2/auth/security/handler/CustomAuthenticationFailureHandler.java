@@ -26,7 +26,6 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 		response.setStatus(HttpStatus.UNAUTHORIZED.value());
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
-		PrintWriter writer = response.getWriter();
-		writer.print(om.writeValueAsString(CommonResponse.error(ErrorCode.LOGIN_FAILED)));
+		response.getOutputStream().print(om.writeValueAsString(CommonResponse.error(ErrorCode.LOGIN_FAILED)));
 	}
 }

@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface QuestionReportRepository extends JpaRepository<QuestionReport, Long> {
 	@Query("SELECT COUNT(qr) FROM QuestionReport qr WHERE qr.question = :question")
-	int countByQuestion(Question question);
+	long countByQuestion(Question question);
 }

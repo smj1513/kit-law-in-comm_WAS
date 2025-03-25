@@ -18,6 +18,22 @@ public class QuestionResponse
 	@NoArgsConstructor
 	@AllArgsConstructor
 	public static class PostQuestion {
+
+		public PostQuestion(Question question, Long reportCount){
+			this.questionId = question.getId();
+			this.title = question.getTitle();
+			this.content = question.getContent();
+			this.authorName = question.getIsAnonymous() ? null : question.getAuthor().getName();
+			this.authorId = question.getIsAnonymous() ? null : question.getAuthor().getAccount().getUsername();
+			this.createdAt = question.getCreatedAt();
+			this.updatedAt = question.getUpdatedAt();
+			this.legalSpeciality = question.getLegalSpeciality();
+			this.firstOccurrenceDate = question.getFirstOccurrenceDate();
+			this.viewCount = question.getViewCount();
+			this.isAnonymous = question.getIsAnonymous();
+			this.reportCount = reportCount;
+		}
+
 		private Long questionId;
 
 		private String title;
@@ -46,21 +62,22 @@ public class QuestionResponse
 		private boolean isAnonymous;
 
 		@Schema(description = "신고 횟수")
-		private int reportCount;
+		private Long reportCount;
 
-		public static PostQuestion from(Question question, int reportCount) {
+		public static PostQuestion from(Question question, Long reportCount) {
+			Boolean isAnonymous = question.getIsAnonymous();
 			return PostQuestion.builder()
 					.questionId(question.getId())
 					.title(question.getTitle())
 					.content(question.getContent())
-					.authorName(question.getAuthor().getName())
-					.authorId(question.getAuthor().getAccount().getUsername())
+					.authorName(isAnonymous ? null :question.getAuthor().getName())
+					.authorId(isAnonymous ? null :question.getAuthor().getAccount().getUsername())
 					.createdAt(question.getCreatedAt())
 					.updatedAt(question.getUpdatedAt())
 					.legalSpeciality(question.getLegalSpeciality())
 					.firstOccurrenceDate(question.getFirstOccurrenceDate())
 					.viewCount(question.getViewCount())
-					.isAnonymous(question.getIsAnonymous())
+					.isAnonymous(isAnonymous)
 					.reportCount(reportCount)
 					.build();
 		}

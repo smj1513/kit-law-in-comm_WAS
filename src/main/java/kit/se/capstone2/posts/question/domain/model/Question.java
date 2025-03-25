@@ -6,6 +6,7 @@ import kit.se.capstone2.common.entity.BaseTime;
 import kit.se.capstone2.posts.answer.domain.model.Answer;
 import kit.se.capstone2.reports.domain.model.QuestionReport;
 import kit.se.capstone2.user.domain.enums.LegalSpeciality;
+import kit.se.capstone2.user.domain.model.BaseUser;
 import kit.se.capstone2.user.domain.model.ClientUser;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -40,9 +41,9 @@ public class Question extends BaseTime {
 	private LegalSpeciality legalSpeciality;
 
 	@ManyToOne
-	@JoinColumn(name = "client_user_id")
+	@JoinColumn(name = "base_user_id")
 	@NotNull
-	private ClientUser author;
+	private BaseUser author;
 
 	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Builder.Default
@@ -60,5 +61,14 @@ public class Question extends BaseTime {
 	public void addAuthor(ClientUser author) {
 		this.author = author;
 		author.addQuestion(this);
+	}
+
+	public void addViewCount() {
+		this.viewCount++;
+	}
+
+	public void addReport(QuestionReport report) {
+		this.reports.add(report);
+		report.setQuestion(this);
 	}
 }

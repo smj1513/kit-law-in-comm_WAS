@@ -35,7 +35,7 @@ public class QuestionController implements QuestionDocsController {
 	public CommonResponse<QuestionResponse.PostQuestion> getQuestionById(
 			@PathVariable Long id
 	) {
-		return CommonResponse.success(SuccessCode.OK, questionAppService.getQuestionById(id));
+		return CommonResponse.success(SuccessCode.OK, questionAppService.retrievalQuestionDetails(id));
 	}
 
 	@PostMapping

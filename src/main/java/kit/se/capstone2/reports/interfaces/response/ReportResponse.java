@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 public class ReportResponse {
 
 	@Data
@@ -28,7 +30,7 @@ public class ReportResponse {
 		private Long reportId;
 		private Long questionId;
 		private String reportContent;
-		private String createdAt;
+		private LocalDateTime createdAt;
 		private String reporterName;
 	}
 }
