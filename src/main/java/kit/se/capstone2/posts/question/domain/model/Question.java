@@ -10,6 +10,7 @@ import kit.se.capstone2.user.domain.model.BaseUser;
 import kit.se.capstone2.user.domain.model.ClientUser;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Formula;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Question extends BaseTime {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	private String title;
@@ -34,7 +35,7 @@ public class Question extends BaseTime {
 
 	private Boolean isAnonymous;
 
-	private long viewCount;
+	private int viewCount;
 
 
 	@Enumerated(EnumType.STRING)
@@ -48,6 +49,9 @@ public class Question extends BaseTime {
 	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Builder.Default
 	private List<QuestionReport> reports = new ArrayList<>();
+
+	@Formula("(select count(*) from question_report qr where qr.question_id = id)")
+	private int reportsCount;
 
 	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Builder.Default

@@ -3,6 +3,7 @@ package kit.se.capstone2.reports.domain.model;
 import jakarta.persistence.*;
 import kit.se.capstone2.common.entity.BaseTime;
 import kit.se.capstone2.user.domain.model.BaseUser;
+import kit.se.capstone2.user.domain.model.ClientUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,4 +28,5 @@ public abstract class Report extends BaseTime {
 
 	@ManyToOne
 	private BaseUser reporter;
+
 }

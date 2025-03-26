@@ -22,7 +22,7 @@ import java.util.List;
 //@SQLRestriction("approval_status != 'REJECTED'")
 public class Account extends BaseTime implements UserDetails {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(unique = true, nullable = false)

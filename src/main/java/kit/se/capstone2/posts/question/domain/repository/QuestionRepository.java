@@ -12,36 +12,14 @@ import org.springframework.data.jpa.repository.Query;
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
 	@Query(value = """
-			    SELECT new kit.se.capstone2.posts.question.interfaces.response.QuestionResponse$PostQuestion(q, COUNT(r))
-			    FROM Question q
-			    LEFT JOIN fetch q.reports r
-			    WHERE q.legalSpeciality = :legalSpeciality
-			    GROUP BY q.id
-			""",
-			countQuery = """
-					    SELECT COUNT(DISTINCT q.id)
-					    FROM Question q
-					    WHERE q.legalSpeciality = :legalSpeciality
-					""")
-	Page<QuestionResponse.PostQuestion> findByLegalSpeciality(@Param("legalSpeciality") LegalSpeciality legalSpeciality, Pageable pageable);
-
-	@Query(value = """
-			select new kit.se.capstone2.posts.question.interfaces.response.QuestionResponse$PostQuestion(q, count(r))
-			from Question q left join fetch q.reports r GROUP BY q.id
-			"""
-			, countQuery = """
-			select count(distinct q) from Question q
-			"""
-	)
-	Page<QuestionResponse.PostQuestion> findAllWithReportsCount(Pageable pageable);
-
-	@Query(value = """
-			select new kit.se.capstone2.posts.question.interfaces.response.QuestionResponse$PostQuestion(q, count(r))
-			from Question q left join fetch q.reports r where q.title like :keyword or q.content like :keyword GROUP BY q.id
-			""", countQuery = """
-			select count(distinct q) from Question q where q.title like :keyword or q.content like :keyword
+			select q FROM Question q WHERE q.legalSpeciality = :legalSpeciality 
 			""")
-	Page<QuestionResponse.PostQuestion> findByKeyword(@Param("keyword") String keyword, Pageable pageable);
+	Page<Question> findByLegalSpeciality(@Param("legalSpeciality") LegalSpeciality legalSpeciality, Pageable pageable);
+
+	@Query(value = """
+			select q from Question q where q.title like :keyword or q.content like :keyword
+			""")
+	Page<Question> findByKeyword(@Param("keyword") String keyword, Pageable pageable);
 
 
 }

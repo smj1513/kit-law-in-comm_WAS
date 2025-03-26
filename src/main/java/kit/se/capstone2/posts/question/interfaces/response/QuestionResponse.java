@@ -19,20 +19,6 @@ public class QuestionResponse
 	@AllArgsConstructor
 	public static class PostQuestion {
 
-		public PostQuestion(Question question, Long reportCount){
-			this.questionId = question.getId();
-			this.title = question.getTitle();
-			this.content = question.getContent();
-			this.authorName = question.getIsAnonymous() ? null : question.getAuthor().getName();
-			this.authorId = question.getIsAnonymous() ? null : question.getAuthor().getAccount().getUsername();
-			this.createdAt = question.getCreatedAt();
-			this.updatedAt = question.getUpdatedAt();
-			this.legalSpeciality = question.getLegalSpeciality();
-			this.firstOccurrenceDate = question.getFirstOccurrenceDate();
-			this.viewCount = question.getViewCount();
-			this.isAnonymous = question.getIsAnonymous();
-			this.reportCount = reportCount;
-		}
 
 		private Long questionId;
 
@@ -56,15 +42,15 @@ public class QuestionResponse
 		private LocalDate firstOccurrenceDate;
 
 		@Schema(description = "조회수")
-		private long viewCount;
+		private int viewCount;
 
 		@Schema(description = "익명 여부")
 		private boolean isAnonymous;
 
 		@Schema(description = "신고 횟수")
-		private Long reportCount;
+		private int reportCount;
 
-		public static PostQuestion from(Question question, Long reportCount) {
+		public static PostQuestion from(Question question) {
 			Boolean isAnonymous = question.getIsAnonymous();
 			return PostQuestion.builder()
 					.questionId(question.getId())
@@ -78,7 +64,7 @@ public class QuestionResponse
 					.firstOccurrenceDate(question.getFirstOccurrenceDate())
 					.viewCount(question.getViewCount())
 					.isAnonymous(isAnonymous)
-					.reportCount(reportCount)
+					.reportCount(question.getReportsCount())
 					.build();
 		}
 	}

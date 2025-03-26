@@ -15,6 +15,7 @@ import kit.se.capstone2.user.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,25 +25,26 @@ import org.springframework.transaction.annotation.Transactional;
 public class QuestionAppService {
 	private final QuestionRepository questionRepository;
 	private final SecurityUtils securityUtils;
-	private final QuestionReportRepository questionReportRepository;
 	private final UserService userService;
 
 	public Page<QuestionResponse.PostQuestion> getQuestionByLegalSpeciality(LegalSpeciality legalSpeciality, int page, int size) {
-		PageRequest pageRequest = PageRequest.of(page, size);
-		return questionRepository.findByLegalSpeciality(legalSpeciality, pageRequest);
+		PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Order.desc("createdAt")));
+		Page<Question> result = questionRepository.findByLegalSpeciality(legalSpeciality, pageRequest);
+
+		return result.map(QuestionResponse.PostQuestion::from);
 	}
 
 
 	public Page<QuestionResponse.PostQuestion> getQuestions(int page, int size) {
-		PageRequest pageRequest = PageRequest.of(page, size);
-		return questionRepository.findAllWithReportsCount(pageRequest);
+		PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Order.desc("createdAt")));
+		Page<Question> result = questionRepository.findAll(pageRequest);
+		return result.map(QuestionResponse.PostQuestion::from);
 	}
 
 	public QuestionResponse.PostQuestion retrievalQuestionDetails(Long id) {
 		Question question = questionRepository.findById(id).orElseThrow(() -> new BusinessLogicException(ErrorCode.NOT_FOUND_ENTITY, "해당하는 질문이 존재하지 않습니다."));
 		question.addViewCount();
-		long reportCount = questionReportRepository.countByQuestion(question);
-		return QuestionResponse.PostQuestion.from(question, reportCount);
+		return QuestionResponse.PostQuestion.from(question);
 	}
 
 	public QuestionResponse.PostQuestion createQuestion(QuestionRequest.Create request) {
@@ -59,7 +61,7 @@ public class QuestionAppService {
 
 		user.addQuestion(question);
 		Question save = questionRepository.save(question);
-		return QuestionResponse.PostQuestion.from(question, 0L);
+		return QuestionResponse.PostQuestion.from(save);
 	}
 
 	public QuestionResponse.PostQuestion deleteQuestion(Long id) {
@@ -68,10 +70,9 @@ public class QuestionAppService {
 		Question question = questionRepository.findById(id).orElseThrow(() -> new BusinessLogicException(ErrorCode.NOT_FOUND_ENTITY, "해당하는 질문이 존재하지 않습니다."));
 		BaseUser author = question.getAuthor();
 		userService.validateRemoveAuthority(user, author);
-		long reportCount = questionReportRepository.countByQuestion(question);
 		questionRepository.delete(question);
 		return QuestionResponse.PostQuestion
-				.from(question, reportCount);
+				.from(question);
 	}
 
 	public QuestionResponse.PostQuestion updateQuestion(Long id, QuestionRequest.Create request) {
@@ -85,13 +86,14 @@ public class QuestionAppService {
 		question.setLegalSpeciality(request.getLegalSpeciality());
 		question.setFirstOccurrenceDate(request.getFirstOccurrenceDate());
 		Question save = questionRepository.save(question);
-		long reportCount = questionReportRepository.countByQuestion(save);
-		return QuestionResponse.PostQuestion.from(question, reportCount);
+		return QuestionResponse.PostQuestion.from(save);
 	}
 
+
 	public Page<QuestionResponse.PostQuestion> searchQuestions(String keyword, int page, int size) {
-		PageRequest pageRequest = PageRequest.of(page, size);
+		PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Order.desc("createdAt")));
 		String searchKeyword = "%" + keyword + "%";
-		return questionRepository.findByKeyword(searchKeyword, pageRequest);
+		Page<Question> result = questionRepository.findByKeyword(searchKeyword, pageRequest);
+		return result.map(QuestionResponse.PostQuestion::from);
 	}
 }
