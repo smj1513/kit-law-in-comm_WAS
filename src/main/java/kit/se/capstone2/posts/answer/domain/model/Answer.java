@@ -7,6 +7,7 @@ import kit.se.capstone2.reports.domain.model.AnswerReport;
 import kit.se.capstone2.user.domain.model.lawyer.Lawyer;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Formula;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,4 +40,7 @@ public class Answer extends BaseTime {
 	@OneToMany(mappedBy = "answer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Builder.Default
 	private List<AnswerReport> answerReports = new ArrayList<>();
+
+	@Formula("(select count(*) from answer_report ar where ar.answer_id = id)")
+	private int reportsCount;
 }
