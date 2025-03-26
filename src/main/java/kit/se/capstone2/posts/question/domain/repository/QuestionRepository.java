@@ -21,5 +21,8 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 			""")
 	Page<Question> findByKeyword(@Param("keyword") String keyword, Pageable pageable);
 
-
+	@Query(value = """
+			select q from Question q where q.reportsCount >= :reportsCount
+			""")
+	Page<Question> findByReportsCount(int reportsCount, Pageable pageable);
 }

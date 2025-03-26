@@ -2,6 +2,8 @@ package kit.se.capstone2.user.interfaces.response;
 
 import kit.se.capstone2.auth.domain.model.Account;
 import kit.se.capstone2.file.interfaces.response.FileResponse;
+import kit.se.capstone2.posts.answer.domain.model.Answer;
+import kit.se.capstone2.posts.question.domain.model.Question;
 import kit.se.capstone2.user.domain.enums.ApprovalStatus;
 import kit.se.capstone2.user.domain.model.lawyer.Career;
 import kit.se.capstone2.user.domain.model.lawyer.Education;
@@ -28,13 +30,26 @@ public class AdminResponse {
 
 		private String title;
 		private String content;
-		private String nickname;
 
 		private String createdAt;
 		private String updatedAt;
 
 		private int ViewCount;
 		private int reportCount;
+
+		public static ReportedAnswer from(Answer answer) {
+			return answer == null ? null :
+					ReportedAnswer.builder()
+							.postId(answer.getId())
+							.authorId(answer.getAuthor().getId())
+							.title(answer.getQuestion().getTitle())
+							.content(answer.getContent())
+							.createdAt(answer.getCreatedAt().toString())
+							.updatedAt(answer.getUpdatedAt().toString())
+							.ViewCount(answer.getQuestion().getViewCount())
+							.reportCount(answer.getReportsCount())
+							.build();
+		}
 	}
 
 	@Data
@@ -47,13 +62,25 @@ public class AdminResponse {
 
 		private String title;
 		private String content;
-		private String nickname;
 
 		private String createdAt;
 		private String updatedAt;
 
-		private int ViewCount;
+		private int viewCount;
 		private int reportCount;
+
+		public static ReportedQuestion from(Question question) {
+			return question == null ? null : ReportedQuestion.builder()
+					.postId(question.getId())
+					.authorId(question.getAuthor().getId())
+					.title(question.getTitle())
+					.content(question.getContent())
+					.createdAt(question.getCreatedAt().toString())
+					.updatedAt(question.getUpdatedAt().toString())
+					.viewCount(question.getViewCount())
+					.reportCount(question.getReportsCount())
+					.build();
+		}
 	}
 
 	@Data
@@ -97,7 +124,7 @@ public class AdminResponse {
 		private LocalDateTime createdAt;
 		private LocalDateTime updatedAt;
 
-		public static ConfirmationLawyerDetails from(Lawyer lawyer){
+		public static ConfirmationLawyerDetails from(Lawyer lawyer) {
 			Account account = lawyer.getAccount();
 
 			return ConfirmationLawyerDetails.builder()

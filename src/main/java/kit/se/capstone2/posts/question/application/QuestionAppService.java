@@ -54,6 +54,7 @@ public class QuestionAppService {
 				.title(request.getTitle())
 				.content(request.getContent())
 				.legalSpeciality(request.getLegalSpeciality())
+				.firstOccurrenceDate(request.getFirstOccurrenceDate())
 				.isAnonymous(request.isAnonymous())
 				.build();
 

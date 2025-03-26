@@ -1,8 +1,10 @@
 package kit.se.capstone2.user.interfaces.response;
 
 import kit.se.capstone2.auth.domain.enums.Role;
+import kit.se.capstone2.file.interfaces.response.FileResponse;
 import kit.se.capstone2.user.domain.enums.ApprovalStatus;
 import kit.se.capstone2.user.domain.enums.LegalSpeciality;
+import kit.se.capstone2.user.domain.model.BaseUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -44,5 +46,22 @@ public class UserResponse  {
 		private String username;
 		private Role role;
 		private ApprovalStatus approvalStatus;
+	}
+
+	@Data
+	@NoArgsConstructor
+	@AllArgsConstructor
+	@Builder
+	public static class UserInfo {
+		private String name;
+		private String nickname;
+		private FileResponse profileImage;
+		public static UserInfo from(BaseUser user){
+			return UserInfo.builder()
+					.name(user.isLawyer() || user.isAdmin() ? user.getName() : null)
+					.nickname(user.isClient() ? user.getNickname() : null)
+					.profileImage(FileResponse.from(user.getProfileImage()))
+					.build();
+		}
 	}
 }

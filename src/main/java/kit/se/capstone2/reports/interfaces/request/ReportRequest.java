@@ -11,7 +11,7 @@ public class ReportRequest {
 	@NoArgsConstructor
 	@AllArgsConstructor
 	public static class AnswerReportReq{
-		private String content;
+		private String reason;
 	}
 
 	@Data

@@ -2,9 +2,14 @@ package kit.se.capstone2.user.application;
 
 import kit.se.capstone2.auth.domain.enums.Role;
 import kit.se.capstone2.auth.domain.model.Account;
+import kit.se.capstone2.common.api.code.ErrorCode;
+import kit.se.capstone2.common.exception.BusinessLogicException;
+import kit.se.capstone2.file.domain.model.ProfileImageProperty;
 import kit.se.capstone2.user.domain.enums.ApprovalStatus;
+import kit.se.capstone2.user.domain.model.BaseUser;
 import kit.se.capstone2.user.domain.model.ClientUser;
 import kit.se.capstone2.user.domain.model.lawyer.*;
+import kit.se.capstone2.user.domain.repository.BaseUserRepository;
 import kit.se.capstone2.user.domain.repository.ClientUserRepository;
 import kit.se.capstone2.user.domain.repository.LawyerRepository;
 import kit.se.capstone2.user.domain.service.LawyerService;
@@ -23,6 +28,7 @@ import java.util.List;
 public class UserAppService {
 	private final ClientUserRepository clientUserRepository;
 	private final LawyerRepository lawyerRepository;
+	private final BaseUserRepository baseUserRepository;
 	private final LawyerService lawyerService;
 
 	public UserResponse.General joinGeneralUser(UserRequest.JoinGeneralUser request) {
@@ -95,5 +101,11 @@ public class UserAppService {
 				.role(save.getAccount().getRole())
 				.approvalStatus(save.getAccount().getApprovalStatus())
 				.build();
+	}
+
+	@Transactional(readOnly = true)
+	public UserResponse.UserInfo getUserInfo(Long id) {
+		BaseUser baseUser = baseUserRepository.findById(id).orElseThrow(() -> new BusinessLogicException(ErrorCode.NOT_FOUND_ENTITY, "해당하는 사용자가 존재하지 않습니다."));
+		return UserResponse.UserInfo.from(baseUser);
 	}
 }

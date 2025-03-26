@@ -18,7 +18,7 @@ public class ReportResponse {
 		private Long answerId;
 		private String answerTitle;
 		private String reportContent;
-		private String createdAt;
+		private LocalDateTime createdAt;
 		private String reporterName;
 	}
 

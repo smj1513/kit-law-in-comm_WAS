@@ -43,4 +43,9 @@ public class Answer extends BaseTime {
 
 	@Formula("(select count(*) from answer_report ar where ar.answer_id = id)")
 	private int reportsCount;
+
+	public void addReport(AnswerReport answerReport) {
+		this.answerReports.add(answerReport);
+		answerReport.setAnswer(this);
+	}
 }

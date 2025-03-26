@@ -61,7 +61,17 @@ public abstract class BaseUser {
 		question.setAuthor(this);
 	}
 
+	abstract public String getNickname();
+
 	public boolean isAdmin() {
 		return account.getRole().equals(Role.ROLE_ADMIN);
+	}
+
+	public boolean isLawyer() {
+		return account.getRole().equals(Role.ROLE_LAWYER);
+	}
+
+	public boolean isClient() {
+		return account.getRole().equals(Role.ROLE_USER);
 	}
 }

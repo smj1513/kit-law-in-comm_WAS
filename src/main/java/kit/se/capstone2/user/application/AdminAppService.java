@@ -3,6 +3,10 @@ package kit.se.capstone2.user.application;
 import kit.se.capstone2.auth.domain.model.Account;
 import kit.se.capstone2.common.api.code.ErrorCode;
 import kit.se.capstone2.common.exception.BusinessLogicException;
+import kit.se.capstone2.posts.answer.domain.model.Answer;
+import kit.se.capstone2.posts.answer.domain.repository.AnswerRepository;
+import kit.se.capstone2.posts.question.domain.model.Question;
+import kit.se.capstone2.posts.question.domain.repository.QuestionRepository;
 import kit.se.capstone2.user.domain.enums.ApprovalStatus;
 import kit.se.capstone2.user.domain.model.lawyer.Lawyer;
 import kit.se.capstone2.user.domain.repository.LawyerRepository;
@@ -11,6 +15,7 @@ import kit.se.capstone2.user.interfaces.response.AdminResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AdminAppService {
 	private final LawyerRepository lawyerRepository;
+	private final AnswerRepository answerRepository;
+	private final QuestionRepository questionRepository;
 
 
 	public Page<AdminResponse.ConfirmationLawyer> getConfirmationLawyers(int page, int size) {
@@ -49,5 +56,17 @@ public class AdminAppService {
 	public AdminResponse.ConfirmationLawyerDetails getConfirmationLawyerDetails(Long id) {
 		Lawyer lawyer = lawyerRepository.findById(id).orElseThrow(() -> new BusinessLogicException(ErrorCode.NOT_FOUND_ENTITY, "해당하는 변호사가 존재하지않습니다."));
 		return AdminResponse.ConfirmationLawyerDetails.from(lawyer);
+	}
+
+	public Page<AdminResponse.ReportedAnswer> retrieveReportedAnswers(int threshold, int page, int size) {
+		PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Order.desc("reportsCount")));
+		Page<Answer> answers = answerRepository.findByReportsCount(threshold, pageRequest);
+		return answers.map(AdminResponse.ReportedAnswer::from);
+	}
+
+	public Page<AdminResponse.ReportedQuestion> retrieveReportedQuestion(int threshold, int page, int size) {
+		PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Order.desc("reportsCount")));
+		Page<Question> questions = questionRepository.findByReportsCount(threshold, pageRequest);
+		return questions.map(AdminResponse.ReportedQuestion::from);
 	}
 }

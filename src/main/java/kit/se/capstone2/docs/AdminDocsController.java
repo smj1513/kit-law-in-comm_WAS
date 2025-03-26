@@ -15,12 +15,13 @@ public interface AdminDocsController {
 
 	@Operation(summary = "신고된 답변글 조회")
 	@ApiResponse(responseCode = "200", description = "성공")
-	public CommonResponse<Page<AdminResponse.ReportedAnswer>> getReportedPosts(@RequestParam int page, @RequestParam int size);
+	public CommonResponse<Page<AdminResponse.ReportedAnswer>> getReportedAnswer(
+			@RequestParam int threshold,@RequestParam int page, @RequestParam int size);
 
 	@Operation(summary = "신고된 질문글 조회")
 	@ApiResponse(responseCode = "200", description = "성공")
 	public CommonResponse<Page<AdminResponse.ReportedQuestion>> getReportedQuestions(
-			@RequestParam int page, @RequestParam int size
+			@RequestParam int threshold, @RequestParam int page, @RequestParam int size
 	);
 
 	@Operation(summary = "변호사 승인 대기 조회")

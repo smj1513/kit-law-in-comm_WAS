@@ -1,16 +1,14 @@
 package kit.se.capstone2.user.domain.model.lawyer;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Career {
 	@Id
 	@GeneratedValue

@@ -7,10 +7,12 @@ import io.swagger.v3.oas.annotations.media.Encoding;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import kit.se.capstone2.common.api.code.SuccessCode;
 import kit.se.capstone2.common.api.response.CommonResponse;
 import kit.se.capstone2.user.interfaces.request.UserRequest;
 import kit.se.capstone2.user.interfaces.response.UserResponse;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,4 +37,8 @@ public interface UserDocsController {
 	@Operation(summary = "변호사의 전문 분야 목록 조회", description = "전문 분야 목록을 조회한다.")
 	@ApiResponse(responseCode = "200", description = "성공")
 	CommonResponse<List<UserResponse.LegalSpecialtyInfo>> getLegalSpecialists();
+
+	@Operation(summary = "사용자의 일반 정보 조회(이름, 닉네임, 프로필 이미지)", description = "사용자의 일반 정보를 조회한다.")
+	@ApiResponse(responseCode = "200", description = "성공")
+	CommonResponse<UserResponse.UserInfo> getUserInfo(Long id);
 }

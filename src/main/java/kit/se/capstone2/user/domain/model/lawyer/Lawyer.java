@@ -20,7 +20,6 @@ import java.util.List;
 public class Lawyer extends BaseUser {
 
 
-
 	private String description;
 
 	@OneToOne(mappedBy = "lawyer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -55,5 +54,20 @@ public class Lawyer extends BaseUser {
 	public void addOfficeInfo(OfficeInfo officeInfo) {
 		this.officeInfo = officeInfo;
 		officeInfo.setLawyer(this);
+	}
+
+	public void addAnswer(Answer answer) {
+		this.answers.add(answer);
+		answer.setAuthor(this);
+	}
+
+	public void addSpeciality(LegalSpecialityInfo legalSpecialityInfo) {
+		this.legalSpecialties.add(legalSpecialityInfo);
+		legalSpecialityInfo.setLawyer(this);
+	}
+
+	@Override
+	public String getNickname() {
+		return this.getName();
 	}
 }

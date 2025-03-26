@@ -39,4 +39,9 @@ public class UserController implements UserDocsController {
 	public CommonResponse<List<UserResponse.LegalSpecialtyInfo>> getLegalSpecialists() {
 		return CommonResponse.success(SuccessCode.OK, Stream.of(LegalSpeciality.values()).map(UserResponse.LegalSpecialtyInfo::from).toList());
 	}
+
+	@GetMapping("/info/{id}")
+	public CommonResponse<UserResponse.UserInfo> getUserInfo(@PathVariable Long id) {
+		return CommonResponse.success(SuccessCode.OK, appService.getUserInfo(id));
+	}
 }

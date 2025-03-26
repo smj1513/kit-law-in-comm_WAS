@@ -18,15 +18,15 @@ public class AdminController implements AdminDocsController {
 	private final AdminAppService appService;
 
 	@GetMapping("/reports/answers")
-	public CommonResponse<Page<AdminResponse.ReportedAnswer>> getReportedPosts(@RequestParam int page, @RequestParam int size) {
-		return CommonResponse.success(SuccessCode.OK, null);
+	public CommonResponse<Page<AdminResponse.ReportedAnswer>> getReportedAnswer(@RequestParam int threshold, @RequestParam int page, @RequestParam int size) {
+		return CommonResponse.success(SuccessCode.OK, appService.retrieveReportedAnswers(threshold, page, size));
 	}
 
 	@GetMapping("/reports/questions")
 	public CommonResponse<Page<AdminResponse.ReportedQuestion>> getReportedQuestions(
-			@RequestParam int page, @RequestParam int size
+			 @RequestParam int threshold, @RequestParam int page, @RequestParam int size
 	) {
-		return CommonResponse.success(SuccessCode.OK, null);
+		return CommonResponse.success(SuccessCode.OK, appService.retrieveReportedQuestion(threshold, page, size));
 	}
 
 	@GetMapping("/confirmations/lawyers")

@@ -4,6 +4,8 @@ import kit.se.capstone2.auth.domain.model.Account;
 import kit.se.capstone2.auth.security.SecurityUtils;
 import kit.se.capstone2.common.api.code.ErrorCode;
 import kit.se.capstone2.common.exception.BusinessLogicException;
+import kit.se.capstone2.posts.answer.domain.model.Answer;
+import kit.se.capstone2.posts.answer.domain.repository.AnswerRepository;
 import kit.se.capstone2.posts.question.domain.model.Question;
 import kit.se.capstone2.posts.question.domain.repository.QuestionRepository;
 import kit.se.capstone2.reports.domain.model.AnswerReport;
@@ -25,6 +27,7 @@ public class ReportAppService {
 	private final QuestionRepository questionRepository;
 	private final AnswerReportRepository answerReportRepository;
 	private final SecurityUtils securityUtils;
+	private final AnswerRepository answerRepository;
 
 	public ReportResponse.QuestionReportRes reportQuestion(Long id, ReportRequest.QuestionReportReq request) {
 		Account currentUser = securityUtils.getCurrentUser();
@@ -40,6 +43,27 @@ public class ReportAppService {
 		return ReportResponse.QuestionReportRes
 				.builder()
 				.questionId(question.getId())
+				.reportId(save.getId())
+				.reporterName(user.getName())
+				.createdAt(save.getCreatedAt())
+				.build();
+	}
+
+	public ReportResponse.AnswerReportRes reportAnswer(Long id, ReportRequest.AnswerReportReq request) {
+		BaseUser user = securityUtils.getCurrentUser().getUser();
+		Answer answer = answerRepository.findById(id).orElseThrow(() -> new BusinessLogicException(ErrorCode.NOT_FOUND_ENTITY, "해당하는 답변이 존재하지 않습니다."));
+
+		AnswerReport report = AnswerReport.builder()
+				.reason(request.getReason())
+				.build();
+
+		answer.addReport(report);
+		user.addReport(report);
+		AnswerReport save = answerReportRepository.save(report);
+
+		return ReportResponse.AnswerReportRes
+				.builder()
+				.answerId(answer.getId())
 				.reportId(save.getId())
 				.reporterName(user.getName())
 				.createdAt(save.getCreatedAt())

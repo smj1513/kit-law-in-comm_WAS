@@ -20,7 +20,7 @@ public class ReportController implements ReportDocsController {
 			@PathVariable(name = "id") Long id,
 			@RequestBody ReportRequest.AnswerReportReq request
 	) {
-		return CommonResponse.success(SuccessCode.CREATED, null);
+		return CommonResponse.success(SuccessCode.CREATED, reportAppService.reportAnswer(id, request));
 	}
 
 	@PostMapping("/questions/{id}")
