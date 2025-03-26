@@ -25,6 +25,7 @@ public class ReportAppService {
 	private final QuestionRepository questionRepository;
 	private final AnswerReportRepository answerReportRepository;
 	private final SecurityUtils securityUtils;
+
 	public ReportResponse.QuestionReportRes reportQuestion(Long id, ReportRequest.QuestionReportReq request) {
 		Account currentUser = securityUtils.getCurrentUser();
 		BaseUser user = currentUser.getUser();
@@ -35,6 +36,7 @@ public class ReportAppService {
 		question.addReport(report);
 		user.addReport(report);
 		QuestionReport save = reportRepository.save(report);
+
 		return ReportResponse.QuestionReportRes
 				.builder()
 				.questionId(question.getId())
