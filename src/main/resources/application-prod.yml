@@ -19,6 +19,3 @@ spring:
       host: redis
       password:
 
-springdoc:
-  swagger-ui:
-    url: http://202.31.202.38/api
