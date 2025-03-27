@@ -11,6 +11,7 @@ import kit.se.capstone2.auth.security.handler.CustomAuthenticationSuccessHandler
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -47,10 +48,9 @@ public class SecurityConfig {
 		http.csrf(AbstractHttpConfigurer::disable);
 		http.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
-
-
 		http.authorizeHttpRequests(authorizeRequests ->
 				authorizeRequests
+						.requestMatchers(HttpMethod.OPTIONS).permitAll()
 						.requestMatchers("/", "/api","/api/swagger-ui/**", "/swagger-ui/**","/api/api-docs/**","/api-docs/**", "/auth/**").permitAll()
 						.requestMatchers("/users/**").permitAll()
 						.requestMatchers("/users/admin/**").hasAnyAuthority(Role.ROLE_ADMIN.name())
@@ -106,6 +106,7 @@ public class SecurityConfig {
 	public CorsConfigurationSource corsConfigurationSource() { //cors 정책 설정 실 운영 들어가기전에 변경해야됨
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 		corsConfiguration.setAllowedOriginPatterns(List.of("*"));
+		corsConfiguration.setAllowedOrigins(List.of("http://202.31.202.38"));
 		corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
 		corsConfiguration.setAllowedHeaders(List.of("*"));
 		corsConfiguration.setExposedHeaders(List.of("*"));
