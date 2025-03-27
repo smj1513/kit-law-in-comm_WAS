@@ -47,9 +47,14 @@ public class SecurityConfig {
 		http.httpBasic(AbstractHttpConfigurer::disable);
 		http.formLogin(AbstractHttpConfigurer::disable);
 		http.logout(AbstractHttpConfigurer::disable);
-		http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 		http.csrf(AbstractHttpConfigurer::disable);
+		http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
+
 		http.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+		http.addFilterAt(customLoginFilter(), UsernamePasswordAuthenticationFilter.class);
+		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+		http.exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint()));
+
 		http.authorizeHttpRequests(auth -> auth
 				.requestMatchers(
 						"/", "/api",
@@ -66,9 +71,6 @@ public class SecurityConfig {
 				.anyRequest().authenticated()
 		);
 
-		http.addFilterAt(customLoginFilter(), UsernamePasswordAuthenticationFilter.class);
-		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-		http.exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint()));
 		return http.build();
 	}
 
@@ -106,10 +108,11 @@ public class SecurityConfig {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() { //cors 정책 설정 실 운영 들어가기전에 변경해야됨
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
-		corsConfiguration.setAllowedOriginPatterns(List.of("*"));
+		corsConfiguration.setAllowedOrigins(List.of("http://202.31.202.38:80", "http://localhost:3000", "http://localhost:80"));
 		corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
 		corsConfiguration.setAllowedHeaders(List.of("*"));
-		corsConfiguration.setExposedHeaders(List.of("*"));
+		corsConfiguration.setExposedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
+		corsConfiguration.setMaxAge(3600L);
 		corsConfiguration.setAllowCredentials(true);
 
 		UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
@@ -122,4 +125,5 @@ public class SecurityConfig {
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+
 }

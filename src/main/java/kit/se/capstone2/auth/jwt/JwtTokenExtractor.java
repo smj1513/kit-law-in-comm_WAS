@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
+import jakarta.annotation.PostConstruct;
 import kit.se.capstone2.auth.domain.enums.Role;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
@@ -17,15 +18,20 @@ public class JwtTokenExtractor {
 	@Setter
 	private SecretKey key;
 
+	private JwtParser parser;
+
+	@PostConstruct
+	public void init(){
+		parser = Jwts.parser().verifyWith(key).build();
+	}
+
 	public String extractUsername(String token) {
-		JwtParser parser = Jwts.parser().verifyWith(key).build();
 		Jws<Claims> claimsJws = parser.parseSignedClaims(token);
 		Claims payload = claimsJws.getPayload();
 		return payload.getId();
 	}
 
 	public Role extractAuthorities(String token) {
-		JwtParser parser = Jwts.parser().verifyWith(key).build();
 		Jws<Claims> claimsJws = parser.parseSignedClaims(token);
 		Claims payload = claimsJws.getPayload();
 		Role role = Role.valueOf(payload.get(JwtProperties.ROLE, String.class));
@@ -33,7 +39,6 @@ public class JwtTokenExtractor {
 	}
 
 	public String extractCategory(String token) {
-		JwtParser parser = Jwts.parser().verifyWith(key).build();
 		Jws<Claims> claimsJws = parser.parseSignedClaims(token);
 		Claims payload = claimsJws.getPayload();
 		return payload.get(JwtProperties.CATEGORY, String.class);
