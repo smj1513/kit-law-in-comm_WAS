@@ -52,13 +52,13 @@ public class SecurityConfig {
 				authorizeRequests
 						.requestMatchers(HttpMethod.OPTIONS).permitAll()
 						.requestMatchers("/", "/api","/api/swagger-ui/**", "/swagger-ui/**","/api/api-docs/**","/api-docs/**", "/auth/**").permitAll()
-						.requestMatchers("/common/**").permitAll()
-						.requestMatchers("/users/**").permitAll()
-						.requestMatchers("/users/admin/**").hasAnyAuthority(Role.ROLE_ADMIN.name())
-						.requestMatchers("/question/{question-id}/answers").hasAnyAuthority(Role.ROLE_LAWYER.name())
-						.requestMatchers(new AntPathRequestMatcher("/questions/**", "GET")).permitAll()
-						.requestMatchers("/answers/**").hasAnyAuthority(Role.ROLE_LAWYER.name())
-						.requestMatchers(new AntPathRequestMatcher("/answers/**", "GET")).permitAll()
+						.requestMatchers("/api/common/**").permitAll()
+						.requestMatchers("/api/users/**").permitAll()
+						.requestMatchers("/api/users/admin/**").hasAnyAuthority(Role.ROLE_ADMIN.name())
+						.requestMatchers("/api/question/{question-id}/answers").hasAnyAuthority(Role.ROLE_LAWYER.name())
+						.requestMatchers(new AntPathRequestMatcher("/api/questions/**", "GET")).permitAll()
+						.requestMatchers("/api/answers/**").hasAnyAuthority(Role.ROLE_LAWYER.name())
+						.requestMatchers(new AntPathRequestMatcher("/api/answers/**", "GET")).permitAll()
 						.anyRequest()
 						.authenticated()
 		);
@@ -93,7 +93,7 @@ public class SecurityConfig {
 		CustomLoginFilter customLoginFilter = new CustomLoginFilter(objectMapper, authenticationManager());
 		customLoginFilter.setAuthenticationSuccessHandler(new CustomAuthenticationSuccessHandler(jwtUtils, objectMapper));
 		customLoginFilter.setAuthenticationFailureHandler(new CustomAuthenticationFailureHandler(objectMapper));
-		customLoginFilter.setFilterProcessesUrl("/login");
+		customLoginFilter.setFilterProcessesUrl("/api/login");
 		return customLoginFilter;
 	}
 
