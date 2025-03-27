@@ -63,21 +63,21 @@ public class SecurityConfig {
 				.requestMatchers("/api/question/**").hasAuthority(Role.ROLE_LAWYER.name())
 				.requestMatchers("/api/answers/**").hasAuthority(Role.ROLE_LAWYER.name())
 				.requestMatchers("/api/users/**").permitAll()
-				.anyRequest().permitAll()
+				.anyRequest().authenticated()
 		);
 
 		http.addFilterAt(customLoginFilter(), UsernamePasswordAuthenticationFilter.class);
 		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 		http.exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint()));
-
 		return http.build();
 	}
 
 	@Bean
 	public RoleHierarchy roleHierarchy() {
-		return fromHierarchy(
-				"ROLE_ADMIN > ROLE_LAWYER\n" +
-						"ROLE_LAWYER > ROLE_USER");
+		return fromHierarchy("""
+						ROLE_ADMIN > ROLE_LAWYER
+						ROLE_LAWYER > ROLE_USER
+						""");
 	}
 
 	@Bean

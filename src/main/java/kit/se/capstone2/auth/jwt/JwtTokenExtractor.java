@@ -4,7 +4,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
-import io.netty.util.internal.StringUtil;
 import kit.se.capstone2.auth.domain.enums.Role;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
@@ -33,15 +32,15 @@ public class JwtTokenExtractor {
 		return role;
 	}
 
-	public String extractCategory(String token){
+	public String extractCategory(String token) {
 		JwtParser parser = Jwts.parser().verifyWith(key).build();
 		Jws<Claims> claimsJws = parser.parseSignedClaims(token);
 		Claims payload = claimsJws.getPayload();
 		return payload.get(JwtProperties.CATEGORY, String.class);
 	}
 
-	public String extractToken(String authHeader){
-		if(StringUtils.hasText(authHeader) && authHeader.startsWith(JwtProperties.TOKEN_PREFIX)){
+	public String extractToken(String authHeader) {
+		if (StringUtils.hasText(authHeader) && authHeader.startsWith(JwtProperties.TOKEN_PREFIX)) {
 			return authHeader.substring(JwtProperties.TOKEN_PREFIX.length());
 		}
 		return authHeader;
