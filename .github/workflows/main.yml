@@ -51,7 +51,7 @@ jobs:
 
       - name: Run Docker container
         run: |
-          docker run -d --restart=always --network llm-network --name capstone2 -p 80:80 -e ACTIVE_PROFILE=prod capstone2:latest
+          docker run -d --restart=always --network llm-network --name capstone2 -p 80:8080 -e ACTIVE_PROFILE=prod capstone2:latest
           
       - name: Check Docker network
         run: |
@@ -60,37 +60,3 @@ jobs:
       - name: Check application logs
         run: |
           docker logs capstone2
-  
-#  deploy:
-#    needs: build
-#    runs-on: self-hosted
-#    steps:
-#      - name: Check Java version
-#        run: java -version
-        
-#      - name: Stop existing application
-#        run: |
-#          pid=$(ps aux | grep 'reviewEye.jar' | grep -v grep | awk '{print $2}')
-#          if [ -n "$pid" ]; then
-#            echo "Stopping existing application (PID: $pid)"
-#            kill $pid
-#          fi
-#      - name: Remove old server in ~/source (ignore error)
-#        run: |
-#          rm -rf ~/revieweye/source || true
-
-#      - name: Copy new server to ~/soruce
-#        run: |
-#          mkdir -p ~/revieweye/source
-#          cp -R ./ ~/revieweye/source
-
-#      - name: docker test
-#        run: |
-#         echo '3296' | sudo -S docker ps -a || true
-      
-#      - name: Start Spring Boot application
-#        run: |
-#          nohup java -jar ~/revieweye/source/build/libs/reviewEye.jar > ~/revieweye/source/nohup.out 2>&1 &
-#          sleep 10  # 애플리케이션이 시작될 때까지 대기
-#          cat ~/revieweye/source/nohup.out  # 로그 출력
-#          disown
