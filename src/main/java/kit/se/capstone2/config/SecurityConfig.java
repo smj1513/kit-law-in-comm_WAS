@@ -64,7 +64,7 @@ public class SecurityConfig {
 				.requestMatchers("/api/question/**/answers").hasAuthority(Role.ROLE_LAWYER.name())
 				.requestMatchers("/api/answers/**").hasAuthority(Role.ROLE_LAWYER.name())
 				.requestMatchers("/api/users/**").permitAll()
-				.anyRequest().authenticated()
+				.anyRequest().permitAll()
 		);
 
 		http.addFilterAt(customLoginFilter(), UsernamePasswordAuthenticationFilter.class);
