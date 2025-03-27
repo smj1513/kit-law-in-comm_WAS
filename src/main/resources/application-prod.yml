@@ -18,4 +18,5 @@ spring:
       port: 6379
       host: redis
       password:
-
+server:
+  port: 80

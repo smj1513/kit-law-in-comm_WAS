@@ -10,10 +10,6 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@OpenAPIDefinition(servers = {
-		@Server(url = "http://202.31.202.38/api", description = "Remote Server URL"),
-		@Server(url = "http://localhost:8080/api", description = "Local Server URL")
-})
 @Configuration
 public class SwaggerConfig {
 
