@@ -13,6 +13,7 @@ import kit.se.capstone2.auth.jwt.JwtUtils;
 import kit.se.capstone2.common.api.code.ErrorCode;
 import kit.se.capstone2.common.api.response.CommonResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +26,7 @@ import java.io.Writer;
 import java.util.UUID;
 
 @RequiredArgsConstructor
+@Log4j2
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private final JwtUtils jwtUtils;
@@ -32,6 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 		String authHeader = request.getHeader(JwtProperties.AUTH_HEADER);
+		log.info("authHeader: {}", authHeader);
 		if (authHeader == null) {
 			filterChain.doFilter(request, response);
 			return;

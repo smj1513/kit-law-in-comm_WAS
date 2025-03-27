@@ -50,7 +50,7 @@ public class SecurityConfig {
 		http.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		http.authorizeHttpRequests(authorizeRequests ->
 				authorizeRequests
-						.requestMatchers("/", "/api", "/swagger-ui/**","/api-docs/**", "/auth/**").permitAll()
+						.requestMatchers("/", "/api","/api/swagger-ui/**", "/swagger-ui/**","/api/api-docs/**","/api-docs/**", "/auth/**").permitAll()
 						.requestMatchers("/users/**").permitAll()
 						.requestMatchers("/users/admin/**").hasAnyAuthority(Role.ROLE_ADMIN.name())
 						.requestMatchers("/question/{question-id}/answers").hasAnyAuthority(Role.ROLE_LAWYER.name())
