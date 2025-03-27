@@ -45,9 +45,8 @@ public class SecurityConfig {
 		http.formLogin(AbstractHttpConfigurer::disable);
 		http.logout(AbstractHttpConfigurer::disable);
 		http.csrf(AbstractHttpConfigurer::disable);
-
-
 		http.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
 		http.authorizeHttpRequests(authorizeRequests ->
 				authorizeRequests
 						.requestMatchers("/", "/api","/api/swagger-ui/**", "/swagger-ui/**","/api/api-docs/**","/api-docs/**", "/auth/**").permitAll()
