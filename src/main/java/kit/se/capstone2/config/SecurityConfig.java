@@ -50,19 +50,21 @@ public class SecurityConfig {
 		http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 		http.csrf(AbstractHttpConfigurer::disable);
 		http.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-		http.authorizeHttpRequests(authorizeRequests ->
-				authorizeRequests
-						.requestMatchers(HttpMethod.OPTIONS).permitAll()
-						.requestMatchers("/", "/api", "/api/swagger-ui/**", "/swagger-ui/**", "/api/api-docs/**", "/api-docs/**", "/auth/**").permitAll()
-						.requestMatchers("/api/common/**").permitAll()
-						.requestMatchers("/api/users/**").permitAll()
-						.requestMatchers("/api/users/admin/**").hasAnyAuthority(Role.ROLE_ADMIN.name())
-						.requestMatchers("/api/question/{question-id}/answers").hasAnyAuthority(Role.ROLE_LAWYER.name())
-						.requestMatchers(new AntPathRequestMatcher("/api/questions/**", "GET")).permitAll()
-						.requestMatchers("/api/answers/**").hasAnyAuthority(Role.ROLE_LAWYER.name())
-						.requestMatchers(new AntPathRequestMatcher("/api/answers/**", "GET")).permitAll()
-						.anyRequest()
-						.authenticated()
+		http.authorizeHttpRequests(auth -> auth
+				.requestMatchers(HttpMethod.OPTIONS).permitAll()
+				.requestMatchers(
+						"/", "/api",
+						"/api/swagger-ui/**", "/swagger-ui/**",
+						"/api/api-docs/**", "/api-docs/**",
+						"/auth/**", "/api/common/**"
+				).permitAll()
+				.requestMatchers(HttpMethod.GET, "/api/questions/**").permitAll()
+				.requestMatchers(HttpMethod.GET, "/api/answers/**").permitAll()
+				.requestMatchers("/api/users/admin/**").hasAuthority(Role.ROLE_ADMIN.name())
+				.requestMatchers("/api/question/**/answers").hasAuthority(Role.ROLE_LAWYER.name())
+				.requestMatchers("/api/answers/**").hasAuthority(Role.ROLE_LAWYER.name())
+				.requestMatchers("/api/users/**").permitAll()
+				.anyRequest().authenticated()
 		);
 
 		http.addFilterAt(customLoginFilter(), UsernamePasswordAuthenticationFilter.class);
