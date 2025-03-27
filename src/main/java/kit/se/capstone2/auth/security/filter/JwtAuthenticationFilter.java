@@ -34,13 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	private final ObjectMapper objectMapper;
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-		if (request.getMethod().equals(HttpMethod.OPTIONS.name())) {
-			// OPTIONS 요청일 경우 필터 처리를 건너뛰고 다음 필터로 진행
-			filterChain.doFilter(request, response);
-			return;
-		}
 		String authHeader = request.getHeader(JwtProperties.AUTH_HEADER);
-		log.info("authHeader: {}", authHeader);
 		if (authHeader == null) {
 			filterChain.doFilter(request, response);
 			return;

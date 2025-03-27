@@ -51,7 +51,6 @@ public class SecurityConfig {
 		http.csrf(AbstractHttpConfigurer::disable);
 		http.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		http.authorizeHttpRequests(auth -> auth
-				.requestMatchers(HttpMethod.OPTIONS).permitAll()
 				.requestMatchers(
 						"/", "/api",
 						"/api/swagger-ui/**", "/swagger-ui/**",
@@ -61,7 +60,7 @@ public class SecurityConfig {
 				.requestMatchers(HttpMethod.GET, "/api/questions/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/api/answers/**").permitAll()
 				.requestMatchers("/api/users/admin/**").hasAuthority(Role.ROLE_ADMIN.name())
-				.requestMatchers("/api/question/**/answers").hasAuthority(Role.ROLE_LAWYER.name())
+				.requestMatchers("/api/question/**").hasAuthority(Role.ROLE_LAWYER.name())
 				.requestMatchers("/api/answers/**").hasAuthority(Role.ROLE_LAWYER.name())
 				.requestMatchers("/api/users/**").permitAll()
 				.anyRequest().permitAll()
