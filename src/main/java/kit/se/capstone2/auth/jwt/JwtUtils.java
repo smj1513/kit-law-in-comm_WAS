@@ -1,6 +1,7 @@
 package kit.se.capstone2.auth.jwt;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
@@ -25,6 +26,7 @@ public class JwtUtils {
 	@Value("${jwt.secret}")
 	private String secret;
 	private SecretKey key;
+	private JwtParser parser;
 
 	private final JwtTokenProvider provider;
 	private final JwtTokenExtractor extractor;
@@ -33,8 +35,11 @@ public class JwtUtils {
 	@PostConstruct
 	public void init(){
 		key = Keys.hmacShaKeyFor(secret.getBytes());
+		parser = Jwts.parser().verifyWith(key).build();
 		extractor.setKey(key);
+		extractor.setParser(parser);
 		validator.setKey(key);
+		validator.setParser(parser);
 		provider.setKey(key);
 	}
 

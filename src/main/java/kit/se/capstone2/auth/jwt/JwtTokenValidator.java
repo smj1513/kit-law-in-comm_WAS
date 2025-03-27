@@ -12,14 +12,14 @@ import java.util.TimeZone;
 
 @Component
 @Log4j2
+@Setter
 public class JwtTokenValidator {
-	@Setter
+
 	private SecretKey key;
+	private JwtParser parser;
 
 	public Boolean isExpired(String token) {
-		return Jwts.parser()
-				.verifyWith(key)
-				.build()
+		return parser
 				.parseSignedClaims(token)
 				.getPayload()
 				.getExpiration()

@@ -2,6 +2,7 @@ package kit.se.capstone2.auth.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kit.se.capstone2.common.api.code.ErrorCode;
@@ -26,6 +27,8 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 		response.setStatus(HttpStatus.UNAUTHORIZED.value());
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
-		response.getOutputStream().print(om.writeValueAsString(CommonResponse.error(ErrorCode.LOGIN_FAILED)));
+		ServletOutputStream outputStream = response.getOutputStream();
+		outputStream.write(om.writeValueAsBytes(CommonResponse.error(ErrorCode.LOGIN_FAILED)));
+		outputStream.close();
 	}
 }

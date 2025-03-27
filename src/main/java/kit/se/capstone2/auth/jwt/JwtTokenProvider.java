@@ -14,9 +14,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
+
+@Setter
 public class JwtTokenProvider {
 
-	@Setter
 	private SecretKey key;
 
 	public JwtToken generateToken(Authentication authentication) {

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kit.se.capstone2.auth.domain.enums.Role;
@@ -25,6 +26,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.UUID;
+
+import static java.nio.file.Files.write;
 
 @RequiredArgsConstructor
 @Log4j2
@@ -52,7 +55,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 		if (!jwtUtils.isAccessToken(token)) {
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
-			response.getOutputStream().write(objectMapper.writeValueAsBytes(CommonResponse.error(ErrorCode.INVALID_TOKEN)));
+			ServletOutputStream outputStream = response.getOutputStream();
+			outputStream.write(objectMapper.writeValueAsBytes(CommonResponse.error(ErrorCode.INVALID_TOKEN)));
+			outputStream.close();
 			return;
 		}
 

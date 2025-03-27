@@ -13,17 +13,13 @@ import org.springframework.util.StringUtils;
 import javax.crypto.SecretKey;
 
 @Component
+@Setter
 public class JwtTokenExtractor {
 
-	@Setter
 	private SecretKey key;
 
 	private JwtParser parser;
 
-	@PostConstruct
-	public void init(){
-		parser = Jwts.parser().verifyWith(key).build();
-	}
 
 	public String extractUsername(String token) {
 		Jws<Claims> claimsJws = parser.parseSignedClaims(token);
