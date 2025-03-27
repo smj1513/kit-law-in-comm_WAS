@@ -31,6 +31,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
+import static org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl.fromHierarchy;
+
 @EnableWebSecurity
 @Configuration
 @RequiredArgsConstructor
@@ -51,7 +53,7 @@ public class SecurityConfig {
 		http.authorizeHttpRequests(authorizeRequests ->
 				authorizeRequests
 						.requestMatchers(HttpMethod.OPTIONS).permitAll()
-						.requestMatchers("/", "/api","/api/swagger-ui/**", "/swagger-ui/**","/api/api-docs/**","/api-docs/**", "/auth/**").permitAll()
+						.requestMatchers("/", "/api", "/api/swagger-ui/**", "/swagger-ui/**", "/api/api-docs/**", "/api-docs/**", "/auth/**").permitAll()
 						.requestMatchers("/api/common/**").permitAll()
 						.requestMatchers("/api/users/**").permitAll()
 						.requestMatchers("/api/users/admin/**").hasAnyAuthority(Role.ROLE_ADMIN.name())
@@ -60,7 +62,7 @@ public class SecurityConfig {
 						.requestMatchers("/api/answers/**").hasAnyAuthority(Role.ROLE_LAWYER.name())
 						.requestMatchers(new AntPathRequestMatcher("/api/answers/**", "GET")).permitAll()
 						.anyRequest()
-						.permitAll()
+						.authenticated()
 		);
 
 		http.addFilterAt(customLoginFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -72,11 +74,9 @@ public class SecurityConfig {
 
 	@Bean
 	public RoleHierarchy roleHierarchy() {
-		return RoleHierarchyImpl.fromHierarchy(String.format("""
-					%s > %s
-					%s > %s
-				""", Role.ROLE_ADMIN.name(), Role.ROLE_LAWYER.name(), Role.ROLE_LAWYER.name(), Role.ROLE_USER.name())
-		);
+		return fromHierarchy(
+				"ROLE_ADMIN > ROLE_LAWYER\n" +
+						"ROLE_LAWYER > ROLE_USER");
 	}
 
 	@Bean
