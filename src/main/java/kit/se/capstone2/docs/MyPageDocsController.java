@@ -24,7 +24,7 @@ public interface MyPageDocsController {
 	@Operation(summary = "마이페이지 일반회원 정보 수정")
 	@ApiResponse(responseCode = "202", description = "성공")
 	public CommonResponse<MyPageResponse.GeneralInfo> updateGeneralInfo(
-			@RequestBody MyPageRequest.UpdateLawyerInfo request
+			@RequestBody MyPageRequest.UpdateGeneralInfo request
 	);
 
 	@Operation(summary = "마이페이지 변호사 정보 수정")

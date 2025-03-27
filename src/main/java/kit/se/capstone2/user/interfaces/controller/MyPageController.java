@@ -25,7 +25,7 @@ public class MyPageController implements MyPageDocsController {
 
 	@PutMapping
 	public CommonResponse<MyPageResponse.GeneralInfo> updateGeneralInfo(
-			@RequestBody MyPageRequest.UpdateLawyerInfo request
+			@RequestBody MyPageRequest.UpdateGeneralInfo request
 
 	) {
 		return CommonResponse.success(SuccessCode.OK, null);
