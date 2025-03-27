@@ -45,9 +45,9 @@ public class SecurityConfig {
 		http.httpBasic(AbstractHttpConfigurer::disable);
 		http.formLogin(AbstractHttpConfigurer::disable);
 		http.logout(AbstractHttpConfigurer::disable);
+		http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 		http.csrf(AbstractHttpConfigurer::disable);
 		http.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-		http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 		http.authorizeHttpRequests(authorizeRequests ->
 				authorizeRequests
 						.requestMatchers(HttpMethod.OPTIONS).permitAll()
@@ -106,7 +106,7 @@ public class SecurityConfig {
 	public CorsConfigurationSource corsConfigurationSource() { //cors 정책 설정 실 운영 들어가기전에 변경해야됨
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 		corsConfiguration.setAllowedOriginPatterns(List.of("*"));
-		corsConfiguration.setAllowedOrigins(List.of("http://202.31.202.38"));
+		corsConfiguration.setAllowedOrigins(List.of("http://202.31.202.38:80"));
 		corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
 		corsConfiguration.setAllowedHeaders(List.of("*"));
 		corsConfiguration.setExposedHeaders(List.of("*"));

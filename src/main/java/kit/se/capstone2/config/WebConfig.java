@@ -28,7 +28,7 @@ public class WebConfig implements WebMvcConfigurer {
 				.allowedOriginPatterns("*")
 				.allowedOrigins(
 						"http://localhost:3000",
-						"http://202.31.202.38"  // 공인 IP 추가
+						"http://202.31.202.38:80"  // 공인 IP 추가
 				)
 				.allowedMethods("GET","POST", "PUT", "DELETE", "PATCH", "OPTIONS")
 				.allowedHeaders("*")
