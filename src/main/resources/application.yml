@@ -26,7 +26,7 @@ aws:
     bucket: ***REMOVED***
 
 jwt:
-  secret: ***REMOVED***c0YTE3NWZhODBhYWNkYWZhZDM1MTJmODQ0ODU0YmQ4ZmI2M2Q4ODAwZTFiNTY0ZTYzNWE3NGNkNzc1NDY3Njc=
+  secret: ***REMOVED***
 
 springdoc:
   swagger-ui:
