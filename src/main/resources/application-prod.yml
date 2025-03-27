@@ -4,7 +4,6 @@ spring:
     url: jdbc:postgresql://postgres:5432/was
     username: "postgres"
     password: "***REMOVED***"
-
   jpa:
     hibernate:
       ddl-auto: create
@@ -19,3 +18,7 @@ spring:
       port: 6379
       host: redis
       password:
+
+springdoc:
+  swagger-ui:
+    url: http://202.31.202.38/api
