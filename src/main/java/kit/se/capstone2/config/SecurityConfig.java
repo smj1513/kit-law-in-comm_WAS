@@ -57,7 +57,6 @@ public class SecurityConfig {
 						.requestMatchers("/users/admin/**").hasAnyAuthority(Role.ROLE_ADMIN.name())
 						.requestMatchers("/question/{question-id}/answers").hasAnyAuthority(Role.ROLE_LAWYER.name())
 						.requestMatchers(new AntPathRequestMatcher("/questions/**", "GET")).permitAll()
-						.requestMatchers(new AntPathRequestMatcher("/questions/**", "GET")).permitAll()
 						.requestMatchers("/answers/**").hasAnyAuthority(Role.ROLE_LAWYER.name())
 						.requestMatchers(new AntPathRequestMatcher("/answers/**", "GET")).permitAll()
 						.anyRequest()
@@ -107,7 +106,6 @@ public class SecurityConfig {
 	public CorsConfigurationSource corsConfigurationSource() { //cors 정책 설정 실 운영 들어가기전에 변경해야됨
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 		corsConfiguration.setAllowedOriginPatterns(List.of("*"));
-		corsConfiguration.setAllowedOrigins(List.of("http://202.31.202.38:80"));
 		corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
 		corsConfiguration.setAllowedHeaders(List.of("*"));
 		corsConfiguration.setExposedHeaders(List.of("*"));
