@@ -2,6 +2,7 @@ package kit.se.capstone2.auth.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletOutputStream;
@@ -44,12 +45,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			return;
 		}
 
-		String token = jwtUtils.extractToken(authHeader);
+		String token = null;
+		try {
+			token = jwtUtils.extractToken(authHeader);
+		}catch (JwtException e){
+			response.setStatus(HttpStatus.UNAUTHORIZED.value());
+			response.getOutputStream().write(objectMapper.writeValueAsBytes(CommonResponse.error(ErrorCode.INVALID_TOKEN)));
+			return;
+		}
 		try {
 			jwtUtils.isExpired(token);
 		} catch (ExpiredJwtException e) {
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
-			response.getOutputStream().write(objectMapper.writeValueAsBytes(CommonResponse.error(ErrorCode.ACCESS_TOKEN_EXPIRED)));
+			ServletOutputStream outputStream = response.getOutputStream();
+			outputStream.write(objectMapper.writeValueAsBytes(CommonResponse.error(ErrorCode.ACCESS_TOKEN_EXPIRED)));
+			outputStream.close();
 			return;
 		}
 
@@ -71,10 +81,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 
 		filterChain.doFilter(request, response);
-	}
-	private PrintWriter getWriter(HttpServletResponse response) throws IOException {
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
-		return response.getWriter();
 	}
 }

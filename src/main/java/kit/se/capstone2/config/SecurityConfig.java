@@ -51,8 +51,8 @@ public class SecurityConfig {
 		http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
 		http.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 		http.addFilterAt(customLoginFilter(), UsernamePasswordAuthenticationFilter.class);
-		http.addFilterAfter(jwtAuthenticationFilter(), CustomLoginFilter.class);
 		http.exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint()));
 
 		http.authorizeHttpRequests(auth -> auth
