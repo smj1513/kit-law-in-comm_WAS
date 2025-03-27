@@ -52,7 +52,7 @@ public class SecurityConfig {
 
 		http.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		http.addFilterAt(customLoginFilter(), UsernamePasswordAuthenticationFilter.class);
-		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+		http.addFilterBefore(jwtAuthenticationFilter(), CustomLoginFilter.class);
 		http.exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint()));
 
 		http.authorizeHttpRequests(auth -> auth
@@ -68,7 +68,7 @@ public class SecurityConfig {
 				.requestMatchers("/api/question/**").hasAuthority(Role.ROLE_LAWYER.name())
 				.requestMatchers("/api/answers/**").hasAuthority(Role.ROLE_LAWYER.name())
 				.requestMatchers("/api/users/**").permitAll()
-				.anyRequest().authenticated()
+				.anyRequest().permitAll()
 		);
 
 		return http.build();
