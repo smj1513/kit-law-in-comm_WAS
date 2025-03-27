@@ -57,5 +57,7 @@ server:
   address: 0.0.0.0
   tomcat:
     connection-timeout: 180000
-    max-http-response-header-size: 30MB
-  max-http-request-header-size: 30MB
+    max-http-response-header-size: 16KB
+  max-http-request-header-size: 16KB
+  ssl:
+    enabled: false
