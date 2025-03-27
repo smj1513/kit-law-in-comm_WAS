@@ -60,7 +60,7 @@ public class SecurityConfig {
 						.requestMatchers("/api/answers/**").hasAnyAuthority(Role.ROLE_LAWYER.name())
 						.requestMatchers(new AntPathRequestMatcher("/api/answers/**", "GET")).permitAll()
 						.anyRequest()
-						.authenticated()
+						.permitAll()
 		);
 
 		http.addFilterAt(customLoginFilter(), UsernamePasswordAuthenticationFilter.class);
