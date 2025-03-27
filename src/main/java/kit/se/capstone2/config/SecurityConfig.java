@@ -110,7 +110,7 @@ public class SecurityConfig {
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 		corsConfiguration.setAllowedOrigins(List.of("http://202.31.202.38:80", "http://localhost:3000", "http://localhost:80"));
 		corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-		corsConfiguration.setAllowedHeaders(List.of("*"));
+		corsConfiguration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
 		corsConfiguration.setExposedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
 		corsConfiguration.setMaxAge(3600L);
 		corsConfiguration.setAllowCredentials(true);
