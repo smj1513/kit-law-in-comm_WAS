@@ -3,6 +3,7 @@ package kit.se.capstone2.auth.security.entrypoint;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kit.se.capstone2.common.api.code.ErrorCode;
@@ -26,7 +27,10 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
 		response.setStatus(HttpStatus.UNAUTHORIZED.value());
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-		response.getOutputStream().print(objectMapper.writeValueAsString(CommonResponse.error(ErrorCode.LOGIN_FAILED)));
+		ServletOutputStream outputStream = response.getOutputStream();
+		outputStream.print(objectMapper.writeValueAsString(CommonResponse.error(ErrorCode.LOGIN_FAILED)));
+		outputStream.close();
+		return;
 	}
 
 }
