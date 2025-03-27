@@ -52,6 +52,7 @@ public class SecurityConfig {
 				authorizeRequests
 						.requestMatchers(HttpMethod.OPTIONS).permitAll()
 						.requestMatchers("/", "/api","/api/swagger-ui/**", "/swagger-ui/**","/api/api-docs/**","/api-docs/**", "/auth/**").permitAll()
+						.requestMatchers("/common/**").permitAll()
 						.requestMatchers("/users/**").permitAll()
 						.requestMatchers("/users/admin/**").hasAnyAuthority(Role.ROLE_ADMIN.name())
 						.requestMatchers("/question/{question-id}/answers").hasAnyAuthority(Role.ROLE_LAWYER.name())
