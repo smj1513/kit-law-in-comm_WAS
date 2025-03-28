@@ -21,7 +21,8 @@ public enum ErrorCode {
 	INVALID_TOKEN(HttpStatus.BAD_REQUEST, EntityCode.TOKEN , ExceptionCode.BAD_REQUEST , "Invalid Token"),
 	LOGIN_FAILED(HttpStatus.UNAUTHORIZED, EntityCode.USER, ExceptionCode.UNAUTHORIZED, "Login Failed"),
 	REFRESH_TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, EntityCode.TOKEN ,ExceptionCode.EXPIRATION , "RefreshToken Expired" ),
-	NO_PERMISSION(HttpStatus.FORBIDDEN, EntityCode.USER, ExceptionCode.BAD_REQUEST ,"You don't have Authority" );
+	NO_PERMISSION(HttpStatus.FORBIDDEN, EntityCode.USER, ExceptionCode.BAD_REQUEST ,"You don't have Authority" ),
+	INVAILD_REQUEST(HttpStatus.BAD_REQUEST, EntityCode.TOKEN , ExceptionCode.UNAUTHORIZED, "Invalid Request"),;
 
 	private final HttpStatus httpStatus;
 	private final EntityCode entityCode;

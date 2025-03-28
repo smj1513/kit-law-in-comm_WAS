@@ -52,7 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			log.info("token: {}", token);
 		}catch (JwtException e){
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
-			response.getOutputStream().write(objectMapper.writeValueAsBytes(CommonResponse.error(ErrorCode.INVALID_TOKEN)));
+			response.getOutputStream().write(objectMapper.writeValueAsBytes(CommonResponse.error(ErrorCode.INVAILD_REQUEST)));
 			return;
 		}
 		try {
