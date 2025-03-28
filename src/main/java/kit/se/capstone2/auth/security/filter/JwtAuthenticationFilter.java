@@ -46,16 +46,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			filterChain.doFilter(request, response);
 			return;
 		}
-
-		String token = null;
-		try {
-			token = jwtUtils.extractToken(authHeader);
-			log.info("token: {}", token);
-		}catch (JwtException e){
-			response.setStatus(HttpStatus.UNAUTHORIZED.value());
-			response.getOutputStream().write(objectMapper.writeValueAsBytes(CommonResponse.error(ErrorCode.INVAILD_REQUEST)));
-			return;
-		}
+		log.info("Auth Header: {}", authHeader);
+		String token = jwtUtils.extractToken(authHeader);
 		try {
 			jwtUtils.isExpired(token);
 		} catch (ExpiredJwtException e) {

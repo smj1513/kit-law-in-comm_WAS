@@ -9,11 +9,13 @@ import kit.se.capstone2.auth.domain.enums.Role;
 import kit.se.capstone2.common.api.code.ErrorCode;
 import kit.se.capstone2.common.exception.BusinessLogicException;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.crypto.SecretKey;
 
+@Slf4j
 @Component
 @Setter
 public class JwtTokenExtractor {
@@ -44,7 +46,9 @@ public class JwtTokenExtractor {
 
 	public String extractToken(String authHeader) {
 		//StringUtils.hasText(authHeader) &&
-		if (authHeader.startsWith(JwtProperties.TOKEN_PREFIX)) {
+		log.info("authHeader: {}", authHeader);
+		if (StringUtils.hasText(authHeader) && authHeader.startsWith(JwtProperties.TOKEN_PREFIX)) {
+			log.info("if 로 들어옴 extractToken: {}", authHeader);
 			return authHeader.substring(JwtProperties.TOKEN_PREFIX.length());
 		}
 		else{
