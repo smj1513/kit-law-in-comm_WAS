@@ -45,7 +45,7 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
+		http.cors(AbstractHttpConfigurer::disable);
 		http.httpBasic(AbstractHttpConfigurer::disable);
 		http.formLogin(AbstractHttpConfigurer::disable);
 		//http.logout(AbstractHttpConfigurer::disable);
@@ -108,7 +108,7 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	public CorsConfigurationSource corsConfigurationSource() { //cors 정책 설정 실 운영 들어가기전에 변경해야됨
+	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 		corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:8080", "http://202.31.202.38"));
 		corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
@@ -121,7 +121,7 @@ public class SecurityConfig {
 		corsConfiguration.setAllowCredentials(true);
 
 		UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
-		urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+		urlBasedCorsConfigurationSource.registerCorsConfiguration("/api/**", corsConfiguration);
 
 		return urlBasedCorsConfigurationSource;
 	}
