@@ -98,7 +98,7 @@ public class SecurityConfig {
 		CustomLoginFilter customLoginFilter = new CustomLoginFilter(objectMapper, authenticationManager());
 		customLoginFilter.setAuthenticationSuccessHandler(new CustomAuthenticationSuccessHandler(jwtUtils, objectMapper));
 		customLoginFilter.setAuthenticationFailureHandler(new CustomAuthenticationFailureHandler(objectMapper));
-		customLoginFilter.setFilterProcessesUrl("/api/login");
+		customLoginFilter.setFilterProcessesUrl("/login");
 		return customLoginFilter;
 	}
 
@@ -114,7 +114,8 @@ public class SecurityConfig {
 				"http://localhost:3000",
 				"http://202.31.202.38:*",
 				"http://202.31.202.38/api/*"  // Swagger UI 도메인 포함
-		));		corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+		));
+		corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
 		corsConfiguration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
 		corsConfiguration.setExposedHeaders(List.of(
 				"Authorization",
