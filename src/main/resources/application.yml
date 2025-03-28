@@ -63,3 +63,7 @@ server:
   max-http-request-header-size: 16KB
   ssl:
     enabled: false
+  compression:
+    enabled: false
+  http2:
+    enabled: false
