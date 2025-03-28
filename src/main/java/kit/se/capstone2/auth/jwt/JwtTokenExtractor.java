@@ -24,21 +24,21 @@ public class JwtTokenExtractor {
 
 
 	public String extractUsername(String token) {
-		Jws<Claims> claimsJws = parser.parseSignedClaims(token);
-		Claims payload = claimsJws.getPayload();
+		Jws<Claims> claimsJws = parser.parseClaimsJws(token);
+		Claims payload = claimsJws.getBody();
 		return payload.getId();
 	}
 
 	public Role extractAuthorities(String token) {
-		Jws<Claims> claimsJws = parser.parseSignedClaims(token);
-		Claims payload = claimsJws.getPayload();
+		Jws<Claims> claimsJws = parser.parseClaimsJws(token);
+		Claims payload = claimsJws.getBody();
 		Role role = Role.valueOf(payload.get(JwtProperties.ROLE, String.class));
 		return role;
 	}
 
 	public String extractCategory(String token) {
-		Jws<Claims> claimsJws = parser.parseSignedClaims(token);
-		Claims payload = claimsJws.getPayload();
+		Jws<Claims> claimsJws = parser.parseClaimsJws(token);
+		Claims payload = claimsJws.getBody();
 		return payload.get(JwtProperties.CATEGORY, String.class);
 	}
 

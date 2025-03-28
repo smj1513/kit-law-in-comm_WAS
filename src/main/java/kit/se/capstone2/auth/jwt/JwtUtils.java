@@ -35,7 +35,7 @@ public class JwtUtils {
 	@PostConstruct
 	public void init(){
 		key = Keys.hmacShaKeyFor(secret.getBytes());
-		parser = Jwts.parser().verifyWith(key).build();
+		parser = Jwts.parserBuilder().setSigningKey(key).build();
 		extractor.setKey(key);
 		extractor.setParser(parser);
 		validator.setKey(key);
