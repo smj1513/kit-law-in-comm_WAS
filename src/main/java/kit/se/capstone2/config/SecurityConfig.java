@@ -27,6 +27,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
@@ -56,6 +57,7 @@ public class SecurityConfig {
 		http.exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint()));
 
 		http.authorizeHttpRequests(auth -> auth
+				.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 				.requestMatchers(
 						"/", "/api",
 						"/api/swagger-ui/**", "/swagger-ui/**",
@@ -110,8 +112,8 @@ public class SecurityConfig {
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 		corsConfiguration.setAllowedOrigins(List.of("http://202.31.202.38:80", "http://localhost:3000", "http://localhost:80"));
 		corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-		corsConfiguration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
-		corsConfiguration.setExposedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
+		corsConfiguration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+		corsConfiguration.setExposedHeaders(List.of("Authorization", "Content-Type"));
 		corsConfiguration.setMaxAge(3600L);
 		corsConfiguration.setAllowCredentials(true);
 

@@ -21,6 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 //@SQLRestriction("approval_status != 'REJECTED'")
 public class Account extends BaseTime implements UserDetails {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;

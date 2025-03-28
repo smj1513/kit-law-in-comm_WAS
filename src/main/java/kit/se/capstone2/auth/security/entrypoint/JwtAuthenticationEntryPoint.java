@@ -15,7 +15,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 
 @RequiredArgsConstructor
@@ -24,13 +23,12 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 	private final ObjectMapper objectMapper;
 
 	@Override
-	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
 		response.setStatus(HttpStatus.UNAUTHORIZED.value());
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		ServletOutputStream outputStream = response.getOutputStream();
-		outputStream.print(objectMapper.writeValueAsString(CommonResponse.error(ErrorCode.LOGIN_FAILED)));
+		outputStream.print(objectMapper.writeValueAsString(CommonResponse.error(ErrorCode.INVALID_TOKEN)));
 		outputStream.close();
-		return;
 	}
 
 }
