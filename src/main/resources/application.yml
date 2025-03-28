@@ -8,7 +8,6 @@ spring:
       enabled: true
       max-file-size: 20MB
       max-request-size: 20MB
-
 logging:
   level:
     org:
@@ -46,7 +45,6 @@ springdoc:
   writer-with-default-pretty-printer: true
   model-and-view-allowed: true
   show-login-endpoint: true
-
 server:
   servlet:
     encoding:
