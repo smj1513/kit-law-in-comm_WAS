@@ -44,12 +44,33 @@ public class SecurityConfig {
 	private final AuthenticationConfiguration authConfig;
 
 	@Bean
+	public UrlBasedCorsConfigurationSource corsConfigurationSource() {
+
+		UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration corsConfiguration = new CorsConfiguration();
+
+		corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000", "http://127.0.0.1:3000", "http://202.31.202.38/"));
+		corsConfiguration.setAllowedMethods(List.of("*"));
+		corsConfiguration.setAllowedHeaders(List.of("*"));
+		corsConfiguration.setExposedHeaders(List.of(
+				"Authorization",
+				"Access-Control-Allow-Origin",
+				"Access-Control-Allow-Credentials"));
+		corsConfiguration.setMaxAge(3600L);
+		corsConfiguration.setAllowCredentials(true);
+
+		urlBasedCorsConfigurationSource.registerCorsConfiguration("/api/**", corsConfiguration);
+
+		return urlBasedCorsConfigurationSource;
+	}
+
+	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.httpBasic(AbstractHttpConfigurer::disable);
 		http.formLogin(AbstractHttpConfigurer::disable);
 		http.csrf(AbstractHttpConfigurer::disable);
 
-		http.cors(AbstractHttpConfigurer::disable);
+		http.cors(cors->cors.configurationSource(corsConfigurationSource()));
 		http.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
 		http.exceptionHandling(exceptionHandling -> exceptionHandling
@@ -72,7 +93,8 @@ public class SecurityConfig {
 				.requestMatchers("/api/question/**").hasAuthority(Role.ROLE_LAWYER.name())
 				.requestMatchers("/api/answers/**").hasAuthority(Role.ROLE_LAWYER.name())
 				.requestMatchers("/api/users/**").permitAll()
-				.anyRequest().authenticated()
+				.anyRequest()
+				.authenticated()
 		);
 
 		CustomLoginFilter customLoginFilter = new CustomLoginFilter(objectMapper, authenticationManager());
@@ -107,26 +129,6 @@ public class SecurityConfig {
 	@Bean
 	public AuthenticationManager authenticationManager() throws Exception {
 		return authConfig.getAuthenticationManager();
-	}
-
-	@Bean
-	public UrlBasedCorsConfigurationSource corsConfigurationSource() {
-
-		UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
-		CorsConfiguration corsConfiguration = new CorsConfiguration();
-		corsConfiguration.setAllowedOriginPatterns(List.of("*"));
-		corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-		corsConfiguration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-		corsConfiguration.setExposedHeaders(List.of(
-				"Authorization",
-				"Access-Control-Allow-Origin",
-				"Access-Control-Allow-Credentials"));
-		corsConfiguration.setMaxAge(3600L);
-	//	corsConfiguration.setAllowCredentials(true);
-
-		urlBasedCorsConfigurationSource.registerCorsConfiguration("/api/**", corsConfiguration);
-
-		return urlBasedCorsConfigurationSource;
 	}
 
 	@Bean
