@@ -41,10 +41,11 @@ public class JwtTokenExtractor {
 	}
 
 	public String extractToken(String authHeader) {
-		if (StringUtils.hasText(authHeader) && authHeader.startsWith(JwtProperties.TOKEN_PREFIX)) {
+		//StringUtils.hasText(authHeader) &&
+		if (authHeader.startsWith(JwtProperties.TOKEN_PREFIX)) {
 			return authHeader.substring(JwtProperties.TOKEN_PREFIX.length());
 		}
-		return authHeader;
+		return null;
 	}
 
 }

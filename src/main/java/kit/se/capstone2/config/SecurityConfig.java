@@ -49,12 +49,14 @@ public class SecurityConfig {
 		http.formLogin(AbstractHttpConfigurer::disable);
 		//http.logout(AbstractHttpConfigurer::disable);
 		http.csrf(AbstractHttpConfigurer::disable);
+		http.requestCache(AbstractHttpConfigurer::disable);
 		http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
 		http.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 		http.addFilterAt(customLoginFilter(), UsernamePasswordAuthenticationFilter.class);
-		http.exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint()));
+		http.exceptionHandling(exceptionHandling -> exceptionHandling
+				.authenticationEntryPoint(jwtAuthenticationEntryPoint()));
 
 		http.authorizeHttpRequests(auth -> auth
 				.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
@@ -110,10 +112,10 @@ public class SecurityConfig {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() { //cors 정책 설정 실 운영 들어가기전에 변경해야됨
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
-		corsConfiguration.setAllowedOrigins(List.of("http://202.31.202.38:80", "http://localhost:3000", "http://localhost:80"));
+		corsConfiguration.setAllowedOriginPatterns(List.of("*"));
 		corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
 		corsConfiguration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-		corsConfiguration.setExposedHeaders(List.of("Authorization", "Content-Type"));
+		corsConfiguration.setExposedHeaders(List.of("Authorization"));
 		corsConfiguration.setMaxAge(3600L);
 		corsConfiguration.setAllowCredentials(true);
 
