@@ -30,6 +30,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 		JwtToken jwtToken = jwtUtils.generateToken(authentication);
 		String body = om.writeValueAsString(CommonResponse.success(SuccessCode.OK, jwtToken));
 		writer.print(body);
+		writer.flush();
 		writer.close();
 	}
 }

@@ -26,6 +26,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.Collection;
 import java.util.UUID;
 
 import static java.nio.file.Files.write;
@@ -81,5 +82,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				account.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 		filterChain.doFilter(request, response);
+		// 응답 헤더 로깅
+		Collection<String> headerNames = response.getHeaderNames();
+		for (String headerName : headerNames) {
+			String headerValue = response.getHeader(headerName);
+			log.info("Response Header: {} = {}", headerName, headerValue);
+		}
+		response.flushBuffer();
 	}
 }

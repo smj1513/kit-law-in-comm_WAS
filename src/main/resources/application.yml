@@ -14,8 +14,9 @@ logging:
     org:
       springframework:
         security: DEBUG
-        web: DEBUG
-
+        web:
+          servlet:
+            DispatcherServlet: DEBUG
 
 aws:
   s3:
