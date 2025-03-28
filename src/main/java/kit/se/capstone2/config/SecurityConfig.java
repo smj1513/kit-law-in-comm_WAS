@@ -49,7 +49,7 @@ public class SecurityConfig {
 		http.formLogin(AbstractHttpConfigurer::disable);
 		http.csrf(AbstractHttpConfigurer::disable);
 
-		http.cors(cors-> cors.configurationSource(corsConfigurationSource()));
+		http.cors(AbstractHttpConfigurer::disable);
 		http.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
 		http.exceptionHandling(exceptionHandling -> exceptionHandling
@@ -110,9 +110,11 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	public CorsConfigurationSource corsConfigurationSource() {
+	public UrlBasedCorsConfigurationSource corsConfigurationSource() {
+
+		UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
-		corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:8080", "http://202.31.202.38"));
+		corsConfiguration.setAllowedOriginPatterns(List.of("*"));
 		corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
 		corsConfiguration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
 		corsConfiguration.setExposedHeaders(List.of(
@@ -120,9 +122,8 @@ public class SecurityConfig {
 				"Access-Control-Allow-Origin",
 				"Access-Control-Allow-Credentials"));
 		corsConfiguration.setMaxAge(3600L);
-		corsConfiguration.setAllowCredentials(true);
+	//	corsConfiguration.setAllowCredentials(true);
 
-		UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
 		urlBasedCorsConfigurationSource.registerCorsConfiguration("/api/**", corsConfiguration);
 
 		return urlBasedCorsConfigurationSource;
