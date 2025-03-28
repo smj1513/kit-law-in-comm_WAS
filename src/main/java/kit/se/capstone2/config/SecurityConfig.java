@@ -92,7 +92,6 @@ public class SecurityConfig {
 				.requestMatchers("/api/users/admin/**").hasAuthority(Role.ROLE_ADMIN.name())
 				.requestMatchers("/api/question/**").hasAuthority(Role.ROLE_LAWYER.name())
 				.requestMatchers("/api/answers/**").hasAuthority(Role.ROLE_LAWYER.name())
-				.requestMatchers("/api/users/**").permitAll()
 				.anyRequest()
 				.permitAll()
 		);
