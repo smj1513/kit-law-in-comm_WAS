@@ -12,6 +12,8 @@ import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.List;
+
 @Configuration
 @EnableAsync
 @RequiredArgsConstructor
@@ -28,7 +30,9 @@ public class WebConfig implements WebMvcConfigurer {
 				.allowedOriginPatterns("*")
 				.allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
 				.allowedHeaders("Authorization", "Content-Type")
-				.exposedHeaders("Authorization")
+				.exposedHeaders("Authorization",
+						"Access-Control-Allow-Origin",
+						"Access-Control-Allow-Credentials")
 				.maxAge(3600L)
 				.allowCredentials(true);
 	}
