@@ -6,6 +6,8 @@ import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import jakarta.annotation.PostConstruct;
 import kit.se.capstone2.auth.domain.enums.Role;
+import kit.se.capstone2.common.api.code.ErrorCode;
+import kit.se.capstone2.common.exception.BusinessLogicException;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -45,7 +47,9 @@ public class JwtTokenExtractor {
 		if (authHeader.startsWith(JwtProperties.TOKEN_PREFIX)) {
 			return authHeader.substring(JwtProperties.TOKEN_PREFIX.length());
 		}
-		return null;
+		else{
+			throw new BusinessLogicException(ErrorCode.INVALID_TOKEN, "토큰이 존재하지 않습니다.");
+		}
 	}
 
 }
