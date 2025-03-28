@@ -48,7 +48,7 @@ public class JwtTokenExtractor {
 			return authHeader.substring(JwtProperties.TOKEN_PREFIX.length());
 		}
 		else{
-			throw new BusinessLogicException(ErrorCode.INVALID_TOKEN, "토큰이 존재하지 않습니다.");
+			throw new BusinessLogicException(ErrorCode.INVALID_TOKEN, "토큰 검증에 실패하였습니다.");
 		}
 	}
 

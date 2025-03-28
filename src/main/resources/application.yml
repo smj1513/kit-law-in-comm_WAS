@@ -53,8 +53,6 @@ server:
       enabled: true
       force: true
     context-path: /api
-  port: 8080
-  address: 0.0.0.0
   tomcat:
     connection-timeout: 180000
     max-http-response-header-size: 16KB
