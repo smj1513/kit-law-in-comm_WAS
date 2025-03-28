@@ -31,8 +31,10 @@ public class WebConfig implements WebMvcConfigurer {
 						"http://202.31.202.38:80"  // 공인 IP 추가
 				)
 				.allowedMethods("GET","POST", "PUT", "DELETE", "PATCH", "OPTIONS")
-				.allowedHeaders("*")
-				.exposedHeaders("*")
+				.allowedHeaders("Authorization", "Content-Type")
+				.exposedHeaders("Authorization", "Content-Type")
+				.maxAge(3600L)
 				.allowCredentials(true);
+
 	}
 }
