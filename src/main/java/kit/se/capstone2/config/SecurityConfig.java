@@ -44,12 +44,12 @@ public class SecurityConfig {
 	private final AuthenticationConfiguration authConfig;
 
 	@Bean
-	public UrlBasedCorsConfigurationSource corsConfigurationSource() {
+	public CorsConfigurationSource corsConfigurationSource() {
 
 		UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 
-		corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000", "http://127.0.0.1:3000", "http://202.31.202.38/"));
+		corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000", "http://127.0.0.1:3000", "http://202.31.202.38"));
 		corsConfiguration.setAllowedMethods(List.of("*"));
 		corsConfiguration.setAllowedHeaders(List.of("*"));
 		corsConfiguration.setExposedHeaders(List.of(
@@ -59,7 +59,7 @@ public class SecurityConfig {
 		corsConfiguration.setMaxAge(3600L);
 		corsConfiguration.setAllowCredentials(true);
 
-		urlBasedCorsConfigurationSource.registerCorsConfiguration("/api/**", corsConfiguration);
+		urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
 
 		return urlBasedCorsConfigurationSource;
 	}
