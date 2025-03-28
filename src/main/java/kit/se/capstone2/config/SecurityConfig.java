@@ -45,16 +45,18 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.cors(AbstractHttpConfigurer::disable);
 		http.httpBasic(AbstractHttpConfigurer::disable);
 		http.formLogin(AbstractHttpConfigurer::disable);
-		//http.logout(AbstractHttpConfigurer::disable);
 		http.csrf(AbstractHttpConfigurer::disable);
+
+		http.cors(cors-> cors.configurationSource(corsConfigurationSource()));
 		http.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-		http.addFilterAt(customLoginFilter(), UsernamePasswordAuthenticationFilter.class);
+
 		http.exceptionHandling(exceptionHandling -> exceptionHandling
 				.authenticationEntryPoint(jwtAuthenticationEntryPoint()));
+
+
+
 
 		http.authorizeHttpRequests(auth -> auth
 				.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
@@ -72,6 +74,14 @@ public class SecurityConfig {
 				.requestMatchers("/api/users/**").permitAll()
 				.anyRequest().authenticated()
 		);
+
+		CustomLoginFilter customLoginFilter = new CustomLoginFilter(objectMapper, authenticationManager());
+		customLoginFilter.setAuthenticationSuccessHandler(new CustomAuthenticationSuccessHandler(jwtUtils, objectMapper));
+		customLoginFilter.setAuthenticationFailureHandler(new CustomAuthenticationFailureHandler(objectMapper));
+		customLoginFilter.setFilterProcessesUrl("/login");
+
+		http.addFilterAt(customLoginFilter, UsernamePasswordAuthenticationFilter.class);
+		http.addFilterBefore(jwtAuthenticationFilter(), CustomLoginFilter.class);
 
 		return http.build();
 	}
@@ -92,14 +102,6 @@ public class SecurityConfig {
 	@Bean
 	public JwtAuthenticationFilter jwtAuthenticationFilter() {
 		return new JwtAuthenticationFilter(jwtUtils, objectMapper);
-	}
-
-	public CustomLoginFilter customLoginFilter() throws Exception {
-		CustomLoginFilter customLoginFilter = new CustomLoginFilter(objectMapper, authenticationManager());
-		customLoginFilter.setAuthenticationSuccessHandler(new CustomAuthenticationSuccessHandler(jwtUtils, objectMapper));
-		customLoginFilter.setAuthenticationFailureHandler(new CustomAuthenticationFailureHandler(objectMapper));
-		customLoginFilter.setFilterProcessesUrl("/login");
-		return customLoginFilter;
 	}
 
 	@Bean
