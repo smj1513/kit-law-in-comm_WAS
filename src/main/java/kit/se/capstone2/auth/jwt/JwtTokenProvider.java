@@ -30,7 +30,7 @@ public class JwtTokenProvider {
 		RefreshToken refreshToken = generateRefreshToken(authentication.getName(), refreshClaims);
 
 		return JwtToken.builder()
-				.type("Bearer")
+				.type(JwtProperties.TOKEN_PREFIX)
 				.accessToken(accessToken)
 				.refreshToken(refreshToken.getToken())
 				.build();
