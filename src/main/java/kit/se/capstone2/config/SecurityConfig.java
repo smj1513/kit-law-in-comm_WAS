@@ -34,7 +34,7 @@ import java.util.List;
 
 import static org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl.fromHierarchy;
 
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
@@ -45,13 +45,11 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 		http.httpBasic(AbstractHttpConfigurer::disable);
 		http.formLogin(AbstractHttpConfigurer::disable);
 		//http.logout(AbstractHttpConfigurer::disable);
 		http.csrf(AbstractHttpConfigurer::disable);
-		http.requestCache(AbstractHttpConfigurer::disable);
-		http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
-
 		http.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 		http.addFilterAt(customLoginFilter(), UsernamePasswordAuthenticationFilter.class);
