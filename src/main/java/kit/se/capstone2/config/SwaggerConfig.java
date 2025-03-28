@@ -10,6 +10,11 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+@OpenAPIDefinition(
+		servers = {
+				@Server(url = "http://202.31.202.38:80/api", description = "Production Server"),
+				@Server(url = "http://localhost:8080/api", description = "Local Server")
+		})
 @Configuration
 public class SwaggerConfig {
 
@@ -20,10 +25,11 @@ public class SwaggerConfig {
 		SecurityRequirement securityRequirement = new SecurityRequirement().addList(securityJwtName);
 		Components components = new Components()
 				.addSecuritySchemes(
-						securityJwtName, new SecurityScheme().name(securityJwtName)
+						securityJwtName, new SecurityScheme()
 								.type(SecurityScheme.Type.HTTP)
-								.scheme("Bearer")
-								.bearerFormat(securityJwtName)
+								.scheme("bearer")  // 소문자로 변경
+								.bearerFormat("JWT")
+								.name("Authorization")  // 헤더 이름 명시
 				);
 		Info info = new Info()
 				.version("v1.0")
