@@ -48,6 +48,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		String token = null;
 		try {
 			token = jwtUtils.extractToken(authHeader);
+			log.info("token: {}", token);
 		}catch (JwtException e){
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
 			response.getOutputStream().write(objectMapper.writeValueAsBytes(CommonResponse.error(ErrorCode.INVALID_TOKEN)));

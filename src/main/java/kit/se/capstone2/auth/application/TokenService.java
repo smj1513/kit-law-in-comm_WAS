@@ -1,6 +1,5 @@
 package kit.se.capstone2.auth.application;
 
-import io.jsonwebtoken.lang.Collections;
 import kit.se.capstone2.auth.domain.enums.Role;
 import kit.se.capstone2.auth.interfaces.request.TokenRequest;
 import kit.se.capstone2.auth.jwt.JwtUtils;
@@ -9,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -22,7 +21,7 @@ public class TokenService {
 		jwtUtils.validateRefreshToken(refreshToken);
 		String username = jwtUtils.getUsername(refreshToken);
 		Role authorities = jwtUtils.getAuthorities(refreshToken);
-		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, UUID.randomUUID().toString(), Collections.of(authorities));
+		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, UUID.randomUUID().toString(), List.of(authorities));
 		return jwtUtils.generateToken(usernamePasswordAuthenticationToken);
 	}
 }
