@@ -94,7 +94,7 @@ public class SecurityConfig {
 				.requestMatchers("/api/answers/**").hasAuthority(Role.ROLE_LAWYER.name())
 				.requestMatchers("/api/users/**").permitAll()
 				.anyRequest()
-				.authenticated()
+				.permitAll()
 		);
 
 		CustomLoginFilter customLoginFilter = new CustomLoginFilter(objectMapper, authenticationManager());

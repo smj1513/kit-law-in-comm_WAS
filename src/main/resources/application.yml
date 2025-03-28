@@ -59,7 +59,7 @@ server:
   tomcat:
     connection-timeout: 180000
     max-http-response-header-size: 16KB
-    keep-alive-timeout: 1800000
+    keep-alive-timeout: 180000
   max-http-request-header-size: 16KB
   ssl:
     enabled: false
