@@ -54,9 +54,14 @@ public class SecurityConfig {
 		corsConfiguration.setAllowedHeaders(List.of("*"));
 		corsConfiguration.setExposedHeaders(List.of(
 				"Authorization",
+				"Authorization-refresh",
 				"Access-Control-Allow-Origin",
 				"Access-Control-Allow-Credentials",
-				"Content-Length"));
+				"Access-Control-Expose-Headers",
+				"Access-Control-Max-Age",
+				"Content-Length",
+				"Cache-Control",
+				"Content-Type"));
 		corsConfiguration.setMaxAge(3600L);
 		corsConfiguration.setAllowCredentials(true);
 

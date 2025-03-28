@@ -75,6 +75,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				account.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 		filterChain.doFilter(request, response);
+		if (!response.containsHeader("Authorization")) {
+			response.setHeader("Authorization", authHeader);
+		}
 		// 응답 헤더 로깅
 		Collection<String> headerNames = response.getHeaderNames();
 		for (String headerName : headerNames) {
