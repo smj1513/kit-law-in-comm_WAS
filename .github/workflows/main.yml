@@ -51,7 +51,7 @@ jobs:
 
       - name: Run Docker container
         run: |
-          docker run -d --restart=always --network llm-network --name capstone2 -p 8080:8080 -e ACTIVE_PROFILE=prod capstone2:latest
+          docker run -d --restart=always --network host --name capstone2 -p 8080:8080 -e ACTIVE_PROFILE=prod capstone2:latest
           
 #      - name: Check Docker network
 #        run: |
