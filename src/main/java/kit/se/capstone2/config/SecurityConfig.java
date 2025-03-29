@@ -2,6 +2,7 @@ package kit.se.capstone2.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kit.se.capstone2.auth.domain.enums.Role;
+import kit.se.capstone2.auth.jwt.JwtProperties;
 import kit.se.capstone2.auth.jwt.JwtUtils;
 import kit.se.capstone2.auth.security.entrypoint.JwtAuthenticationEntryPoint;
 import kit.se.capstone2.auth.security.filter.CustomLoginFilter;
@@ -53,8 +54,7 @@ public class SecurityConfig {
 		corsConfiguration.setAllowedMethods(List.of("*"));
 		corsConfiguration.setAllowedHeaders(List.of("*"));
 		corsConfiguration.setExposedHeaders(List.of(
-				"Authorization",
-				"Authorization-refresh",
+				JwtProperties.AUTH_HEADER,
 				"Access-Control-Allow-Origin",
 				"Access-Control-Allow-Credentials",
 				"Access-Control-Expose-Headers",
