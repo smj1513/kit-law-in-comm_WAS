@@ -101,7 +101,6 @@ public class SecurityConfig {
 		http.headers(header -> header
 				.addHeaderWriter(
 						(req, res) ->
-
 								res.setHeader("Connection", "close")
 				)
 				.cacheControl(HeadersConfigurer.CacheControlConfig::disable)
