@@ -18,11 +18,13 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.header.writers.CrossOriginResourcePolicyHeaderWriter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.CorsUtils;
@@ -96,7 +98,17 @@ public class SecurityConfig {
 				.permitAll()
 		);
 
-		http.headers(header -> header.addHeaderWriter((req, res) -> res.setHeader("Connection", "close")));
+		http.headers(header -> header
+				.addHeaderWriter(
+						(req, res) ->
+
+								res.setHeader("Connection", "close")
+				)
+				.cacheControl(HeadersConfigurer.CacheControlConfig::disable)
+				.crossOriginResourcePolicy(corp-> corp
+						.policy(CrossOriginResourcePolicyHeaderWriter.CrossOriginResourcePolicy.CROSS_ORIGIN)
+				)
+		);
 
 		CustomLoginFilter customLoginFilter = new CustomLoginFilter(objectMapper, authenticationManager());
 		customLoginFilter.setAuthenticationSuccessHandler(new CustomAuthenticationSuccessHandler(jwtUtils, objectMapper));
