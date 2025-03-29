@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
-import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,7 +23,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.CorsUtils;
@@ -75,15 +73,11 @@ public class SecurityConfig {
 		http.httpBasic(AbstractHttpConfigurer::disable);
 		http.formLogin(AbstractHttpConfigurer::disable);
 		http.csrf(AbstractHttpConfigurer::disable);
-
-		http.cors(cors->cors.configurationSource(corsConfigurationSource()));
+		http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 		http.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
 		http.exceptionHandling(exceptionHandling -> exceptionHandling
 				.authenticationEntryPoint(jwtAuthenticationEntryPoint()));
-
-
-
 
 		http.authorizeHttpRequests(auth -> auth
 				.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
@@ -102,6 +96,8 @@ public class SecurityConfig {
 				.permitAll()
 		);
 
+		http.headers(header -> header.addHeaderWriter((req, res) -> res.setHeader("Connection", "close")));
+
 		CustomLoginFilter customLoginFilter = new CustomLoginFilter(objectMapper, authenticationManager());
 		customLoginFilter.setAuthenticationSuccessHandler(new CustomAuthenticationSuccessHandler(jwtUtils, objectMapper));
 		customLoginFilter.setAuthenticationFailureHandler(new CustomAuthenticationFailureHandler(objectMapper));
@@ -113,12 +109,13 @@ public class SecurityConfig {
 		return http.build();
 	}
 
+
 	@Bean
 	public RoleHierarchy roleHierarchy() {
 		return fromHierarchy("""
-						ROLE_ADMIN > ROLE_LAWYER
-						ROLE_LAWYER > ROLE_USER
-						""");
+				ROLE_ADMIN > ROLE_LAWYER
+				ROLE_LAWYER > ROLE_USER
+				""");
 	}
 
 	@Bean

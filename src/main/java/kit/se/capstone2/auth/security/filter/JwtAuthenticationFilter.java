@@ -76,13 +76,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 		filterChain.doFilter(request, response);
 
-		response.setHeader("Access-Control-Allow-Headers", "Authorization");
 		// 응답 헤더 로깅
 		Collection<String> headerNames = response.getHeaderNames();
 		for (String headerName : headerNames) {
 			String headerValue = response.getHeader(headerName);
 			log.info("Response Header: {} = {}", headerName, headerValue);
 		}
-		response.flushBuffer();
 	}
 }
