@@ -95,7 +95,7 @@ public class SecurityConfig {
 				.requestMatchers("/api/question/**").hasAuthority(Role.ROLE_LAWYER.name())
 				.requestMatchers("/api/answers/**").hasAuthority(Role.ROLE_LAWYER.name())
 				.anyRequest()
-				.permitAll()
+				.authenticated()
 		);
 
 		http.headers(header -> header
