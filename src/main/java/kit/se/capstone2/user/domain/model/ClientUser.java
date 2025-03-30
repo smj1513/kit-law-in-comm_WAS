@@ -19,6 +19,5 @@ import java.time.LocalDate;
 @SuperBuilder
 public class ClientUser extends BaseUser {
 	private String nickname;
-	private LocalDate birthDate;
 
 }

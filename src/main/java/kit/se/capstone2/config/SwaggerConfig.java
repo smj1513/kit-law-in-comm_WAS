@@ -11,11 +11,6 @@ import kit.se.capstone2.auth.jwt.JwtProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@OpenAPIDefinition(
-		servers = {
-				@Server(url = "http://202.31.202.38:80/api", description = "Production Server"),
-				@Server(url = "http://localhost:8080/api", description = "Local Server")
-		})
 @Configuration
 public class SwaggerConfig {
 
@@ -31,7 +26,7 @@ public class SwaggerConfig {
 								.type(SecurityScheme.Type.APIKEY)
 								.in(SecurityScheme.In.HEADER)
 								.name(JwtProperties.AUTH_HEADER)
-								.scheme("bearer")
+								.description("반드시 앞에 Bearer 를 붙여서 엑세스 토큰 입력")
 				);
 		Info info = new Info()
 				.version("v1.0")

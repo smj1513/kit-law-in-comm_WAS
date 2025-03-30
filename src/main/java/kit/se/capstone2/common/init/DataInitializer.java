@@ -96,7 +96,7 @@ public class DataInitializer {
 				return legalSpecialityInfo;
 			}).toList();
 
-			aiLawyer.setLegalSpecialties(list);
+			aiLawyer.setLegalSpecialities(list);
 			List<Career> careers = List.of(Career.builder().content("-").lawyer(aiLawyer).build());
 			aiLawyer.setCareers(careers);
 			aiLawyer.setEducations(List.of(Education.builder().content("국립금오공과대학교 컴퓨터공학부 소프트웨어 공학 전공").lawyer(aiLawyer).build()));

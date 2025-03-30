@@ -9,6 +9,7 @@ import kit.se.capstone2.reports.domain.model.Report;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,9 @@ public abstract class BaseUser {
 	private Long id;
 
 	private String name;
+
+
+	private LocalDate birthDate;
 
 	@Column(unique = true)
 	private String phoneNumber;

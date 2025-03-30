@@ -25,4 +25,9 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 			select q from Question q where q.reportsCount >= :reportsCount
 			""")
 	Page<Question> findByReportsCount(int reportsCount, Pageable pageable);
+
+	@Query(value = """
+			select q from Question q where q.author.id = :authorId
+			""")
+	Page<Question> findByAuthorId(Long authorId, Pageable pageable);
 }

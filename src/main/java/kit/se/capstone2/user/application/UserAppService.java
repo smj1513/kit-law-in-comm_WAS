@@ -4,7 +4,6 @@ import kit.se.capstone2.auth.domain.enums.Role;
 import kit.se.capstone2.auth.domain.model.Account;
 import kit.se.capstone2.common.api.code.ErrorCode;
 import kit.se.capstone2.common.exception.BusinessLogicException;
-import kit.se.capstone2.file.domain.model.ProfileImageProperty;
 import kit.se.capstone2.user.domain.enums.ApprovalStatus;
 import kit.se.capstone2.user.domain.model.BaseUser;
 import kit.se.capstone2.user.domain.model.ClientUser;
@@ -63,6 +62,7 @@ public class UserAppService {
 						.name(request.getName())
 						.phoneNumber(request.getPhoneNumber())
 						.description(request.getDescription())
+						.birthDate(request.getBirthDate())
 						.build(),
 				licenseImage);
 
@@ -89,7 +89,7 @@ public class UserAppService {
 			return care;
 		}).toList();
 
-		lawyer.setLegalSpecialties(legalSpecialityInfos);
+		lawyer.setLegalSpecialities(legalSpecialityInfos);
 		lawyer.setEducations(educations);
 		lawyer.addAccount(account);
 		lawyer.setCareers(careers);

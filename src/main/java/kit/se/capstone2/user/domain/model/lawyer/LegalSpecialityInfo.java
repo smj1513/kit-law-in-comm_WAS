@@ -2,16 +2,14 @@ package kit.se.capstone2.user.domain.model.lawyer;
 
 import jakarta.persistence.*;
 import kit.se.capstone2.user.domain.enums.LegalSpeciality;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class LegalSpecialityInfo {
 	@Id
 	@GeneratedValue

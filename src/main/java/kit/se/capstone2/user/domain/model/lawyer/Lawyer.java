@@ -3,6 +3,7 @@ package kit.se.capstone2.user.domain.model.lawyer;
 import jakarta.persistence.*;
 import kit.se.capstone2.file.domain.model.LicenseImageProperty;
 import kit.se.capstone2.posts.answer.domain.model.Answer;
+import kit.se.capstone2.user.domain.enums.LegalSpeciality;
 import kit.se.capstone2.user.domain.model.BaseUser;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -19,10 +20,9 @@ import java.util.List;
 @SuperBuilder
 public class Lawyer extends BaseUser {
 
-
 	private String description;
 
-	@OneToOne(mappedBy = "lawyer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToOne(mappedBy = "lawyer", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	private OfficeInfo officeInfo;
 
 	@OneToOne(mappedBy = "lawyer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -33,15 +33,15 @@ public class Lawyer extends BaseUser {
 	@Builder.Default
 	private List<Answer> answers = new ArrayList<>();
 
-	@OneToMany(mappedBy = "lawyer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "lawyer", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	@Builder.Default
-	private List<LegalSpecialityInfo> legalSpecialties = new ArrayList<>();
+	private List<LegalSpecialityInfo> legalSpecialities = new ArrayList<>();
 
-	@OneToMany(mappedBy = "lawyer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "lawyer", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	@Builder.Default
 	private List<Career> careers = new ArrayList<>();
 
-	@OneToMany(mappedBy = "lawyer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "lawyer", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	@Builder.Default
 	private List<Education> educations = new ArrayList<>();
 
@@ -62,8 +62,37 @@ public class Lawyer extends BaseUser {
 	}
 
 	public void addSpeciality(LegalSpecialityInfo legalSpecialityInfo) {
-		this.legalSpecialties.add(legalSpecialityInfo);
+		this.legalSpecialities.add(legalSpecialityInfo);
 		legalSpecialityInfo.setLawyer(this);
+	}
+
+	public void updateSpeciality(List<LegalSpeciality> legalSpecialityInfos) {
+		this.legalSpecialities.clear();
+		this.legalSpecialities.addAll(legalSpecialityInfos.stream().map(legalSpeciality -> {
+			LegalSpecialityInfo info = LegalSpecialityInfo.builder().legalSpeciality(legalSpeciality).build();
+			info.setLawyer(this);
+			return info;
+		}).toList());
+	}
+
+	public void updateCareers(List<String> careers) {
+		this.careers.clear();
+		this.careers.addAll(careers.stream().map(career -> {
+			Career care = new Career();
+			care.setLawyer(this);
+			care.setContent(career);
+			return care;
+		}).toList());
+	}
+
+	public void updateEducations(List<String> educations) {
+		this.educations.clear();
+		this.educations.addAll(educations.stream().map(education -> {
+			Education edu = new Education();
+			edu.setLawyer(this);
+			edu.setContent(education);
+			return edu;
+		}).toList());
 	}
 
 	@Override

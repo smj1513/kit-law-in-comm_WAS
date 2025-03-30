@@ -12,7 +12,8 @@ public enum EntityCode {
 	USER(3),
 	FILE(4),
 	QUESTION(5),
-	TOKEN(6);
+	TOKEN(6),
+	REPORT(7);
 
 	private final Integer value;
 }

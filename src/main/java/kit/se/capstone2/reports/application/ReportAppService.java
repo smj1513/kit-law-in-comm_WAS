@@ -16,6 +16,8 @@ import kit.se.capstone2.reports.interfaces.request.ReportRequest;
 import kit.se.capstone2.reports.interfaces.response.ReportResponse;
 import kit.se.capstone2.user.domain.model.BaseUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,8 +25,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 public class ReportAppService {
-	private final QuestionReportRepository reportRepository;
+	private final QuestionReportRepository questionReportRepository;
 	private final QuestionRepository questionRepository;
+
 	private final AnswerReportRepository answerReportRepository;
 	private final SecurityUtils securityUtils;
 	private final AnswerRepository answerRepository;
@@ -33,12 +36,17 @@ public class ReportAppService {
 		Account currentUser = securityUtils.getCurrentUser();
 		BaseUser user = currentUser.getUser();
 		Question question = questionRepository.findById(id).orElseThrow(() -> new BusinessLogicException(ErrorCode.NOT_FOUND_ENTITY, "해당하는 질문이 존재하지 않습니다."));
+
+		if(questionReportRepository.existsByQuestionAndReporter(question, user)){
+			throw new BusinessLogicException(ErrorCode.ALREADY_REPORTED, "이미 신고한 질문입니다.");
+		}
+
 		QuestionReport report = QuestionReport.builder()
 				.reason(request.getReason())
 				.build();
 		question.addReport(report);
 		user.addReport(report);
-		QuestionReport save = reportRepository.save(report);
+		QuestionReport save = questionReportRepository.save(report);
 
 		return ReportResponse.QuestionReportRes
 				.builder()
@@ -52,10 +60,13 @@ public class ReportAppService {
 	public ReportResponse.AnswerReportRes reportAnswer(Long id, ReportRequest.AnswerReportReq request) {
 		BaseUser user = securityUtils.getCurrentUser().getUser();
 		Answer answer = answerRepository.findById(id).orElseThrow(() -> new BusinessLogicException(ErrorCode.NOT_FOUND_ENTITY, "해당하는 답변이 존재하지 않습니다."));
-
 		AnswerReport report = AnswerReport.builder()
 				.reason(request.getReason())
 				.build();
+
+		if(answerReportRepository.existsByAnswerAndReporter(answer, user)){{
+			throw new BusinessLogicException(ErrorCode.ALREADY_REPORTED, "이미 신고한 답변입니다.");}
+		}
 
 		answer.addReport(report);
 		user.addReport(report);
@@ -68,5 +79,19 @@ public class ReportAppService {
 				.reporterName(user.getName())
 				.createdAt(save.getCreatedAt())
 				.build();
+	}
+
+	@Transactional(readOnly = true)
+	public Page<ReportResponse.AnswerReportDetails> getAnswerReportDetails(Long answerId, int page, int size) {
+		PageRequest pageRequest = PageRequest.of(page, size);
+		Page<AnswerReport> answerReports = answerReportRepository.findByAnswerId(answerId, pageRequest);
+		return answerReports.map(ReportResponse.AnswerReportDetails::from);
+	}
+
+	@Transactional(readOnly = true)
+	public Page<ReportResponse.QuestionReportDetails> getQuestionReportDetails(Long questionId, int page, int size) {
+		PageRequest pageRequest = PageRequest.of(page, size);
+		Page<QuestionReport> questionReports = questionReportRepository.findByQuestionId(questionId, pageRequest);
+		return questionReports.map(ReportResponse.QuestionReportDetails::from);
 	}
 }

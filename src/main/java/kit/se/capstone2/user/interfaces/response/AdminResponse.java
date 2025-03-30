@@ -5,9 +5,11 @@ import kit.se.capstone2.file.interfaces.response.FileResponse;
 import kit.se.capstone2.posts.answer.domain.model.Answer;
 import kit.se.capstone2.posts.question.domain.model.Question;
 import kit.se.capstone2.user.domain.enums.ApprovalStatus;
+import kit.se.capstone2.user.domain.enums.LegalSpeciality;
 import kit.se.capstone2.user.domain.model.lawyer.Career;
 import kit.se.capstone2.user.domain.model.lawyer.Education;
 import kit.se.capstone2.user.domain.model.lawyer.Lawyer;
+import kit.se.capstone2.user.interfaces.OfficeInfoDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -63,6 +65,8 @@ public class AdminResponse {
 		private String title;
 		private String content;
 
+		private LegalSpeciality legalSpeciality;
+
 		private String createdAt;
 		private String updatedAt;
 
@@ -79,6 +83,7 @@ public class AdminResponse {
 					.updatedAt(question.getUpdatedAt().toString())
 					.viewCount(question.getViewCount())
 					.reportCount(question.getReportsCount())
+					.legalSpeciality(question.getLegalSpeciality())
 					.build();
 		}
 	}
@@ -117,6 +122,8 @@ public class AdminResponse {
 		@Builder.Default
 		private List<String> educations = new ArrayList<>();
 
+		private OfficeInfoDTO officeInfo;
+
 		private ApprovalStatus approvalStatus;
 
 		private FileResponse licenseImageInfo;
@@ -138,6 +145,7 @@ public class AdminResponse {
 					.description(lawyer.getDescription())
 					.educations(lawyer.getEducations().stream().map(Education::getContent).toList())
 					.licenseImageInfo(FileResponse.from(lawyer.getLicense()))
+					.officeInfo(OfficeInfoDTO.from(lawyer.getOfficeInfo()))
 					.build();
 		}
 	}

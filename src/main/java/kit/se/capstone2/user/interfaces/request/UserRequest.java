@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import kit.se.capstone2.user.domain.enums.LegalSpeciality;
 import kit.se.capstone2.user.domain.model.lawyer.OfficeInfo;
+import kit.se.capstone2.user.interfaces.OfficeInfoDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -40,6 +41,7 @@ public class UserRequest {
 
 		private String phoneNumber;
 		private String description;
+		private LocalDate birthDate;
 
 		@Builder.Default
 		private List<LegalSpeciality> legalSpecialties = new ArrayList<>();
@@ -48,23 +50,6 @@ public class UserRequest {
 		@Builder.Default
 		private List<String> educations = new ArrayList<>();
 
-		private OfficeInfo officeInfo;
-	}
-	@Data
-	@Builder
-	@NoArgsConstructor
-	@AllArgsConstructor
-	public static class OfficeInfo{
-		private String officeName;
-		private String officePhoneNumber;
-		private String officeAddress;
-
-		public kit.se.capstone2.user.domain.model.lawyer.OfficeInfo toEntity(){
-			return kit.se.capstone2.user.domain.model.lawyer.OfficeInfo.builder()
-					.address(officeAddress)
-					.name(officeName)
-					.phoneNumber(officePhoneNumber)
-					.build();
-		}
+		private OfficeInfoDTO officeInfo;
 	}
 }

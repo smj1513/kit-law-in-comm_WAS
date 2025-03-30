@@ -5,6 +5,7 @@ import kit.se.capstone2.auth.domain.model.Account;
 import kit.se.capstone2.auth.domain.repository.AccountRepository;
 import kit.se.capstone2.common.api.code.ErrorCode;
 import kit.se.capstone2.common.exception.CustomAuthorizationException;
+import kit.se.capstone2.user.domain.model.ClientUser;
 import kit.se.capstone2.user.domain.model.lawyer.Lawyer;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,15 @@ public class SecurityUtils {
 			return (Lawyer) currentUser.getUser();
 		}else{
 			throw new CustomAuthorizationException(ErrorCode.NO_PERMISSION, "변호사가 아닙니다.");
+		}
+	}
+
+	public ClientUser getCurrentClientUser() {
+		Account currentUser = getCurrentUser();
+		if(currentUser.getRole().equals(Role.ROLE_USER) || currentUser.getRole().equals(Role.ROLE_ADMIN)){
+			return (ClientUser) currentUser.getUser();
+		}else{
+			throw new CustomAuthorizationException(ErrorCode.NO_PERMISSION, "일반 사용자가 아닙니다.");
 		}
 	}
 }

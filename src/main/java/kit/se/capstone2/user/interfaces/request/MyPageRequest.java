@@ -2,8 +2,10 @@ package kit.se.capstone2.user.interfaces.request;
 
 
 import kit.se.capstone2.user.domain.enums.LegalSpeciality;
+import kit.se.capstone2.user.interfaces.OfficeInfoDTO;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,7 @@ public class MyPageRequest {
 	public static class UpdateGeneralInfo {
 		private String name;
 		private String nickname;
-		private String birth;
+		private LocalDate birth;
 	}
 
 	@Data
@@ -24,11 +26,10 @@ public class MyPageRequest {
 	@AllArgsConstructor
 	@Builder
 	public static class UpdateLawyerInfo {
-		private String name;
 		private String phoneNumber;
 		private String description;
 
-		private OfficeInfo officeInfo;
+		private OfficeInfoDTO officeInfo;
 
 		@Builder.Default
 		private List<String> careers = new ArrayList<>();
@@ -37,16 +38,7 @@ public class MyPageRequest {
 		private List<String> educations = new ArrayList<>();
 
 		@Builder.Default
-		private List<LegalSpeciality> legalSpecialties = new ArrayList<>();
+		private List<LegalSpeciality> legalSpecialities = new ArrayList<>();
 	}
 
-	@Data
-	@NoArgsConstructor
-	@Builder
-	@AllArgsConstructor
-	public static class OfficeInfo{
-		private String officeName;
-		private String officePhoneNumber;
-		private String officeAddress;
-	}
 }
