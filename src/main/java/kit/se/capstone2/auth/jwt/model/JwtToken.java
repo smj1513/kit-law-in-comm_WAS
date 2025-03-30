@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JwtToken {
+	private String header;
 	private String type;
 	private String accessToken;
 	private String refreshToken;

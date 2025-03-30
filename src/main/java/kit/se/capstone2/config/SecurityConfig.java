@@ -99,11 +99,6 @@ public class SecurityConfig {
 		);
 
 		http.headers(header -> header
-				.addHeaderWriter(
-						(req, res) ->
-								res.setHeader("Connection", "close")
-				)
-				.cacheControl(HeadersConfigurer.CacheControlConfig::disable)
 				.crossOriginResourcePolicy(corp-> corp
 						.policy(CrossOriginResourcePolicyHeaderWriter.CrossOriginResourcePolicy.CROSS_ORIGIN)
 				)
