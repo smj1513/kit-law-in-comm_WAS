@@ -91,6 +91,7 @@ public class SecurityConfig {
 				).permitAll()
 				.requestMatchers(HttpMethod.GET, "/api/questions/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/api/answers/**").permitAll()
+				.requestMatchers(HttpMethod.GET, "/api/reports/**").hasAnyAuthority(Role.ROLE_ADMIN.name())
 				.requestMatchers("/api/users/admin/**").hasAuthority(Role.ROLE_ADMIN.name())
 				.requestMatchers("/api/question/**").hasAuthority(Role.ROLE_LAWYER.name())
 				.requestMatchers("/api/answers/**").hasAuthority(Role.ROLE_LAWYER.name())
