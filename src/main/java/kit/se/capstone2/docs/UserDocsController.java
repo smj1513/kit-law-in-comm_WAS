@@ -7,11 +7,13 @@ import io.swagger.v3.oas.annotations.media.Encoding;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Pattern;
 import kit.se.capstone2.common.api.code.SuccessCode;
 import kit.se.capstone2.common.api.response.CommonResponse;
 import kit.se.capstone2.user.interfaces.request.UserRequest;
 import kit.se.capstone2.user.interfaces.response.UserResponse;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -19,12 +21,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+
+@Validated
 @Tag(name = "사용자 관련 API", description = "사용자 관련 API 문서")
 public interface UserDocsController {
 
 	@Operation(summary = "일반 사용자 회원 가입", description = "일반 사용자로 가입한다.")
 	@ApiResponse(responseCode = "200", description = "성공")
-	CommonResponse<UserResponse.General> joinGeneral(UserRequest.JoinGeneralUser request);
+	CommonResponse<UserResponse.General> joinGeneral(@Validated UserRequest.JoinGeneralUser request);
 
 	@RequestBody(content = @Content(
 			encoding = @Encoding(name = "data", contentType = MediaType.APPLICATION_JSON_VALUE)))
@@ -45,5 +49,7 @@ public interface UserDocsController {
 
 	@Operation(summary = "닉네임 중복 체크", description = "닉네임 중복을 확인한다.")
 	@ApiResponse(responseCode = "200", description = "성공")
-	CommonResponse<Boolean> checkNicknameDuplication(@RequestParam String nickname);
+	CommonResponse<Boolean> checkNicknameDuplication(
+	                                                 @Pattern(regexp = "^[가-힣a-z0-9]{2,8}", message = "닉네임은 2~8자의 한글 및 영문 대소문자와 숫자로 이루어져야 합니다.")
+	                                                 String nickname);
 }
