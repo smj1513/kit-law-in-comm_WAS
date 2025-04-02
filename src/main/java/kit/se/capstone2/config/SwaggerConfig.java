@@ -14,12 +14,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
 @Configuration
-@OpenAPIDefinition(
-		servers = {
-				@Server(url = "http://202.31.202.38:80/api", description = "Production Server"),
-				@Server(url = "http://localhost:8080", description = "Local Server")
-		}
-)
 public class SwaggerConfig {
 
 	@Bean

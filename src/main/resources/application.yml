@@ -58,6 +58,7 @@ server:
       charset: UTF-8
       enabled: true
       force: true
+    context-path: /api
   tomcat:
     connection-timeout: 180000
     max-http-response-header-size: 16KB
