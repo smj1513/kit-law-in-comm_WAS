@@ -3,6 +3,7 @@ package kit.se.capstone2.common.init;
 import jakarta.annotation.PostConstruct;
 import kit.se.capstone2.auth.domain.enums.Role;
 import kit.se.capstone2.auth.domain.model.Account;
+import kit.se.capstone2.auth.domain.repository.AccountRepository;
 import kit.se.capstone2.user.domain.enums.ApprovalStatus;
 import kit.se.capstone2.user.domain.enums.LegalSpeciality;
 import kit.se.capstone2.user.domain.model.ClientUser;
@@ -10,6 +11,7 @@ import kit.se.capstone2.user.domain.model.lawyer.*;
 import kit.se.capstone2.user.domain.repository.ClientUserRepository;
 import kit.se.capstone2.user.domain.repository.LawyerRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -21,11 +23,18 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Log4j2
 public class DataInitializer {
 	private final InitService initService;
+	private final AccountRepository accountRepository;
+
 
 	@PostConstruct
 	public void init() {
+		if(accountRepository.count() > 0) {
+			log.info("Account data already exists.");
+			return;
+		}
 		initService.init();
 		initService.initAIAssistant();
 	}
