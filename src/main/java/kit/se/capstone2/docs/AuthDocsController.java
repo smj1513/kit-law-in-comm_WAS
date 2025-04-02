@@ -5,11 +5,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kit.se.capstone2.auth.interfaces.request.TokenRequest;
-import kit.se.capstone2.auth.jwt.model.JwtToken;
-import kit.se.capstone2.common.api.code.SuccessCode;
+import kit.se.capstone2.auth.interfaces.response.LoginResponse;
 import kit.se.capstone2.common.api.response.CommonResponse;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Tag(name = "인증/인가 관련 API", description = "인증 관련 API")
 public interface AuthDocsController {
@@ -21,5 +18,5 @@ public interface AuthDocsController {
 			@ApiResponse(responseCode = "4000604", description = "JWT 토큰 갱신 실패 - 토큰 검증 실패")
 	}
 	)
-	CommonResponse<JwtToken> refresh(TokenRequest.Refresh jwtToken);
+	CommonResponse<LoginResponse> refresh(TokenRequest.Refresh jwtToken);
 }

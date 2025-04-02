@@ -1,0 +1,14 @@
+package kit.se.capstone2.chat.domain.repository;
+
+
+import kit.se.capstone2.chat.domain.model.ChatRoom;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
+
+	@Query("select distinct cr from ChatRoom cr where cr.creator.id = :userId or cr.participant.id = :userId")
+	Slice<ChatRoom> findByUserId(Long userId, Pageable pageable);
+}

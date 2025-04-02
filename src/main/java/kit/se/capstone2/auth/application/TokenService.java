@@ -3,7 +3,7 @@ package kit.se.capstone2.auth.application;
 import kit.se.capstone2.auth.domain.enums.Role;
 import kit.se.capstone2.auth.interfaces.request.TokenRequest;
 import kit.se.capstone2.auth.jwt.JwtUtils;
-import kit.se.capstone2.auth.jwt.model.JwtToken;
+import kit.se.capstone2.auth.interfaces.response.LoginResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import java.util.UUID;
 public class TokenService {
 	private final JwtUtils jwtUtils;
 
-	public JwtToken refresh(TokenRequest.Refresh request) {
+	public LoginResponse refresh(TokenRequest.Refresh request) {
 		String refreshToken = request.getRefreshToken();
 		jwtUtils.validateRefreshToken(refreshToken);
 		String username = jwtUtils.getUsername(refreshToken);

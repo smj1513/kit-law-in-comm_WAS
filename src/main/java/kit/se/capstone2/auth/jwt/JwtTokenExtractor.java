@@ -45,10 +45,7 @@ public class JwtTokenExtractor {
 	}
 
 	public String extractToken(String authHeader) {
-		//StringUtils.hasText(authHeader) &&
-		log.info("authHeader: {}", authHeader);
 		if (StringUtils.hasText(authHeader) && authHeader.startsWith(JwtProperties.TOKEN_PREFIX)) {
-			log.info("if 로 들어옴 extractToken: {}", authHeader);
 			return authHeader.substring(JwtProperties.TOKEN_PREFIX.length());
 		}
 		else{

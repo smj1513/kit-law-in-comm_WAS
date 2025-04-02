@@ -23,7 +23,8 @@ public enum ErrorCode {
 	REFRESH_TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, EntityCode.TOKEN ,ExceptionCode.EXPIRATION , "RefreshToken Expired" ),
 	NO_PERMISSION(HttpStatus.FORBIDDEN, EntityCode.USER, ExceptionCode.BAD_REQUEST ,"You don't have Authority" ),
 	INVAILD_REQUEST(HttpStatus.BAD_REQUEST, EntityCode.TOKEN , ExceptionCode.UNAUTHORIZED, "Invalid Request"),
-	ALREADY_REPORTED(HttpStatus.TOO_MANY_REQUESTS, EntityCode.REPORT , ExceptionCode.CONFLICT, "Already Reported");
+	ALREADY_REPORTED(HttpStatus.TOO_MANY_REQUESTS, EntityCode.REPORT , ExceptionCode.CONFLICT, "Already Reported"),
+	CHAT_ROOM_CREATED_FAILED(HttpStatus.CONFLICT, EntityCode.CHAT , ExceptionCode.COMMON, "ChatRoom Created Failed" );
 
 	private final HttpStatus httpStatus;
 	private final EntityCode entityCode;

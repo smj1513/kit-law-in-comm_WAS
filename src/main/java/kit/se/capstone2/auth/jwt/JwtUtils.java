@@ -6,7 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import kit.se.capstone2.auth.domain.enums.Role;
-import kit.se.capstone2.auth.jwt.model.JwtToken;
+import kit.se.capstone2.auth.interfaces.response.LoginResponse;
 import kit.se.capstone2.common.api.code.ErrorCode;
 import kit.se.capstone2.common.exception.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +15,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.TimeZone;
 
 @Component
 @RequiredArgsConstructor
@@ -43,7 +40,7 @@ public class JwtUtils {
 		provider.setKey(key);
 	}
 
-	public JwtToken generateToken(Authentication auth){
+	public LoginResponse generateToken(Authentication auth){
 		return provider.generateToken(auth);
 	}
 

@@ -1,7 +1,7 @@
 package kit.se.capstone2.auth.jwt;
 
 import io.jsonwebtoken.Jwts;
-import kit.se.capstone2.auth.jwt.model.JwtToken;
+import kit.se.capstone2.auth.interfaces.response.LoginResponse;
 import kit.se.capstone2.auth.jwt.model.RefreshToken;
 import lombok.Setter;
 import org.springframework.security.core.Authentication;
@@ -20,16 +20,16 @@ public class JwtTokenProvider {
 
 	private SecretKey key;
 
-	public JwtToken generateToken(Authentication authentication) {
+	public LoginResponse generateToken(Authentication authentication) {
 		String authorities = authentication.getAuthorities().stream()
 				.map(GrantedAuthority::getAuthority)
 				.collect(Collectors.joining(","));
 		Map<String, Object> accessClaims = Map.of(JwtProperties.ROLE, authorities, JwtProperties.CATEGORY, JwtProperties.ACCESS_TOKEN_TYPE);
-		Map<String, Object> refreshClaims = Map.of(JwtProperties.CATEGORY, JwtProperties.REFRESH_TOKEN_TYPE);
+		Map<String, Object> refreshClaims = Map.of(JwtProperties.ROLE, authorities, JwtProperties.CATEGORY, JwtProperties.REFRESH_TOKEN_TYPE);
 		String accessToken = generateAccessToken(authentication.getName(), accessClaims);
 		RefreshToken refreshToken = generateRefreshToken(authentication.getName(), refreshClaims);
 
-		return JwtToken.builder()
+		return LoginResponse.builder()
 				.header(JwtProperties.AUTH_HEADER)
 				.type(JwtProperties.TOKEN_PREFIX)
 				.accessToken(accessToken)

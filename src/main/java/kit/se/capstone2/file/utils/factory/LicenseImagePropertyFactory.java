@@ -1,4 +1,4 @@
-package kit.se.capstone2.file.service.factory;
+package kit.se.capstone2.file.utils.factory;
 
 import kit.se.capstone2.file.domain.model.FileProperty;
 import kit.se.capstone2.file.domain.model.LicenseImageProperty;

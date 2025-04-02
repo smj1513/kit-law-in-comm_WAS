@@ -2,7 +2,6 @@ package kit.se.capstone2.auth.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletOutputStream;
@@ -16,21 +15,14 @@ import kit.se.capstone2.common.api.code.ErrorCode;
 import kit.se.capstone2.common.api.response.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Writer;
 import java.util.Collection;
-import java.util.UUID;
-
-import static java.nio.file.Files.write;
 
 @RequiredArgsConstructor
 @Log4j2
@@ -38,15 +30,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private final JwtUtils jwtUtils;
 	private final ObjectMapper objectMapper;
+
+
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 		String authHeader = request.getHeader(JwtProperties.AUTH_HEADER);
-
-		if (authHeader == null || CorsUtils.isPreFlightRequest(request)) {
+		if (CorsUtils.isPreFlightRequest(request)) {
 			filterChain.doFilter(request, response);
 			return;
 		}
-		log.info("Auth Header: {}", authHeader);
+
+		if (authHeader == null) {
+			SecurityContextHolder.clearContext();  // 중요: 기존 인증 정보 제거
+			filterChain.doFilter(request, response);
+			return;
+		}
 		String token = jwtUtils.extractToken(authHeader);
 		try {
 			jwtUtils.isExpired(token);
@@ -75,12 +73,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				account.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 		filterChain.doFilter(request, response);
-
-		// 응답 헤더 로깅
-		Collection<String> headerNames = response.getHeaderNames();
-		for (String headerName : headerNames) {
-			String headerValue = response.getHeader(headerName);
-			log.info("Response Header: {} = {}", headerName, headerValue);
-		}
+//
+//		// 응답 헤더 로깅
+//		Collection<String> headerNames = response.getHeaderNames();
+//		for (String headerName : headerNames) {
+//			String headerValue = response.getHeader(headerName);
+//			log.info("Response Header: {} = {}", headerName, headerValue);
+//		}
 	}
 }

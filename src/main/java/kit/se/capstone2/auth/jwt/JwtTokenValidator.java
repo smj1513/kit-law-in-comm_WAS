@@ -1,6 +1,8 @@
 package kit.se.capstone2.auth.jwt;
 
 import io.jsonwebtoken.*;
+import kit.se.capstone2.common.api.code.ErrorCode;
+import kit.se.capstone2.common.exception.BusinessLogicException;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
@@ -25,5 +27,7 @@ public class JwtTokenValidator {
 				.getExpiration()
 				.before(Date.from(LocalDateTime.now().atZone(TimeZone.getDefault().toZoneId()).toInstant()));
 	}
+
+
 
 }

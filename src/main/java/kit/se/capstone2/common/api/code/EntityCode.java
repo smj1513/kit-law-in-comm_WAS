@@ -13,7 +13,8 @@ public enum EntityCode {
 	FILE(4),
 	QUESTION(5),
 	TOKEN(6),
-	REPORT(7);
+	REPORT(7),
+	CHAT(8);
 
 	private final Integer value;
 }

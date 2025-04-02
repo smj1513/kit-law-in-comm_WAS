@@ -3,6 +3,7 @@ package kit.se.capstone2.user.domain.model;
 import jakarta.persistence.*;
 import kit.se.capstone2.auth.domain.enums.Role;
 import kit.se.capstone2.auth.domain.model.Account;
+import kit.se.capstone2.chat.domain.model.ChatRoom;
 import kit.se.capstone2.file.domain.model.ProfileImageProperty;
 import kit.se.capstone2.posts.question.domain.model.Question;
 import kit.se.capstone2.reports.domain.model.Report;
@@ -49,6 +50,10 @@ public abstract class BaseUser {
 	@Builder.Default
 	private List<Report> reports = new ArrayList<>();
 
+	@OneToMany(mappedBy = "creator", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@Builder.Default
+	private List<ChatRoom> chatRooms = new ArrayList<>();
+
 
 	public void addAccount(Account account){
 		this.account = account;
@@ -66,6 +71,13 @@ public abstract class BaseUser {
 	}
 
 	abstract public String getNickname();
+
+	public ChatRoom createChat(BaseUser baseUser){
+		return ChatRoom.builder()
+				.creator(this)
+				.participant(baseUser)
+				.build();
+	}
 
 	public boolean isAdmin() {
 		return account.getRole().equals(Role.ROLE_ADMIN);

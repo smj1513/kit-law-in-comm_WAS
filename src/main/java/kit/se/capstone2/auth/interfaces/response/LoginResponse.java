@@ -1,4 +1,4 @@
-package kit.se.capstone2.auth.jwt.model;
+package kit.se.capstone2.auth.interfaces.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class JwtToken {
+public class LoginResponse {
 	private String header;
 	private String type;
 	private String accessToken;

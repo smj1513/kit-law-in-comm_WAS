@@ -87,14 +87,15 @@ public class SecurityConfig {
 						"/", "/api",
 						"/api/swagger-ui/**", "/swagger-ui/**",
 						"/api/api-docs/**", "/api-docs/**",
-						"/auth/**", "/api/common/**"
+						 "/api/common/**"
 				).permitAll()
-				.requestMatchers(HttpMethod.GET, "/api/questions/**").permitAll()
-				.requestMatchers(HttpMethod.GET, "/api/answers/**").permitAll()
-				.requestMatchers(HttpMethod.GET, "/api/reports/**").hasAnyAuthority(Role.ROLE_ADMIN.name())
-				.requestMatchers("/api/users/admin/**").hasAuthority(Role.ROLE_ADMIN.name())
-				.requestMatchers("/api/question/**").hasAuthority(Role.ROLE_LAWYER.name())
-				.requestMatchers("/api/answers/**").hasAuthority(Role.ROLE_LAWYER.name())
+				.requestMatchers(HttpMethod.POST,"/auth/token/refresh").permitAll()
+				.requestMatchers(HttpMethod.GET, "/questions/**").permitAll()
+				.requestMatchers(HttpMethod.GET, "/answers/**").permitAll()
+				.requestMatchers(HttpMethod.GET, "/reports/**").hasAnyAuthority(Role.ROLE_ADMIN.name())
+				.requestMatchers("/users/admin/**").hasAuthority(Role.ROLE_ADMIN.name())
+				.requestMatchers("/question/**").hasAuthority(Role.ROLE_LAWYER.name())
+				.requestMatchers("/answers/**").hasAuthority(Role.ROLE_LAWYER.name())
 				.anyRequest()
 				.authenticated()
 		);
@@ -132,6 +133,7 @@ public class SecurityConfig {
 
 	@Bean
 	public JwtAuthenticationFilter jwtAuthenticationFilter() {
+
 		return new JwtAuthenticationFilter(jwtUtils, objectMapper);
 	}
 

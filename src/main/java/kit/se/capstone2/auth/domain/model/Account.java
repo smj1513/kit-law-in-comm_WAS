@@ -10,6 +10,7 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class Account extends BaseTime implements UserDetails {
 	//일반 사용자는 회원가입시 바로 승인, 변호사는 관리자 승인 후 승인
 	@Enumerated(EnumType.STRING)
 	private ApprovalStatus approvalStatus;
+
 
 	public void changeApprovalStatus(boolean isApproval){
 		if(isApproval){

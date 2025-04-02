@@ -1,6 +1,5 @@
 package kit.se.capstone2.user.interfaces.controller;
 
-import kit.se.capstone2.posts.answer.interfaces.response.AnswerResponse;
 import kit.se.capstone2.common.api.code.SuccessCode;
 import kit.se.capstone2.common.api.response.CommonResponse;
 import kit.se.capstone2.docs.MyPageDocsController;
@@ -34,6 +33,7 @@ public class MyPageController implements MyPageDocsController {
 		return CommonResponse.success(SuccessCode.OK, myPageAppService.updateGeneralInfo(request));
 	}
 
+	//TODO 이 부분 어떻게 하면 좋을지 고민,,,
 	@PutMapping("/lawyer")
 	public CommonResponse<MyPageResponse.LawyerInfo> updateLawyerInfo(
 			@RequestBody MyPageRequest.UpdateLawyerInfo request) {
