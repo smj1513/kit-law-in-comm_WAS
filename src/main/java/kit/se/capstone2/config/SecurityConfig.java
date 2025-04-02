@@ -88,6 +88,7 @@ public class SecurityConfig {
 				).permitAll()
 				.requestMatchers(HttpMethod.POST,"/auth/token/refresh").permitAll()
 				.requestMatchers("/users/join/**").permitAll()
+				.requestMatchers("/users/legal-speciality").permitAll()
 				.requestMatchers(HttpMethod.GET, "/questions/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/answers/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/reports/**").hasAnyAuthority(Role.ROLE_ADMIN.name())

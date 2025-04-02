@@ -17,7 +17,15 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class GlobalExceptionHandler {
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<CommonResponse<Void>> handleException(Exception e) {
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(CommonResponse.error(ErrorCode.INTENAL_SERVER_ERROR, e.getMessage()));
+	}
 
+	@ExceptionHandler(RuntimeException.class)
+	public ResponseEntity<CommonResponse<Void>> handleRuntimeException(RuntimeException e) {
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(CommonResponse.error(ErrorCode.INTENAL_SERVER_ERROR, e.getMessage()));
+	}
 
 	@ExceptionHandler(BusinessLogicException.class)
 	public ResponseEntity<CommonResponse<Void>> handleBusinessLogicException(BusinessLogicException e) {
