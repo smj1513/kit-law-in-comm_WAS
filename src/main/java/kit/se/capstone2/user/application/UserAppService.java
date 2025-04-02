@@ -31,6 +31,9 @@ public class UserAppService {
 	private final LawyerService lawyerService;
 
 	public UserResponse.General joinGeneralUser(UserRequest.JoinGeneralUser request) {
+		if(clientUserRepository.existsByNickname(request.getNickname())){
+			throw new BusinessLogicException(ErrorCode.ENTITY_DUPLICATED, "닉네임이 중복되었습니다.");
+		}
 		Account account = Account.builder()
 				.username(request.getUsername())
 				.password(request.getPassword())
@@ -107,5 +110,9 @@ public class UserAppService {
 	public UserResponse.UserInfo getUserInfo(Long id) {
 		BaseUser baseUser = baseUserRepository.findById(id).orElseThrow(() -> new BusinessLogicException(ErrorCode.NOT_FOUND_ENTITY, "해당하는 사용자가 존재하지 않습니다."));
 		return UserResponse.UserInfo.from(baseUser);
+	}
+
+	public Boolean checkNicknameDuplication(String nickname) {
+		return clientUserRepository.existsByNickname(nickname);
 	}
 }

@@ -24,7 +24,9 @@ public enum ErrorCode {
 	NO_PERMISSION(HttpStatus.FORBIDDEN, EntityCode.USER, ExceptionCode.BAD_REQUEST ,"You don't have Authority" ),
 	INVAILD_REQUEST(HttpStatus.BAD_REQUEST, EntityCode.TOKEN , ExceptionCode.UNAUTHORIZED, "Invalid Request"),
 	ALREADY_REPORTED(HttpStatus.TOO_MANY_REQUESTS, EntityCode.REPORT , ExceptionCode.CONFLICT, "Already Reported"),
-	CHAT_ROOM_CREATED_FAILED(HttpStatus.CONFLICT, EntityCode.CHAT , ExceptionCode.COMMON, "ChatRoom Created Failed" );
+	CHAT_ROOM_CREATED_FAILED(HttpStatus.CONFLICT, EntityCode.CHAT , ExceptionCode.COMMON, "ChatRoom Created Failed" ),
+	ENTITY_DUPLICATED(HttpStatus.CONFLICT, EntityCode.COMMON, ExceptionCode.CONFLICT, "Entity Duplicated"),
+	;
 
 	private final HttpStatus httpStatus;
 	private final EntityCode entityCode;

@@ -13,6 +13,7 @@ import kit.se.capstone2.user.interfaces.request.UserRequest;
 import kit.se.capstone2.user.interfaces.response.UserResponse;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,4 +42,8 @@ public interface UserDocsController {
 	@Operation(summary = "사용자의 일반 정보 조회(이름, 닉네임, 프로필 이미지)", description = "사용자의 일반 정보를 조회한다.")
 	@ApiResponse(responseCode = "200", description = "성공")
 	CommonResponse<UserResponse.UserInfo> getUserInfo(Long id);
+
+	@Operation(summary = "닉네임 중복 체크", description = "닉네임 중복을 확인한다.")
+	@ApiResponse(responseCode = "200", description = "성공")
+	CommonResponse<Boolean> checkNicknameDuplication(@RequestParam String nickname);
 }

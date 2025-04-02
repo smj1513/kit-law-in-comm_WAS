@@ -35,6 +35,11 @@ public class UserController implements UserDocsController {
 		return CommonResponse.success(SuccessCode.OK, appService.joinLawyer(data, licenseImage));
 	}
 
+	@GetMapping("/join/nickname/dupe-check")
+	public CommonResponse<Boolean> checkNicknameDuplication(@RequestParam String nickname) {
+		return CommonResponse.success(SuccessCode.OK, appService.checkNicknameDuplication(nickname));
+	}
+
 	@GetMapping("/legal-speciality")
 	public CommonResponse<List<UserResponse.LegalSpecialtyInfo>> getLegalSpecialists() {
 		return CommonResponse.success(SuccessCode.OK, Stream.of(LegalSpeciality.values()).map(UserResponse.LegalSpecialtyInfo::from).toList());

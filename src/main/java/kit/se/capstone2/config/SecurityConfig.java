@@ -90,6 +90,7 @@ public class SecurityConfig {
 						 "/api/common/**"
 				).permitAll()
 				.requestMatchers(HttpMethod.POST,"/auth/token/refresh").permitAll()
+				.requestMatchers(HttpMethod.POST, "/users/join/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/questions/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/answers/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/reports/**").hasAnyAuthority(Role.ROLE_ADMIN.name())
