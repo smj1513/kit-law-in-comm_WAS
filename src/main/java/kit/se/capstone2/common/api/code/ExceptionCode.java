@@ -14,7 +14,8 @@ public enum ExceptionCode {
 	UNAUTHORIZED(5),
 	TOO_MANY_REQUESTS(6),
 	PERMANENT_REDIRECT(7),
-	EXPIRATION(8),;
+	EXPIRATION(8),
+	VIOLATION(9),;
 
 	private final Integer value;
 }

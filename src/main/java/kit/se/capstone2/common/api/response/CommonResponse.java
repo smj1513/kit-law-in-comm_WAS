@@ -45,4 +45,12 @@ public class CommonResponse<T> {
 				.build();
 	}
 
+	public static <T> CommonResponse<T> error(ErrorCode errorCode, String message) {
+		return CommonResponse.<T>builder()
+				.isSuccess(false)
+				.code(errorCode.getCode())
+				.message(message)
+				.build();
+	}
+
 }

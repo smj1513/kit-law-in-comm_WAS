@@ -8,10 +8,18 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import kit.se.capstone2.auth.jwt.JwtProperties;
+import lombok.Setter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Service;
 
 @Configuration
+@OpenAPIDefinition(
+		servers = {
+				@Server(url = "http://202.31.202.38:80/api", description = "Production Server"),
+				@Server(url = "http://localhost:8080", description = "Local Server")
+		}
+)
 public class SwaggerConfig {
 
 	@Bean

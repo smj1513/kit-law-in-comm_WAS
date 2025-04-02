@@ -50,7 +50,7 @@ public class SecurityConfig {
 		UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 
-		corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000", "http://127.0.0.1:3000", "http://202.31.202.38"));
+		corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000", "http://127.0.0.1:3000", "http://202.31.202.38", "http://localhost:8080"));
 		corsConfiguration.setAllowedMethods(List.of("*"));
 		corsConfiguration.setAllowedHeaders(List.of("*"));
 		corsConfiguration.setExposedHeaders(List.of(
@@ -84,13 +84,10 @@ public class SecurityConfig {
 		http.authorizeHttpRequests(auth -> auth
 				.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 				.requestMatchers(
-						"/", "/api",
-						"/api/swagger-ui/**", "/swagger-ui/**",
-						"/api/api-docs/**", "/api-docs/**",
-						 "/api/common/**"
+						"/", "/swagger-ui/**", "/api-docs/**", "/common/**"
 				).permitAll()
 				.requestMatchers(HttpMethod.POST,"/auth/token/refresh").permitAll()
-				.requestMatchers(HttpMethod.POST, "/users/join/**").permitAll()
+				.requestMatchers("/users/join/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/questions/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/answers/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/reports/**").hasAnyAuthority(Role.ROLE_ADMIN.name())

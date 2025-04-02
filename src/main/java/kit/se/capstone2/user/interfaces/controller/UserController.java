@@ -1,5 +1,7 @@
 package kit.se.capstone2.user.interfaces.controller;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
 import kit.se.capstone2.common.api.code.SuccessCode;
 import kit.se.capstone2.common.api.response.CommonResponse;
 import kit.se.capstone2.docs.UserDocsController;
@@ -10,6 +12,7 @@ import kit.se.capstone2.user.interfaces.response.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,12 +22,13 @@ import java.util.stream.Stream;
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
+@Validated
 public class UserController implements UserDocsController {
 
 	private final UserAppService appService;
 
 	@PostMapping("/join/general")
-	public CommonResponse<UserResponse.General> joinGeneral(@RequestBody UserRequest.JoinGeneralUser request) {
+	public CommonResponse<UserResponse.General> joinGeneral(@RequestBody @Validated UserRequest.JoinGeneralUser request) {
 		return CommonResponse.success(SuccessCode.OK, appService.joinGeneralUser(request));
 	}
 
@@ -36,7 +40,10 @@ public class UserController implements UserDocsController {
 	}
 
 	@GetMapping("/join/nickname/dupe-check")
-	public CommonResponse<Boolean> checkNicknameDuplication(@RequestParam String nickname) {
+	public CommonResponse<Boolean> checkNicknameDuplication(
+			@RequestParam
+			@Pattern(regexp = "^[가-힣a-z0-9]{2,8}", message = "닉네임은 2~8자의 한글 및 영문 대소문자와 숫자로 이루어져야 합니다.")
+			String nickname) {
 		return CommonResponse.success(SuccessCode.OK, appService.checkNicknameDuplication(nickname));
 	}
 

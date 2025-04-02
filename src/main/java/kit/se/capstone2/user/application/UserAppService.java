@@ -15,6 +15,7 @@ import kit.se.capstone2.user.domain.service.LawyerService;
 import kit.se.capstone2.user.interfaces.request.UserRequest;
 import kit.se.capstone2.user.interfaces.response.UserResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,6 +30,7 @@ public class UserAppService {
 	private final LawyerRepository lawyerRepository;
 	private final BaseUserRepository baseUserRepository;
 	private final LawyerService lawyerService;
+	private final PasswordEncoder passwordEncoder;
 
 	public UserResponse.General joinGeneralUser(UserRequest.JoinGeneralUser request) {
 		if(clientUserRepository.existsByNickname(request.getNickname())){
@@ -36,10 +38,11 @@ public class UserAppService {
 		}
 		Account account = Account.builder()
 				.username(request.getUsername())
-				.password(request.getPassword())
+				.password(passwordEncoder.encode(request.getPassword()))
 				.role(Role.ROLE_USER)
 				.approvalStatus(ApprovalStatus.APPROVED)
 				.build();
+
 		ClientUser user = ClientUser.builder()
 				.name(request.getName())
 				.nickname(request.getNickname())

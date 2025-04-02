@@ -1,5 +1,6 @@
 package kit.se.capstone2.common.exception.handler;
 
+import jakarta.validation.ConstraintViolationException;
 import kit.se.capstone2.common.api.code.ErrorCode;
 import kit.se.capstone2.common.api.response.CommonResponse;
 import kit.se.capstone2.common.exception.BusinessLogicException;
@@ -9,12 +10,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class GlobalExceptionHandler {
+
 
 	@ExceptionHandler(BusinessLogicException.class)
 	public ResponseEntity<CommonResponse<Void>> handleBusinessLogicException(BusinessLogicException e) {
@@ -37,5 +40,13 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(CommonResponse.error(e.getErrorCode()));
 	}
 
+	@ExceptionHandler({ConstraintViolationException.class})
+	public ResponseEntity<CommonResponse<Void>> handleConstraintViolationException(ConstraintViolationException e) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(CommonResponse.error(ErrorCode.CONSTRAINT_VIOLATION, e.getCause().getMessage()));
+	}
 
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<CommonResponse<Void>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(CommonResponse.error(ErrorCode.CONSTRAINT_VIOLATION, e.getMessage()));
+	}
 }

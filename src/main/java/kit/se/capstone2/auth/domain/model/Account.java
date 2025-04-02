@@ -1,6 +1,7 @@
 package kit.se.capstone2.auth.domain.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import kit.se.capstone2.auth.domain.enums.Role;
 import kit.se.capstone2.common.entity.BaseTime;
 import kit.se.capstone2.user.domain.enums.ApprovalStatus;
@@ -28,6 +29,7 @@ public class Account extends BaseTime implements UserDetails {
 	private Long id;
 
 	@Column(unique = true, nullable = false)
+	@Pattern(regexp = "^[a-zA-Z0-9]{2,20}", message = "아이디는 2~20자의 영문 대소문자와 숫자로 이루어져야 합니다.")
 	private String username;
 
 	@Column(nullable = false)

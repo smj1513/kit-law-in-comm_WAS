@@ -50,13 +50,14 @@ springdoc:
   show-login-endpoint: true
   enable-spring-security: true
   override-with-generic-response: true
+
+
 server:
   servlet:
     encoding:
       charset: UTF-8
       enabled: true
       force: true
-    context-path: /api
   tomcat:
     connection-timeout: 180000
     max-http-response-header-size: 16KB
