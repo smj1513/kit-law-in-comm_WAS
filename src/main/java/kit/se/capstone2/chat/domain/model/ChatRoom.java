@@ -52,4 +52,9 @@ public class ChatRoom extends BaseTime {
 		}
 	}
 
+	public void addMessage(ChatMessage message) {
+		this.chatMessages.add(message);
+		message.setChatRoom(this);
+	}
+
 }

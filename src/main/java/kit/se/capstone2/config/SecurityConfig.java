@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import kit.se.capstone2.auth.domain.enums.Role;
 import kit.se.capstone2.auth.jwt.JwtProperties;
 import kit.se.capstone2.auth.jwt.JwtUtils;
+import kit.se.capstone2.auth.security.SecurityUtils;
 import kit.se.capstone2.auth.security.entrypoint.JwtAuthenticationEntryPoint;
 import kit.se.capstone2.auth.security.filter.CustomLoginFilter;
 import kit.se.capstone2.auth.security.filter.JwtAuthenticationFilter;
@@ -13,13 +14,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.messaging.Message;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authorization.AuthenticatedAuthorizationManager;
+import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -42,6 +45,7 @@ public class SecurityConfig {
 
 	private final ObjectMapper objectMapper;
 	private final JwtUtils jwtUtils;
+	private final SecurityUtils securityUtils;
 	private final AuthenticationConfiguration authConfig;
 
 	@Bean
@@ -86,7 +90,7 @@ public class SecurityConfig {
 				.requestMatchers(
 						"/", "/swagger-ui/**", "/api-docs/**", "/common/**"
 				).permitAll()
-				.requestMatchers(HttpMethod.POST,"/auth/token/refresh").permitAll()
+				.requestMatchers(HttpMethod.POST, "/auth/token/refresh").permitAll()
 				.requestMatchers("/users/join/**").permitAll()
 				.requestMatchers("/users/legal-speciality").permitAll()
 				.requestMatchers(HttpMethod.GET, "/questions/**").permitAll()
@@ -96,11 +100,11 @@ public class SecurityConfig {
 				.requestMatchers("/question/**").hasAuthority(Role.ROLE_LAWYER.name())
 				.requestMatchers("/answers/**").hasAuthority(Role.ROLE_LAWYER.name())
 				.anyRequest()
-				.authenticated()
+				.permitAll()
 		);
 
 		http.headers(header -> header
-				.crossOriginResourcePolicy(corp-> corp
+				.crossOriginResourcePolicy(corp -> corp
 						.policy(CrossOriginResourcePolicyHeaderWriter.CrossOriginResourcePolicy.CROSS_ORIGIN)
 				)
 		);
@@ -126,6 +130,11 @@ public class SecurityConfig {
 	}
 
 	@Bean
+	public AuthorizationManager<Message<?>> messageAuthorizationManager() {
+		return AuthenticatedAuthorizationManager.authenticated(); // 모든 메시지 인증 요구
+	}
+
+	@Bean
 	public JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint() {
 		return new JwtAuthenticationEntryPoint(objectMapper);
 	}
@@ -133,7 +142,7 @@ public class SecurityConfig {
 	@Bean
 	public JwtAuthenticationFilter jwtAuthenticationFilter() {
 
-		return new JwtAuthenticationFilter(jwtUtils, objectMapper);
+		return new JwtAuthenticationFilter(jwtUtils, objectMapper, securityUtils);
 	}
 
 	@Bean

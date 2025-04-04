@@ -22,8 +22,8 @@ public class JwtTokenValidator {
 
 	public Boolean isExpired(String token) {
 		return parser
-				.parseClaimsJws(token)
-				.getBody()
+				.parseSignedClaims(token)
+				.getPayload()
 				.getExpiration()
 				.before(Date.from(LocalDateTime.now().atZone(TimeZone.getDefault().toZoneId()).toInstant()));
 	}

@@ -34,21 +34,22 @@ public class ChatController {
 		return CommonResponse.success(SuccessCode.OK, chatService.getChatRooms(page, size));
 	}
 
+	//채팅방 생성
 	@PostMapping("/chat/room")
 	public CommonResponse<ChatResponse.ChatRoomRes> createChatRoom(ChatRequest.CreateChatRoomReq request) {
 		return CommonResponse.success(SuccessCode.OK, chatService.createChatRoom(request));
 	}
 
-
-	@MessageMapping("/chat/test")
-	public void testMessage(TestHello message){
-		log.info("message : {}", message);
-		messagingTemplate.convertAndSend("/sub/chat/test", message);
+	//특정 채팅방의 메시지 목록 조회
+	@GetMapping("/chat/room/{chatRoomId}")
+	public CommonResponse<Slice<ChatResponse.ChatMessageRes>> getChatMessages(@PathVariable Long chatRoomId, @RequestParam int page, @RequestParam int size) {
+		return CommonResponse.success(SuccessCode.OK, chatService.getChatMessages(chatRoomId, page, size));
 	}
 
 
 	@MessageMapping("/chat/{chatRoomId}") // /publish/chat
 	public void sendMessage(@RequestBody ChatRequest.ChatMessageReq request, @DestinationVariable Long chatRoomId) {
+		chatService.saveMessage(chatRoomId, request);
 		messagingTemplate.convertAndSend("/sub/chat/" + chatRoomId, request);
 	}
 }

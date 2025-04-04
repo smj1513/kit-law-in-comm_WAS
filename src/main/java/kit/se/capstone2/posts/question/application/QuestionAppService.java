@@ -8,7 +8,6 @@ import kit.se.capstone2.posts.question.domain.model.Question;
 import kit.se.capstone2.posts.question.domain.repository.QuestionRepository;
 import kit.se.capstone2.posts.question.interfaces.request.QuestionRequest;
 import kit.se.capstone2.posts.question.interfaces.response.QuestionResponse;
-import kit.se.capstone2.reports.domain.repository.QuestionReportRepository;
 import kit.se.capstone2.user.domain.enums.LegalSpeciality;
 import kit.se.capstone2.user.domain.model.BaseUser;
 import kit.se.capstone2.user.domain.service.UserService;
@@ -48,7 +47,7 @@ public class QuestionAppService {
 	}
 
 	public QuestionResponse.PostQuestion createQuestion(QuestionRequest.Create request) {
-		Account currentUser = securityUtils.getCurrentUser();
+		Account currentUser = securityUtils.getCurrentUserAccount();
 		BaseUser user = currentUser.getUser();
 		Question question = Question.builder()
 				.title(request.getTitle())
@@ -66,7 +65,7 @@ public class QuestionAppService {
 	}
 
 	public QuestionResponse.PostQuestion deleteQuestion(Long id) {
-		Account currentUser = securityUtils.getCurrentUser();
+		Account currentUser = securityUtils.getCurrentUserAccount();
 		BaseUser user = currentUser.getUser();
 		Question question = questionRepository.findById(id).orElseThrow(() -> new BusinessLogicException(ErrorCode.NOT_FOUND_ENTITY, "해당하는 질문이 존재하지 않습니다."));
 		BaseUser author = question.getAuthor();
@@ -77,7 +76,7 @@ public class QuestionAppService {
 	}
 
 	public QuestionResponse.PostQuestion updateQuestion(Long id, QuestionRequest.Create request) {
-		Account currentUser = securityUtils.getCurrentUser();
+		Account currentUser = securityUtils.getCurrentUserAccount();
 		BaseUser user = currentUser.getUser();
 		Question question = questionRepository.findById(id).orElseThrow(() -> new BusinessLogicException(ErrorCode.NOT_FOUND_ENTITY, "해당하는 질문이 존재하지 않습니다."));
 		BaseUser author = question.getAuthor();

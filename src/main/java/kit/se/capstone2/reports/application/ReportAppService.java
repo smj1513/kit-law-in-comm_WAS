@@ -33,7 +33,7 @@ public class ReportAppService {
 	private final AnswerRepository answerRepository;
 
 	public ReportResponse.QuestionReportRes reportQuestion(Long id, ReportRequest.QuestionReportReq request) {
-		Account currentUser = securityUtils.getCurrentUser();
+		Account currentUser = securityUtils.getCurrentUserAccount();
 		BaseUser user = currentUser.getUser();
 		Question question = questionRepository.findById(id).orElseThrow(() -> new BusinessLogicException(ErrorCode.NOT_FOUND_ENTITY, "해당하는 질문이 존재하지 않습니다."));
 
@@ -58,7 +58,7 @@ public class ReportAppService {
 	}
 
 	public ReportResponse.AnswerReportRes reportAnswer(Long id, ReportRequest.AnswerReportReq request) {
-		BaseUser user = securityUtils.getCurrentUser().getUser();
+		BaseUser user = securityUtils.getCurrentUserAccount().getUser();
 		Answer answer = answerRepository.findById(id).orElseThrow(() -> new BusinessLogicException(ErrorCode.NOT_FOUND_ENTITY, "해당하는 답변이 존재하지 않습니다."));
 		AnswerReport report = AnswerReport.builder()
 				.reason(request.getReason())

@@ -3,7 +3,6 @@ package kit.se.capstone2.user.application;
 import kit.se.capstone2.auth.security.SecurityUtils;
 import kit.se.capstone2.posts.answer.domain.model.Answer;
 import kit.se.capstone2.posts.answer.domain.repository.AnswerRepository;
-import kit.se.capstone2.posts.answer.interfaces.response.AnswerResponse;
 import kit.se.capstone2.posts.question.domain.model.Question;
 import kit.se.capstone2.posts.question.domain.repository.QuestionRepository;
 import kit.se.capstone2.user.domain.model.BaseUser;
@@ -26,7 +25,7 @@ public class MyPageAppService {
 	private final AnswerRepository answerRepository;
 
 	public MyPageResponse.GeneralInfo getGeneralInfo() {
-		BaseUser user = securityUtils.getCurrentUser().getUser();
+		BaseUser user = securityUtils.getCurrentUserAccount().getUser();
 		return MyPageResponse.GeneralInfo.builder()
 				.name(user.getName())
 				.nickname(user.getNickname())
@@ -63,7 +62,7 @@ public class MyPageAppService {
 	}
 
 	public Page<MyPageResponse.QuestionInfo> retrieveQuestions(int page, int size) {
-		BaseUser user = securityUtils.getCurrentUser().getUser();
+		BaseUser user = securityUtils.getCurrentUserAccount().getUser();
 		Page<Question> questions = questionRepository.findByAuthorId(user.getId(), PageRequest.of(page, size));
 		return questions.map(MyPageResponse.QuestionInfo::from);
 	}

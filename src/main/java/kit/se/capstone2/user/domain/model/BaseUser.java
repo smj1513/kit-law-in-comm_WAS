@@ -70,6 +70,11 @@ public abstract class BaseUser {
 		question.setAuthor(this);
 	}
 
+	public void addChatRoom(ChatRoom chatRoom) {
+		this.chatRooms.add(chatRoom);
+		chatRoom.setCreator(this);
+	}
+
 	abstract public String getNickname();
 
 	public ChatRoom createChat(BaseUser baseUser){

@@ -24,8 +24,8 @@ public class ChatResponse {
 		private int unreadMessageCount;
 
 		//TODO: ChatRoom -> ChatRoomRes 변환
-		public static ChatRoomRes from(ChatRoom chatRoom, BaseUser currentUser) {
-			BaseUser otherPerson = chatRoom.getOtherPerson(currentUser);
+		public static ChatRoomRes from(ChatRoom chatRoom, BaseUser creator) {
+			BaseUser otherPerson = chatRoom.getOtherPerson(creator);
 			return ChatRoomRes.builder()
 					.chatRoomId(chatRoom.getId())
 					.otherMemberName(otherPerson.isLawyer() ? otherPerson.getName() : otherPerson.getNickname())

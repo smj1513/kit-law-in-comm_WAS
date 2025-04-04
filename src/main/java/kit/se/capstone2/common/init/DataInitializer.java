@@ -4,8 +4,11 @@ import jakarta.annotation.PostConstruct;
 import kit.se.capstone2.auth.domain.enums.Role;
 import kit.se.capstone2.auth.domain.model.Account;
 import kit.se.capstone2.auth.domain.repository.AccountRepository;
+import kit.se.capstone2.chat.domain.model.ChatRoom;
+import kit.se.capstone2.chat.domain.repository.ChatRoomRepository;
 import kit.se.capstone2.user.domain.enums.ApprovalStatus;
 import kit.se.capstone2.user.domain.enums.LegalSpeciality;
+import kit.se.capstone2.user.domain.model.BaseUser;
 import kit.se.capstone2.user.domain.model.ClientUser;
 import kit.se.capstone2.user.domain.model.lawyer.*;
 import kit.se.capstone2.user.domain.repository.ClientUserRepository;
@@ -35,8 +38,9 @@ public class DataInitializer {
 			log.info("Account data already exists.");
 			return;
 		}
-		initService.init();
-		initService.initAIAssistant();
+		ClientUser admin = initService.init();
+		Lawyer aiAssistant = initService.initAIAssistant();
+		initService.initChatRoom(admin, aiAssistant);
 	}
 
 	@Component
@@ -48,8 +52,9 @@ public class DataInitializer {
 		private final PasswordEncoder passwordEncoder;
 		private final ClientUserRepository clientUserRepository;
 		private final LawyerRepository lawyerRepository;
+		private final ChatRoomRepository chatRoomRepository;
 
-		public void init() {
+		public ClientUser init() {
 			Account adminAccount = Account.builder()
 					.username("admin")
 					.password(passwordEncoder.encode("***REMOVED***7540!"))
@@ -64,10 +69,10 @@ public class DataInitializer {
 					.build();
 
 			clientUser.addAccount(adminAccount);
-			clientUserRepository.save(clientUser);
+			return clientUserRepository.save(clientUser);
 		}
 
-		public void initAIAssistant() {
+		public Lawyer initAIAssistant() {
 			Account aiAccount = Account.builder()
 					.username("minj21")
 					.password(passwordEncoder.encode("mjmj0221!"))
@@ -109,7 +114,16 @@ public class DataInitializer {
 			List<Career> careers = List.of(Career.builder().content("-").lawyer(aiLawyer).build());
 			aiLawyer.setCareers(careers);
 			aiLawyer.setEducations(List.of(Education.builder().content("국립금오공과대학교 컴퓨터공학부 소프트웨어 공학 전공").lawyer(aiLawyer).build()));
-			lawyerRepository.save(aiLawyer);
+			return lawyerRepository.save(aiLawyer);
+		}
+
+		public ChatRoom initChatRoom(BaseUser user1, BaseUser user2) {
+			ChatRoom chatRoom = new ChatRoom();
+			chatRoom.setId(1L);
+			user1.addChatRoom(chatRoom);
+			chatRoom.setParticipant(user2);
+			return chatRoomRepository.save(chatRoom);
 		}
 	}
+
 }

@@ -29,7 +29,7 @@ public class FileAppService {
 	}
 
 	public FileResponse uploadFile(MultipartFile file, ImageType imageType) {
-		Account currentUser = securityUtils.getCurrentUser();
+		Account currentUser = securityUtils.getCurrentUserAccount();
 
 		FileProperty fileProperty = filePropertyProvider.create(file.getOriginalFilename(), file.getContentType(), file.getSize(), currentUser.getUser(), imageType);
 

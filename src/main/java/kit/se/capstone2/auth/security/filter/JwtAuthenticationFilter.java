@@ -11,6 +11,7 @@ import kit.se.capstone2.auth.domain.enums.Role;
 import kit.se.capstone2.auth.domain.model.Account;
 import kit.se.capstone2.auth.jwt.JwtProperties;
 import kit.se.capstone2.auth.jwt.JwtUtils;
+import kit.se.capstone2.auth.security.SecurityUtils;
 import kit.se.capstone2.common.api.code.ErrorCode;
 import kit.se.capstone2.common.api.response.CommonResponse;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private final JwtUtils jwtUtils;
 	private final ObjectMapper objectMapper;
-
+	private final SecurityUtils securityUtils;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -63,15 +64,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			outputStream.close();
 			return;
 		}
-
-		Role authorities = jwtUtils.getAuthorities(token);
-		String username = jwtUtils.getUsername(token);
-		Account account = Account.builder().role(authorities).username(username).build();
-
-		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(account,
-				null,
-				account.getAuthorities());
-		SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+		securityUtils.setAuthentication(token);
 		filterChain.doFilter(request, response);
 //
 //		// 응답 헤더 로깅

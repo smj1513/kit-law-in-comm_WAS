@@ -15,9 +15,7 @@ public class ChatRequest {
 	@AllArgsConstructor
 	@Builder
 	public static class ChatMessageReq{
-		private String senderId; //username
 		private String content;
-
 	}
 
 	@Data

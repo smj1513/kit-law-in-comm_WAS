@@ -39,10 +39,10 @@ public class JwtTokenProvider {
 
 	private String generateAccessToken(final String username, final Map<String, Object> claims) {
 		return Jwts.builder()
-				.setId(username)
-				.setClaims(claims)
-				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + JwtProperties.ACCESS_TOKEN_EXPIRATION))
+				.id(username)
+				.claims(claims)
+				.issuedAt(new Date(System.currentTimeMillis()))
+				.expiration(new Date(System.currentTimeMillis() + JwtProperties.ACCESS_TOKEN_EXPIRATION))
 				.signWith(key)
 				.compact();
 	}
@@ -52,10 +52,10 @@ public class JwtTokenProvider {
 		return RefreshToken.builder()
 				.userId(username)
 				.token(Jwts.builder()
-						.setId(username)
-						.setIssuedAt(new Date(System.currentTimeMillis()))
-						.setClaims(refreshClaims)
-						.setExpiration(expDate)
+						.id(username)
+						.issuedAt(new Date(System.currentTimeMillis()))
+						.claims(refreshClaims)
+						.expiration(expDate)
 						.signWith(key)
 						.compact()
 				)
