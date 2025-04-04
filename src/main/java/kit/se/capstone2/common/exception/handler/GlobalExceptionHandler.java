@@ -17,13 +17,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class GlobalExceptionHandler {
+
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<CommonResponse<Void>> handleException(Exception e) {
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(CommonResponse.error(ErrorCode.INTENAL_SERVER_ERROR, e.getCause().getMessage()));
-	}
-
-	@ExceptionHandler(RuntimeException.class)
-	public ResponseEntity<CommonResponse<Void>> handleRuntimeException(RuntimeException e) {
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(CommonResponse.error(ErrorCode.INTENAL_SERVER_ERROR, e.getCause().getMessage()));
 	}
 
@@ -34,7 +30,7 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(CustomAuthorizationException.class)
 	public ResponseEntity<CommonResponse<Void>> handleCustomLoginException(CustomAuthorizationException e) {
-		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(CommonResponse.error(e.getErrorCode()));
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(CommonResponse.error(e.getErrorCode(), e.getMessage()));
 	}
 
 
