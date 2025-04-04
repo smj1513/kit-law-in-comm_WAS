@@ -57,4 +57,8 @@ public class ChatRoom extends BaseTime {
 		message.setChatRoom(this);
 	}
 
+	public boolean isParticipant(BaseUser user) {
+		return creator.getId().equals(user.getId()) || participant.getId().equals(user.getId());
+	}
+
 }

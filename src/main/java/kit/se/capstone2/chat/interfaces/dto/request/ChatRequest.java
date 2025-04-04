@@ -23,6 +23,6 @@ public class ChatRequest {
 	@NoArgsConstructor
 	@AllArgsConstructor
 	public static class CreateChatRoomReq {
-		private String otherPersonId;
+		private Long otherPersonId;
 	}
 }

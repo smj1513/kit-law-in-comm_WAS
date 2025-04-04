@@ -1,27 +1,34 @@
 package kit.se.capstone2.chat.interfaces.controller;
 
+import kit.se.capstone2.auth.domain.model.Account;
 import kit.se.capstone2.chat.application.ChatAppService;
 import kit.se.capstone2.chat.interfaces.dto.TestHello;
 import kit.se.capstone2.chat.interfaces.dto.request.ChatRequest;
 import kit.se.capstone2.chat.interfaces.dto.response.ChatResponse;
 import kit.se.capstone2.common.api.code.SuccessCode;
 import kit.se.capstone2.common.api.response.CommonResponse;
+import kit.se.capstone2.docs.ChatDocsController;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.user.SimpUser;
 import org.springframework.messaging.simp.user.SimpUserRegistry;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
 @Log4j2
 @RequiredArgsConstructor
-public class ChatController {
+public class ChatController implements ChatDocsController {
 
 	//구현체로 SimpMessagingTemplate 사용
 	private final SimpMessageSendingOperations messagingTemplate;
@@ -30,7 +37,7 @@ public class ChatController {
 
 	//특정 사용자의 채팅방 목록 조회
 	@GetMapping("/chatRooms")
-	public CommonResponse<Slice<ChatResponse.ChatRoomRes>> getChatRooms(@RequestParam int page, @RequestParam int size) {
+	public CommonResponse<Slice<ChatResponse.ChatRoomRes>> getChatRooms(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
 		return CommonResponse.success(SuccessCode.OK, chatService.getChatRooms(page, size));
 	}
 
@@ -48,8 +55,11 @@ public class ChatController {
 
 
 	@MessageMapping("/chat/{chatRoomId}") // /publish/chat
-	public void sendMessage(@RequestBody ChatRequest.ChatMessageReq request, @DestinationVariable Long chatRoomId) {
-		chatService.saveMessage(chatRoomId, request);
+	public void sendMessage(@RequestBody ChatRequest.ChatMessageReq request,
+	                        @DestinationVariable Long chatRoomId,
+	                        Principal principal // 추가
+	) {
+		chatService.saveMessage(chatRoomId, request, principal);
 		messagingTemplate.convertAndSend("/sub/chat/" + chatRoomId, request);
 	}
 }

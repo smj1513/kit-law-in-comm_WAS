@@ -10,14 +10,18 @@ import kit.se.capstone2.chat.domain.repository.ChatRoomRepository;
 import kit.se.capstone2.chat.domain.service.ChatMessageService;
 import kit.se.capstone2.chat.interfaces.dto.request.ChatRequest;
 import kit.se.capstone2.chat.interfaces.dto.response.ChatResponse;
+import kit.se.capstone2.common.api.code.ErrorCode;
+import kit.se.capstone2.common.exception.BusinessLogicException;
 import kit.se.capstone2.user.domain.model.BaseUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.Optional;
 
 @Service
@@ -32,15 +36,16 @@ public class ChatAppService {
 
 	public Slice<ChatResponse.ChatRoomRes> getChatRooms(int page, int size) {
 		PageRequest pageRequest = PageRequest.of(page, size);
-		BaseUser user = securityUtils.getCurrentUserAccount().getUser();
+		Account currentUserAccount = securityUtils.getCurrentUserAccount();
+		BaseUser user = currentUserAccount.getUser();
 		Slice<ChatRoom> chatRooms = chatRoomRepository.findByUserId(user.getId(), pageRequest);
 		return chatRooms.map(chatRoom -> ChatResponse.ChatRoomRes.from(chatRoom, user));
 	}
 
 	public ChatResponse.ChatRoomRes createChatRoom(ChatRequest.CreateChatRoomReq request) {
 		BaseUser currentUser = securityUtils.getCurrentUserAccount().getUser();
-		String otherPersonId = request.getOtherPersonId();
-		Account account = Optional.ofNullable(accountRepository.findByUsername(otherPersonId)).orElseThrow(() -> new IllegalArgumentException("상대방이 존재하지 않습니다."));
+		Long otherPersonId = request.getOtherPersonId();
+		Account account = accountRepository.findById(otherPersonId).orElseThrow(() -> new IllegalArgumentException("상대방이 존재하지 않습니다."));
 		BaseUser otherUser = account.getUser();
 		ChatRoom chatRoom = currentUser.createChat(otherUser);
 		ChatRoom savedChatRoom = chatRoomRepository.save(chatRoom);
@@ -66,11 +71,16 @@ public class ChatAppService {
 		return chatMessages;
 	}
 
-	public void saveMessage(Long chatRoomId, ChatRequest.ChatMessageReq request) {
-		ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId).orElseThrow(() -> new IllegalArgumentException("채팅방이 존재하지 않습니다."));
-		BaseUser currentUser = securityUtils.getCurrentUserAccount().getUser();
+	public void saveMessage(Long chatRoomId, ChatRequest.ChatMessageReq request, Principal principal) {
+		ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId).orElseThrow(() -> new BusinessLogicException(ErrorCode.NOT_FOUND_ENTITY, "채팅방이 존재하지 않습니다."));
+		String name = principal.getName();
+		Account account = accountRepository.findByUsername(name);
+		BaseUser user = account.getUser();
+		if(!chatRoom.isParticipant(user)){
+			throw new BusinessLogicException(ErrorCode.NO_PERMISSION, "채팅방에 참여하지 않은 사용자입니다.");
+		}
 		ChatMessage message = ChatMessage.builder().message(request.getContent())
-				.sender(currentUser)
+				.sender(user)
 				.build();
 		chatRoom.addMessage(message);
 	}

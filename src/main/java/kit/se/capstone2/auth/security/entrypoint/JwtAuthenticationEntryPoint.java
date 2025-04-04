@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
@@ -26,12 +27,12 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
-		log.info(authException);
-		response.setStatus(HttpStatus.UNAUTHORIZED.value());
-		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-		ServletOutputStream outputStream = response.getOutputStream();
-		outputStream.print(objectMapper.writeValueAsString(CommonResponse.error(ErrorCode.INVALID_TOKEN)));
-		outputStream.close();
+		if (authException instanceof BadCredentialsException) {
+			response.setStatus(HttpStatus.UNAUTHORIZED.value());
+			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+			ServletOutputStream outputStream = response.getOutputStream();
+			outputStream.print(objectMapper.writeValueAsString(CommonResponse.error(ErrorCode.INVALID_TOKEN)));
+			outputStream.close();
+		}
 	}
-
 }

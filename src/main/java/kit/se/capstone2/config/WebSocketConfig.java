@@ -3,9 +3,13 @@ package kit.se.capstone2.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.messaging.support.ChannelInterceptor;
+import org.springframework.security.config.annotation.web.messaging.MessageSecurityMetadataSourceRegistry;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.config.annotation.*;
 import org.springframework.web.socket.handler.WebSocketHandlerDecoratorFactory;
@@ -14,6 +18,7 @@ import org.springframework.web.socket.handler.WebSocketHandlerDecoratorFactory;
 @EnableWebSocketMessageBroker // 송신자 -> (메시지 브로커) -> 수신자1, 수신자2 ...
 @Configuration
 @RequiredArgsConstructor
+@Order(Ordered.HIGHEST_PRECEDENCE + 99) // Spring Security보다 먼저 실행
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
 	private final ChannelInterceptor stompInterceptor;
@@ -47,4 +52,5 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	public void configureClientInboundChannel(ChannelRegistration registration) {
 		registration.interceptors(stompInterceptor);
 	}
+
 }

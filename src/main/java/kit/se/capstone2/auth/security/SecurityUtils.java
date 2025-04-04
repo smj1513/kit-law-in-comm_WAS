@@ -11,6 +11,7 @@ import kit.se.capstone2.user.domain.model.lawyer.Lawyer;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -25,12 +26,10 @@ public class SecurityUtils {
 
 	@NonNull
 	public Account getCurrentUserAccount(){
-		Account principal = Optional.of((Account) SecurityContextHolder.getContext()
-						.getAuthentication()
-						.getPrincipal())
-				.orElseThrow(() -> new CustomAuthorizationException(ErrorCode.NOT_FOUND_USER, "사용자 정보가 존재하지 않습니다."));
+		Account principal = (Account) Optional.ofNullable( SecurityContextHolder.getContext()
+						.getAuthentication()).orElseThrow(() -> new CustomAuthorizationException(ErrorCode.NOT_FOUND_USER, "사용자 정보가 존재하지 않습니다.")).getPrincipal();
 
-		return Optional.of(accountRepository.findByUsername(principal.getUsername()))
+		return Optional.ofNullable(accountRepository.findByUsername(principal.getUsername()))
 				.orElseThrow(()-> new CustomAuthorizationException(ErrorCode.NOT_FOUND_USER, "사용자 정보가 존재하지 않습니다."));
 	}
 
@@ -52,7 +51,7 @@ public class SecurityUtils {
 		}
 	}
 
-	public void setAuthentication(String jwt){
+	public Authentication setAuthentication(String jwt){
 
 		Role authorities = jwtUtils.getAuthorities(jwt);
 		String username = jwtUtils.getUsername(jwt);
@@ -62,5 +61,6 @@ public class SecurityUtils {
 				null,
 				account.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+		return usernamePasswordAuthenticationToken;
 	}
 }

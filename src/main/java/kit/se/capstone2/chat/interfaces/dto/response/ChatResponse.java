@@ -24,13 +24,13 @@ public class ChatResponse {
 		private int unreadMessageCount;
 
 		//TODO: ChatRoom -> ChatRoomRes 변환
-		public static ChatRoomRes from(ChatRoom chatRoom, BaseUser creator) {
-			BaseUser otherPerson = chatRoom.getOtherPerson(creator);
+		public static ChatRoomRes from(ChatRoom chatRoom, BaseUser user) {
+			BaseUser otherPerson = chatRoom.getOtherPerson(user);
 			return ChatRoomRes.builder()
 					.chatRoomId(chatRoom.getId())
 					.otherMemberName(otherPerson.isLawyer() ? otherPerson.getName() : otherPerson.getNickname())
-					.otherMemberProfileImage(FileResponse.from(otherPerson.getProfileImage()))
-					.lastMessageAt(chatRoom.getLastMessage().getSentAt())
+					.otherMemberProfileImage(otherPerson.getProfileImage() == null ? null : FileResponse.from(otherPerson.getProfileImage()))
+					.lastMessageAt(chatRoom.getLastMessage() == null ? null : chatRoom.getLastMessage().getSentAt())
 					.unreadMessageCount(chatRoom.getUnreadMessageCount())
 					.build();
 		}
