@@ -1,8 +1,6 @@
 package kit.se.capstone2.chat.interfaces.controller;
 
-import kit.se.capstone2.auth.domain.model.Account;
 import kit.se.capstone2.chat.application.ChatAppService;
-import kit.se.capstone2.chat.interfaces.dto.TestHello;
 import kit.se.capstone2.chat.interfaces.dto.request.ChatRequest;
 import kit.se.capstone2.chat.interfaces.dto.response.ChatResponse;
 import kit.se.capstone2.common.api.code.SuccessCode;
@@ -11,16 +9,10 @@ import kit.se.capstone2.docs.ChatDocsController;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Slice;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
-import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.user.SimpUser;
 import org.springframework.messaging.simp.user.SimpUserRegistry;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -43,7 +35,7 @@ public class ChatController implements ChatDocsController {
 
 	//채팅방 생성
 	@PostMapping("/chat/room")
-	public CommonResponse<ChatResponse.ChatRoomRes> createChatRoom(ChatRequest.CreateChatRoomReq request) {
+	public CommonResponse<ChatResponse.ChatRoomRes> createChatRoom(@RequestBody ChatRequest.CreateChatRoomReq request) {
 		return CommonResponse.success(SuccessCode.OK, chatService.createChatRoom(request));
 	}
 
