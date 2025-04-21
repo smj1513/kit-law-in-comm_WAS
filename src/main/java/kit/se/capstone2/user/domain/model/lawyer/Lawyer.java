@@ -99,4 +99,8 @@ public class Lawyer extends BaseUser {
 	public String getNickname() {
 		return this.getName();
 	}
+	@Override
+	public String getResponseName(){
+		return this.getName();
+	}
 }

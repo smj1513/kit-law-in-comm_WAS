@@ -95,4 +95,5 @@ public abstract class BaseUser {
 	public boolean isClient() {
 		return account.getRole().equals(Role.ROLE_USER);
 	}
+	public abstract String getResponseName();
 }

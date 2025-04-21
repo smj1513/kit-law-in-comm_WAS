@@ -17,12 +17,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -71,7 +69,7 @@ public class ChatAppService {
 		return chatMessages;
 	}
 
-	public void saveMessage(Long chatRoomId, ChatRequest.ChatMessageReq request, Principal principal) {
+	public ChatMessage saveMessage(Long chatRoomId, ChatRequest.ChatMessageReq request, Principal principal) {
 		ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId).orElseThrow(() -> new BusinessLogicException(ErrorCode.NOT_FOUND_ENTITY, "채팅방이 존재하지 않습니다."));
 		String name = principal.getName();
 		Account account = accountRepository.findByUsername(name);
@@ -83,5 +81,7 @@ public class ChatAppService {
 				.sender(user)
 				.build();
 		chatRoom.addMessage(message);
+		return chatMessageRepository.save(message);
+
 	}
 }

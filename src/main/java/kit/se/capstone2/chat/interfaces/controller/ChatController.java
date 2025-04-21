@@ -1,6 +1,7 @@
 package kit.se.capstone2.chat.interfaces.controller;
 
 import kit.se.capstone2.chat.application.ChatAppService;
+import kit.se.capstone2.chat.domain.model.ChatMessage;
 import kit.se.capstone2.chat.interfaces.dto.request.ChatRequest;
 import kit.se.capstone2.chat.interfaces.dto.response.ChatResponse;
 import kit.se.capstone2.common.api.code.SuccessCode;
@@ -41,7 +42,9 @@ public class ChatController implements ChatDocsController {
 
 	//특정 채팅방의 메시지 목록 조회
 	@GetMapping("/chat/room/{chatRoomId}")
-	public CommonResponse<Slice<ChatResponse.ChatMessageRes>> getChatMessages(@PathVariable Long chatRoomId, @RequestParam int page, @RequestParam int size) {
+	public CommonResponse<Slice<ChatResponse.ChatMessageRes>> getChatMessages(@PathVariable Long chatRoomId,
+	                                                                          @RequestParam int page,
+	                                                                          @RequestParam int size) {
 		return CommonResponse.success(SuccessCode.OK, chatService.getChatMessages(chatRoomId, page, size));
 	}
 
@@ -51,7 +54,14 @@ public class ChatController implements ChatDocsController {
 	                        @DestinationVariable Long chatRoomId,
 	                        Principal principal // 추가
 	) {
-		chatService.saveMessage(chatRoomId, request, principal);
-		messagingTemplate.convertAndSend("/sub/chat/" + chatRoomId, request);
+		ChatMessage chatMessage = chatService.saveMessage(chatRoomId, request, principal);
+		messagingTemplate.convertAndSend("/sub/chat/" + chatRoomId, ChatResponse.ChatMessageRes.builder().senderName(chatMessage.getSender().getResponseName())
+				.message(chatMessage.getMessage())
+				.senderId(chatMessage.getSender().getAccount().getUsername())
+				.messageId(chatMessage.getId())
+				.createdAt(chatMessage.getSentAt())
+				.isRead(chatMessage.isRead()) // 이 부분은 생각좀 해야할듯..
+				.build()
+		);
 	}
 }

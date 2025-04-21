@@ -9,6 +9,7 @@ import kit.se.capstone2.posts.question.interfaces.response.QuestionResponse;
 import kit.se.capstone2.user.domain.enums.LegalSpeciality;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -40,7 +41,8 @@ public class QuestionController implements QuestionDocsController {
 
 	@PostMapping
 	public CommonResponse<QuestionResponse.PostQuestion> createQuestion(
-			@RequestBody QuestionRequest.Create request
+			@RequestBody
+			@Validated QuestionRequest.Create request
 	) {
 		return CommonResponse.success(SuccessCode.CREATED, questionAppService.createQuestion(request));
 	}

@@ -39,7 +39,7 @@ public interface UserDocsController {
 			@Parameter(content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE))
 			MultipartFile licenseImage);
 
-	@Operation(summary = "변호사의 전문 분야 목록 조회", description = "전문 분야 목록을 조회한다.")
+	@Operation(summary = "법률 카테고리 목록 조회", description = "법률 카테고리 목록을 조회한다.")
 	@ApiResponse(responseCode = "200", description = "성공")
 	CommonResponse<List<UserResponse.LegalSpecialtyInfo>> getLegalSpecialists();
 
