@@ -54,19 +54,20 @@ public class SecurityConfig {
 
 		UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
-
 		corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000", "http://127.0.0.1:3000", "http://202.31.202.38", "http://localhost:8080"));
 		corsConfiguration.setAllowedMethods(List.of("*"));
 		corsConfiguration.setAllowedHeaders(List.of("*"));
 		corsConfiguration.setExposedHeaders(List.of(
-				JwtProperties.AUTH_HEADER,
-				"Access-Control-Allow-Origin",
-				"Access-Control-Allow-Credentials",
-				"Access-Control-Expose-Headers",
-				"Access-Control-Max-Age",
-				"Content-Length",
-				"Cache-Control",
-				"Content-Type"));
+				JwtProperties.AUTH_HEADER
+//				,
+//				"Access-Control-Allow-Origin",
+//				"Access-Control-Allow-Credentials",
+//				"Access-Control-Expose-Headers",
+//				"Access-Control-Max-Age",
+//				"Content-Length",
+//				"Cache-Control",
+//				"Content-Type"
+			));
 		corsConfiguration.setMaxAge(3600L);
 		corsConfiguration.setAllowCredentials(true);
 
@@ -120,15 +121,15 @@ public class SecurityConfig {
 
 		return http.build();
 	}
-	@Bean
-	public WebSecurityCustomizer webSecurityCustomizer() {
-		return (web) -> web.ignoring()
-				.requestMatchers("/users/join/**")
-				.requestMatchers("/users/legal-speciality")
-				.requestMatchers(HttpMethod.GET, "/questions/**")
-				.requestMatchers(HttpMethod.GET, "/answers/**")
-				.requestMatchers("/auth/token/refresh"); // 필터를 타지 않을 경로 지정
-	}
+//	@Bean
+//	public WebSecurityCustomizer webSecurityCustomizer() {
+//		return (web) -> web.ignoring()
+//				.requestMatchers("/users/join/**")
+//				.requestMatchers("/users/legal-speciality")
+//				.requestMatchers(HttpMethod.GET, "/questions/**")
+//				.requestMatchers(HttpMethod.GET, "/answers/**")
+//				.requestMatchers("/auth/token/refresh"); // 필터를 타지 않을 경로 지정
+//	}
 
 	@Bean
 	public RoleHierarchy roleHierarchy() {

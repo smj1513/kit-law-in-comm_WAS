@@ -40,7 +40,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			filterChain.doFilter(request, response);
 			return;
 		}
-
+		String path = request.getRequestURI();
+		if (path.equals("/auth/token/refresh") || path.equals("/auth/login")) {
+			filterChain.doFilter(request, response);
+			return;
+		}
 		if (authHeader == null) {
 			SecurityContextHolder.clearContext();  // 중요: 기존 인증 정보 제거
 			filterChain.doFilter(request, response);
