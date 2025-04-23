@@ -22,6 +22,7 @@ import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -119,7 +120,15 @@ public class SecurityConfig {
 
 		return http.build();
 	}
-
+	@Bean
+	public WebSecurityCustomizer webSecurityCustomizer() {
+		return (web) -> web.ignoring()
+				.requestMatchers("/users/join/**")
+				.requestMatchers("/users/legal-speciality")
+				.requestMatchers(HttpMethod.GET, "/questions/**")
+				.requestMatchers(HttpMethod.GET, "/answers/**")
+				.requestMatchers("/auth/token/refresh"); // 필터를 타지 않을 경로 지정
+	}
 
 	@Bean
 	public RoleHierarchy roleHierarchy() {
