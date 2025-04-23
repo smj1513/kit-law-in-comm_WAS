@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<CommonResponse<Void>> handleException(Exception e) {
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(CommonResponse.error(ErrorCode.INTENAL_SERVER_ERROR, e.getCause().getMessage()));
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(CommonResponse.error(ErrorCode.INTENAL_SERVER_ERROR, e.getMessage()));
 	}
 
 	@ExceptionHandler(BusinessLogicException.class)
@@ -46,7 +46,7 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler({ConstraintViolationException.class})
 	public ResponseEntity<CommonResponse<Void>> handleConstraintViolationException(ConstraintViolationException e) {
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(CommonResponse.error(ErrorCode.CONSTRAINT_VIOLATION, e.getCause().getMessage()));
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(CommonResponse.error(ErrorCode.CONSTRAINT_VIOLATION, e.getMessage()));
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
