@@ -80,6 +80,7 @@ public class DataInitializer {
 					.approvalStatus(ApprovalStatus.APPROVED).build();
 
 			Lawyer aiLawyer = Lawyer.builder()
+					.id(1L)
 					.name("로인컴 AI 어시스턴트")
 					.description("""
 									안녕하세요! 저는 로인컴의 AI 어시스턴트에요.

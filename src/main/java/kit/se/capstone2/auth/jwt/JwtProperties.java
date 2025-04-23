@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class JwtProperties {
-	public static final Long ACCESS_TOKEN_EXPIRATION = 1000L * 60 * 60 * 24; // 1일
+	public static final Long ACCESS_TOKEN_EXPIRATION = 1000L * 60; //* 60 * 24; // 1분
 	public static final Long REFRESH_TOKEN_EXPIRATION = 1000L * 60 * 60 * 24 * 7; //7일
 	public static final String AUTH_HEADER = "X-ACCESS-TOKEN";
 	public static final String TOKEN_PREFIX = "Bearer ";
