@@ -64,11 +64,12 @@ public class QuestionController implements QuestionDocsController {
 
 	@GetMapping("/search")
 	public CommonResponse<Page<QuestionResponse.PostQuestion>> searchQuestions(
-			@RequestParam String keyword,
+			@RequestParam(required = false) String keyword,
+			@RequestParam(required = false) LegalSpeciality legalSpeciality,
 			@RequestParam int page,
 			@RequestParam int size
 	) {
-		return CommonResponse.success(SuccessCode.OK, questionAppService.searchQuestions(keyword, page, size));
+		return CommonResponse.success(SuccessCode.OK, questionAppService.searchQuestions(keyword, legalSpeciality,page, size));
 	}
 
 

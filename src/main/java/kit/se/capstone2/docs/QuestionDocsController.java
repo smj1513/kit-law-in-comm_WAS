@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Tag(name = "상담글 관련 API", description = "상담글 관련 API 문서")
 public interface QuestionDocsController {
 
-	@Operation(summary = "특정 법률 분야의 상담글 목록 조회", description = "특정 법률 분야의 상담글을 페이지네이션으로 조회한다.")
+	@Operation(summary = "특정 법률 분야의 상담글 목록 조회", description = "특정 법률 분야의 상담글을 페이지네이션으로 조회한다.", deprecated = true)
 	@ApiResponse(responseCode = "200", description = "성공")
 	CommonResponse<Page<QuestionResponse.PostQuestion>> getQuestionByLegalSpeciality(@RequestParam LegalSpeciality legalSpeciality,
 	                                                                                 @RequestParam int page,
