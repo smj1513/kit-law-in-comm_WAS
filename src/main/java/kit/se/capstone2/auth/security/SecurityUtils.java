@@ -56,7 +56,6 @@ public class SecurityUtils {
 		Role authorities = jwtUtils.getAuthorities(jwt);
 		String username = jwtUtils.getUsername(jwt);
 		Account account = Account.builder().role(authorities).username(username).build();
-
 		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(account,
 				null,
 				account.getAuthorities());
