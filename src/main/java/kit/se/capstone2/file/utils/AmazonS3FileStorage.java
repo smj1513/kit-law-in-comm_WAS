@@ -23,6 +23,7 @@ public class AmazonS3FileStorage implements FileStorage{
 	public void store(MultipartFile file, String path) {
 		try {
 			ObjectMetadata metadata = new ObjectMetadata();
+			metadata.setContentLength(file.getSize());
 			metadata.setContentType(file.getContentType());
 			s3.putObject(bucketName, path, file.getInputStream(), metadata);
 		} catch (Exception e) {

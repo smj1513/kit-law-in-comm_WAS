@@ -57,7 +57,7 @@ public class UserAppService {
 	public UserResponse.LawyerRes joinLawyer(UserRequest.JoinLawyer request, MultipartFile licenseImage) {
 		Account account = Account.builder()
 				.username(request.getUsername())
-				.password(request.getPassword())
+				.password(passwordEncoder.encode(request.getPassword()))
 				.role(Role.ROLE_LAWYER)
 				.approvalStatus(ApprovalStatus.WAITING)
 				.build();
