@@ -93,8 +93,8 @@ public class QuestionAppService {
 
 	public Page<QuestionResponse.PostQuestion> searchQuestions(String keyword, LegalSpeciality legalSpeciality, int page, int size) {
 		PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Order.desc("createdAt")));
-		String searchKeyword = "%" + keyword + "%";
-		Page<Question> result = questionRepository.findByKeyword(searchKeyword, legalSpeciality,pageRequest);
+		String searchKeyword = keyword == null ? null : "%" + keyword + "%";
+		Page<Question> result = questionRepository.findByKeywordAndLegalSpeciality(searchKeyword, legalSpeciality,pageRequest);
 		return result.map(QuestionResponse.PostQuestion::from);
 	}
 }

@@ -19,7 +19,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 			 select q from Question q where (:keyword is null or q.title like :keyword or q.content like :keyword)
              and (:legalSpeciality is null or q.legalSpeciality = :legalSpeciality)
 			""")
-	Page<Question> findByKeyword(@Param("keyword") String keyword, LegalSpeciality legalSpeciality, Pageable pageable);
+	Page<Question> findByKeywordAndLegalSpeciality(@Param("keyword") String keyword, @Param("legalSpeciality") LegalSpeciality legalSpeciality, Pageable pageable);
 
 	@Query(value = """
 			select q from Question q where q.reportsCount >= :reportsCount
