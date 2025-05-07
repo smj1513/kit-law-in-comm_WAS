@@ -24,6 +24,16 @@ public class SecurityUtils {
 	private final AccountRepository accountRepository;
 	private final JwtUtils jwtUtils;
 
+	public Optional<Account> getNullableCurrentAccount(){
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if(authentication == null || authentication.getPrincipal() == null){
+			return Optional.empty();
+		}
+		Account principal = (Account) authentication.getPrincipal();
+		return Optional.ofNullable(accountRepository.findByUsername(principal.getUsername()));
+	}
+
+
 	@NonNull
 	public Account getCurrentUserAccount(){
 		Account principal = (Account) Optional.ofNullable( SecurityContextHolder.getContext()

@@ -96,4 +96,8 @@ public abstract class BaseUser {
 		return account.getRole().equals(Role.ROLE_USER);
 	}
 	public abstract String getResponseName();
+
+	public boolean equals(BaseUser other) {
+		return this.getId().equals(other.getId());
+	}
 }

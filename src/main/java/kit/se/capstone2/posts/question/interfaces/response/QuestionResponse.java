@@ -19,7 +19,6 @@ public class QuestionResponse
 	@AllArgsConstructor
 	public static class PostQuestion {
 
-
 		private Long questionId;
 
 		private String title;
@@ -47,6 +46,10 @@ public class QuestionResponse
 		@Schema(description = "익명 여부")
 		private boolean isAnonymous;
 
+		@Schema(description = "작성자 여부")
+		@Builder.Default
+		private boolean isAuthor = false;
+
 		@Schema(description = "신고 횟수")
 		private int reportCount;
 
@@ -68,5 +71,7 @@ public class QuestionResponse
 					.build();
 		}
 	}
+
+
 
 }

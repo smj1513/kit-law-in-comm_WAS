@@ -18,6 +18,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -40,10 +42,17 @@ public class QuestionAppService {
 		return result.map(QuestionResponse.PostQuestion::from);
 	}
 
-	public QuestionResponse.PostQuestion retrievalQuestionDetails(Long id) {
+	public QuestionResponse.PostQuestion getQuestionDetails(Long id) {
+		//질문 상세조회
 		Question question = questionRepository.findById(id).orElseThrow(() -> new BusinessLogicException(ErrorCode.NOT_FOUND_ENTITY, "해당하는 질문이 존재하지 않습니다."));
 		question.addViewCount();
-		return QuestionResponse.PostQuestion.from(question);
+		QuestionResponse.PostQuestion response = QuestionResponse.PostQuestion.from(question);
+
+		//계정
+		Optional<Account> account = securityUtils.getNullableCurrentAccount();
+		BaseUser author = question.getAuthor();
+		account.ifPresent(a-> response.setAuthor(a.getUser().equals(author)));
+		return response;
 	}
 
 	public QuestionResponse.PostQuestion createQuestion(QuestionRequest.Create request) {
@@ -86,6 +95,7 @@ public class QuestionAppService {
 		question.setTitle(request.getTitle());
 		question.setLegalSpeciality(request.getLegalSpeciality());
 		question.setFirstOccurrenceDate(request.getFirstOccurrenceDate());
+		question.setIsAnonymous(request.isAnonymous());
 		Question save = questionRepository.save(question);
 		return QuestionResponse.PostQuestion.from(save);
 	}

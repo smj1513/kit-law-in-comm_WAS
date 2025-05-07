@@ -32,13 +32,15 @@ public class QuestionController implements QuestionDocsController {
 		return CommonResponse.success(SuccessCode.OK, questionAppService.getQuestions(page, size));
 	}
 
+	//질문 상세조회
 	@GetMapping("/{id}")
 	public CommonResponse<QuestionResponse.PostQuestion> getQuestionById(
 			@PathVariable Long id
 	) {
-		return CommonResponse.success(SuccessCode.OK, questionAppService.retrievalQuestionDetails(id));
+		return CommonResponse.success(SuccessCode.OK, questionAppService.getQuestionDetails(id));
 	}
 
+	//질문 생성
 	@PostMapping
 	public CommonResponse<QuestionResponse.PostQuestion> createQuestion(
 			@RequestBody
@@ -47,6 +49,8 @@ public class QuestionController implements QuestionDocsController {
 		return CommonResponse.success(SuccessCode.CREATED, questionAppService.createQuestion(request));
 	}
 
+
+	//질문 삭제
 	@DeleteMapping("/{id}")
 	public CommonResponse<QuestionResponse.PostQuestion> deleteQuestion(
 			@PathVariable Long id
@@ -54,6 +58,7 @@ public class QuestionController implements QuestionDocsController {
 		return CommonResponse.success(SuccessCode.DELETED, questionAppService.deleteQuestion(id));
 	}
 
+	//질문 수정
 	@PutMapping("/{id}")
 	public CommonResponse<QuestionResponse.PostQuestion> updateQuestion(
 			@PathVariable Long id,

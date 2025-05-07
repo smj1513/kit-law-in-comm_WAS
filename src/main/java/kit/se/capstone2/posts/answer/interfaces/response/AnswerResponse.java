@@ -22,6 +22,7 @@ public class AnswerResponse {
 		private int reportCount;
 		private String authorName;
 		private Long authorId;
+		private boolean isAuthor;
 
 		public static GetAnswer from(Answer answer) {
 			return answer == null ? null : GetAnswer.builder()

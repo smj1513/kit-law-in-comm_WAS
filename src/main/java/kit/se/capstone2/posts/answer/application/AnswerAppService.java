@@ -1,5 +1,6 @@
 package kit.se.capstone2.posts.answer.application;
 
+import kit.se.capstone2.auth.domain.model.Account;
 import kit.se.capstone2.auth.security.SecurityUtils;
 import kit.se.capstone2.common.api.code.ErrorCode;
 import kit.se.capstone2.common.exception.BusinessLogicException;
@@ -21,6 +22,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -31,10 +35,15 @@ public class AnswerAppService {
 	private final SecurityUtils securityUtils;
 
 	public Page<AnswerResponse.GetAnswer> retrieveAnswers(Long questionId, int page, int size) {
-
 		PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Order.desc("createdAt")));
 		Page<Answer> result = answerRepository.findByQuestionId(questionId, pageRequest);
-		return result.map(AnswerResponse.GetAnswer::from);
+		Optional<Account> nullableCurrentAccount = securityUtils.getNullableCurrentAccount();
+		Page<AnswerResponse.GetAnswer> response = result.map(AnswerResponse.GetAnswer::from);
+		nullableCurrentAccount.ifPresent(account -> {
+			BaseUser author = account.getUser();
+			response.forEach(answer -> answer.setAuthor(Objects.equals(author.getId(), answer.getAuthorId())));
+		});
+		return response;
 
 	}
 
