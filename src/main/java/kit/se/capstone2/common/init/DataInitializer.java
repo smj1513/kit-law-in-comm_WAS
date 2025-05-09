@@ -62,6 +62,7 @@ public class DataInitializer {
 					.approvalStatus(ApprovalStatus.APPROVED).build();
 
 			ClientUser clientUser = ClientUser.builder()
+					.id(1L)
 					.name("관리자")
 					.nickname("관리자")
 					.birthDate(LocalDate.of(2000, 02, 21))
@@ -80,7 +81,7 @@ public class DataInitializer {
 					.approvalStatus(ApprovalStatus.APPROVED).build();
 
 			Lawyer aiLawyer = Lawyer.builder()
-					.id(1L)
+					.id(2L)
 					.name("로인컴 AI 어시스턴트")
 					.description("""
 									안녕하세요! 저는 로인컴의 AI 어시스턴트에요.
@@ -89,7 +90,7 @@ public class DataInitializer {
 							
 									\s
 							
-									커뮤니티 질문&답변에서, 유사한 질문자님의 질문과 유사한 판결을 찾아 궁금한 내용을 답변해드리는 역할을 하고 있어요.
+									커뮤니티 질문&답변에서, 질문자님의 질문과 유사한 판결을 찾아 궁금한 내용을 답변해드리는 역할을 하고 있어요.
 									\s
 									유사한 판결을 못찾으면 웹 검색을 해서 답변도 한답니다.
 							
@@ -114,7 +115,7 @@ public class DataInitializer {
 			aiLawyer.setLegalSpecialities(list);
 			List<Career> careers = List.of(Career.builder().content("-").lawyer(aiLawyer).build());
 			aiLawyer.setCareers(careers);
-			aiLawyer.setEducations(List.of(Education.builder().content("국립금오공과대학교 컴퓨터공학부 소프트웨어 공학 전공").lawyer(aiLawyer).build()));
+			aiLawyer.setEducations(List.of(Education.builder().content("국립금오공과대학교 컴퓨터공학부 소프트웨어공학 전공").lawyer(aiLawyer).build()));
 			return lawyerRepository.save(aiLawyer);
 		}
 

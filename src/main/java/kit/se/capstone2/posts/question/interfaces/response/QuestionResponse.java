@@ -3,6 +3,8 @@ package kit.se.capstone2.posts.question.interfaces.response;
 import io.swagger.v3.oas.annotations.media.Schema;
 import kit.se.capstone2.posts.question.domain.model.Question;
 import kit.se.capstone2.user.domain.enums.LegalSpeciality;
+import kit.se.capstone2.user.domain.model.BaseUser;
+import kit.se.capstone2.user.domain.model.ClientUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -55,12 +57,13 @@ public class QuestionResponse
 
 		public static PostQuestion from(Question question) {
 			Boolean isAnonymous = question.getIsAnonymous();
+			BaseUser author = question.getAuthor();
 			return PostQuestion.builder()
 					.questionId(question.getId())
 					.title(question.getTitle())
 					.content(question.getContent())
-					.authorName(isAnonymous ? null :question.getAuthor().getName())
-					.authorId(isAnonymous ? null :question.getAuthor().getAccount().getUsername())
+					.authorName(isAnonymous ? null : author.getNickname())
+					.authorId(isAnonymous ? null : author.getAccount().getUsername())
 					.createdAt(question.getCreatedAt())
 					.updatedAt(question.getUpdatedAt())
 					.legalSpeciality(question.getLegalSpeciality())

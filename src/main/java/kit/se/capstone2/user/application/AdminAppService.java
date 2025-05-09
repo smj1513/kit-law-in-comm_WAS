@@ -31,7 +31,7 @@ public class AdminAppService {
 	public Page<AdminResponse.ConfirmationLawyer> getConfirmationLawyers(int page, int size) {
 		PageRequest pageRequest = PageRequest.of(page, size);
 		Page<Lawyer> result = lawyerRepository.findAllByApprovalStatus(ApprovalStatus.WAITING, pageRequest);
-		return result.map(l-> AdminResponse.ConfirmationLawyer.builder()
+		return result.map(l -> AdminResponse.ConfirmationLawyer.builder()
 				.lawyerId(l.getId())
 				.name(l.getName())
 				.description(l.getDescription())
