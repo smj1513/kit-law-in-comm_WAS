@@ -8,6 +8,8 @@ import kit.se.capstone2.posts.question.domain.model.Question;
 import kit.se.capstone2.posts.question.domain.repository.QuestionRepository;
 import kit.se.capstone2.posts.question.interfaces.request.QuestionRequest;
 import kit.se.capstone2.posts.question.interfaces.response.QuestionResponse;
+import kit.se.capstone2.posts.question.utils.AIAnswerRequest;
+import kit.se.capstone2.posts.question.utils.AsyncRequestUtils;
 import kit.se.capstone2.user.domain.enums.LegalSpeciality;
 import kit.se.capstone2.user.domain.model.BaseUser;
 import kit.se.capstone2.user.domain.service.UserService;
@@ -24,6 +26,7 @@ import java.util.Optional;
 @Transactional
 @RequiredArgsConstructor
 public class QuestionAppService {
+	private final AsyncRequestUtils asyncRequestUtils;
 	private final QuestionRepository questionRepository;
 	private final SecurityUtils securityUtils;
 	private final UserService userService;
@@ -71,6 +74,11 @@ public class QuestionAppService {
 
 		user.addQuestion(question);
 		Question save = questionRepository.save(question);
+		asyncRequestUtils.sendAsyncRequest(AIAnswerRequest.builder()
+						.id(save.getId())
+						.title(save.getTitle())
+						.content(save.getContent())
+				.build());
 		return QuestionResponse.PostQuestion.from(save);
 	}
 
