@@ -15,6 +15,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -98,6 +99,9 @@ public class AdminResponse {
 
 		private String name;
 		private String phoneNumber;
+		private LocalDate birthDate;
+		@Builder.Default
+		private List<LegalSpeciality> legalSpeciality = new ArrayList<>();
 		private String description;
 
 		private ApprovalStatus approvalStatus;

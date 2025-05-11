@@ -56,6 +56,7 @@ public class UserResponse  {
 		private String name;
 		private String nickname;
 		private FileResponse profileImage;
+
 		public static UserInfo from(BaseUser user){
 			return UserInfo.builder()
 					.name(user.isLawyer() || user.isAdmin() ? user.getName() : null)

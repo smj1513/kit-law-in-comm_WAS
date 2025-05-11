@@ -9,6 +9,7 @@ import kit.se.capstone2.posts.question.domain.model.Question;
 import kit.se.capstone2.posts.question.domain.repository.QuestionRepository;
 import kit.se.capstone2.user.domain.enums.ApprovalStatus;
 import kit.se.capstone2.user.domain.model.lawyer.Lawyer;
+import kit.se.capstone2.user.domain.model.lawyer.LegalSpecialityInfo;
 import kit.se.capstone2.user.domain.repository.LawyerRepository;
 import kit.se.capstone2.user.interfaces.request.AdminRequest;
 import kit.se.capstone2.user.interfaces.response.AdminResponse;
@@ -47,6 +48,8 @@ public class AdminAppService {
 		return AdminResponse.ConfirmationLawyer.builder()
 				.lawyerId(lawyer.getId())
 				.name(lawyer.getName())
+				.birthDate(lawyer.getBirthDate())
+				.legalSpeciality(lawyer.getLegalSpecialities().stream().map(LegalSpecialityInfo::getLegalSpeciality).toList())
 				.description(lawyer.getDescription())
 				.phoneNumber(lawyer.getPhoneNumber())
 				.approvalStatus(account.getApprovalStatus())

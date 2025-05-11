@@ -25,6 +25,7 @@ public class Answer extends BaseTime {
 	private Long id;
 
 
+	@Column(columnDefinition = "TEXT")
 	private String content;
 
 
