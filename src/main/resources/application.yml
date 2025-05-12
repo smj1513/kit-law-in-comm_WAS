@@ -20,6 +20,7 @@ logging:
             DispatcherServlet: DEBUG
           socket: DEBUG
         messaging: TRACE
+
 aws:
   s3:
     credentials:

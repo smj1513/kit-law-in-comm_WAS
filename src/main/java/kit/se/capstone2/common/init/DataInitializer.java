@@ -6,6 +6,7 @@ import kit.se.capstone2.auth.domain.model.Account;
 import kit.se.capstone2.auth.domain.repository.AccountRepository;
 import kit.se.capstone2.chat.domain.model.ChatRoom;
 import kit.se.capstone2.chat.domain.repository.ChatRoomRepository;
+import kit.se.capstone2.file.domain.model.ProfileImageProperty;
 import kit.se.capstone2.user.domain.enums.ApprovalStatus;
 import kit.se.capstone2.user.domain.enums.LegalSpeciality;
 import kit.se.capstone2.user.domain.model.BaseUser;
@@ -116,6 +117,7 @@ public class DataInitializer {
 			List<Career> careers = List.of(Career.builder().content("-").lawyer(aiLawyer).build());
 			aiLawyer.setCareers(careers);
 			aiLawyer.setEducations(List.of(Education.builder().content("국립금오공과대학교 컴퓨터공학부 소프트웨어공학 전공").lawyer(aiLawyer).build()));
+
 			return lawyerRepository.save(aiLawyer);
 		}
 
