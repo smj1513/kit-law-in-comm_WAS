@@ -73,6 +73,7 @@ public class MyPageResponse {
 		private String content;
 		private LocalDateTime createdAt;
 		private LocalDateTime updatedAt;
+		private LegalSpeciality legalSpeciality;
 		private int reportCount;
 		private int viewCount;
 
@@ -84,6 +85,7 @@ public class MyPageResponse {
 					.createdAt(question.getCreatedAt())
 					.updatedAt(question.getUpdatedAt())
 					.reportCount(question.getReportsCount())
+					.legalSpeciality(question.getLegalSpeciality())
 					.viewCount(question.getViewCount())
 					.build();
 		}
