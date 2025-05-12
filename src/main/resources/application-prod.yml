@@ -27,4 +27,4 @@ server:
     keep-alive-timeout: 180000
   max-http-request-header-size: 30MB
 ai-server:
-  url: "http://localhost:8000/ai-answer"
+  url: "http://rag_server:8000/ai-answer"
