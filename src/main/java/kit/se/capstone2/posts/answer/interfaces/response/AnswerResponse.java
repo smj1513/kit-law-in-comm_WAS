@@ -1,5 +1,6 @@
 package kit.se.capstone2.posts.answer.interfaces.response;
 
+import kit.se.capstone2.file.interfaces.response.FileResponse;
 import kit.se.capstone2.posts.answer.domain.model.Answer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +22,7 @@ public class AnswerResponse {
 		private LocalDateTime updatedAt;
 		private int reportCount;
 		private String authorName;
+		private FileResponse profileImage;
 		private Long authorId;
 		private boolean isAuthor;
 
@@ -31,6 +33,7 @@ public class AnswerResponse {
 					.createdAt(answer.getCreatedAt())
 					.updatedAt(answer.getUpdatedAt())
 					.reportCount(answer.getReportsCount())
+					.profileImage(FileResponse.from(answer.getAuthor().getProfileImage()))
 					.authorName(answer.getAuthor().getName())
 					.authorId(answer.getAuthor().getId())
 					.build();
