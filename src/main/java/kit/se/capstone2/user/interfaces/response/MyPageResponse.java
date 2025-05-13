@@ -36,6 +36,7 @@ public class MyPageResponse {
 	@NoArgsConstructor
 	@AllArgsConstructor
 	public static class LawyerInfo {
+		private Long id;
 		private String name;
 		private String phoneNumber;
 		private String description;
@@ -49,6 +50,7 @@ public class MyPageResponse {
 
 		public static LawyerInfo from(Lawyer lawyer){
 			return LawyerInfo.builder()
+					.id(lawyer.getId())
 					.name(lawyer.getName())
 					.phoneNumber(lawyer.getPhoneNumber())
 					.description(lawyer.getDescription())
@@ -56,7 +58,7 @@ public class MyPageResponse {
 					.legalSpecialties(lawyer.getLegalSpecialities().stream().map(LegalSpecialityInfo::getLegalSpeciality).toList())
 					.careers(lawyer.getCareers().stream().map(Career::getContent).toList())
 					.educations(lawyer.getEducations().stream().map(Education::getContent).toList())
-					.officeInfo(OfficeInfoDTO.from(lawyer.getOfficeInfo()))
+					.officeInfo(lawyer.getOfficeInfo() == null ? null : OfficeInfoDTO.from(lawyer.getOfficeInfo()))
 					.build();
 		}
 	}
@@ -101,6 +103,8 @@ public class MyPageResponse {
 		private Long questionId;
 		private Long answerId;
 		private String content;
+		private String questionTitle;
+		private LegalSpeciality questionLegalSpeciality;
 		private LocalDateTime createdAt;
 		private LocalDateTime updatedAt;
 		private int reportCount;
@@ -108,6 +112,8 @@ public class MyPageResponse {
 		public static AnswerInfo from(Answer answer) {
 			return AnswerInfo.builder()
 					.questionId(answer.getQuestion().getId())
+					.questionTitle(answer.getQuestion().getTitle())
+					.questionLegalSpeciality(answer.getQuestion().getLegalSpeciality())
 					.answerId(answer.getId())
 					.content(answer.getContent())
 					.createdAt(answer.getCreatedAt())

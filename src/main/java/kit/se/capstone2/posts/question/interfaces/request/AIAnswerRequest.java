@@ -1,4 +1,4 @@
-package kit.se.capstone2.posts.question.utils;
+package kit.se.capstone2.posts.question.interfaces.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

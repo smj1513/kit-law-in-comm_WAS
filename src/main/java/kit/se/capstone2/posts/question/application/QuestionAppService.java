@@ -8,7 +8,7 @@ import kit.se.capstone2.posts.question.domain.model.Question;
 import kit.se.capstone2.posts.question.domain.repository.QuestionRepository;
 import kit.se.capstone2.posts.question.interfaces.request.QuestionRequest;
 import kit.se.capstone2.posts.question.interfaces.response.QuestionResponse;
-import kit.se.capstone2.posts.question.utils.AIAnswerRequest;
+import kit.se.capstone2.posts.question.interfaces.request.AIAnswerRequest;
 import kit.se.capstone2.posts.question.utils.AsyncRequestUtils;
 import kit.se.capstone2.user.domain.enums.LegalSpeciality;
 import kit.se.capstone2.user.domain.model.BaseUser;
@@ -74,7 +74,7 @@ public class QuestionAppService {
 
 		user.addQuestion(question);
 		Question save = questionRepository.save(question);
-		asyncRequestUtils.sendAsyncRequest(AIAnswerRequest.builder()
+		asyncRequestUtils.sendPostAsyncRequest(AIAnswerRequest.builder()
 						.id(save.getId())
 						.title(save.getTitle())
 						.content(save.getContent())
