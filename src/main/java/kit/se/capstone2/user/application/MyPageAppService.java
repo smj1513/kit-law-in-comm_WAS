@@ -57,7 +57,7 @@ public class MyPageAppService {
 		currentLawyer.updateCareers(request.getCareers());
 		currentLawyer.updateEducations(request.getEducations());
 		currentLawyer.updateSpeciality(request.getLegalSpecialities());
-		currentLawyer.setOfficeInfo(request.getOfficeInfo().toEntity());
+		currentLawyer.addOfficeInfo(request.getOfficeInfo().toEntity());
 		return MyPageResponse.LawyerInfo.from(currentLawyer);
 	}
 
