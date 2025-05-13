@@ -95,6 +95,12 @@ public class Lawyer extends BaseUser {
 		}).toList());
 	}
 
+	public void updateOfficeInfo(OfficeInfo officeInfo){
+		this.officeInfo.setAddress(officeInfo.getAddress());
+		this.officeInfo.setName(officeInfo.getName());
+		this.officeInfo.setPhoneNumber(officeInfo.getPhoneNumber());
+	}
+
 	@Override
 	public String getNickname() {
 		return this.getName();
