@@ -19,4 +19,10 @@ public class LicenseImageProperty extends FileProperty {
 
 	@OneToOne
 	private Lawyer lawyer;
+
+	@Override
+	public void clear() {
+		lawyer.setLicense(null);
+		this.lawyer = null;
+	}
 }

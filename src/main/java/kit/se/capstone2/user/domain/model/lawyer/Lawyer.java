@@ -48,7 +48,6 @@ public class Lawyer extends BaseUser {
 	public void addLicense(LicenseImageProperty license) {
 		this.license = license;
 		license.setLawyer(this);
-		license.setUploader(this);
 	}
 
 	public void addOfficeInfo(OfficeInfo officeInfo) {
@@ -67,32 +66,67 @@ public class Lawyer extends BaseUser {
 	}
 
 	public void updateSpeciality(List<LegalSpeciality> legalSpecialityInfos) {
-		this.legalSpecialities.clear();
-		this.legalSpecialities.addAll(legalSpecialityInfos.stream().map(legalSpeciality -> {
-			LegalSpecialityInfo info = LegalSpecialityInfo.builder().legalSpeciality(legalSpeciality).build();
-			info.setLawyer(this);
-			return info;
-		}).toList());
+		List<LegalSpecialityInfo> toRemove = this.legalSpecialities.stream()
+				.filter(legalSpecialityInfo -> !legalSpecialityInfos.contains(legalSpecialityInfo.getLegalSpeciality()))
+				.toList();
+		List<LegalSpeciality> toAdd = legalSpecialityInfos.stream()
+				.filter(newLegalSpeciality -> this.legalSpecialities.stream()
+						.noneMatch(existingLegalSpeciality -> existingLegalSpeciality.getLegalSpeciality().equals(newLegalSpeciality)))
+				.toList();
+		toRemove.forEach(legalSpecialityInfo -> legalSpecialityInfo.setLawyer(null));
+		//삭제
+		this.legalSpecialities.removeAll(toRemove);
+		//추가
+		toAdd.forEach(newLegalSpeciality -> {
+			LegalSpecialityInfo legalSpecialityInfo = new LegalSpecialityInfo();
+			legalSpecialityInfo.setLawyer(this);
+			legalSpecialityInfo.setLegalSpeciality(newLegalSpeciality);
+			this.legalSpecialities.add(legalSpecialityInfo);
+		});
 	}
 
 	public void updateCareers(List<String> careers) {
-		this.careers.clear();
-		this.careers.addAll(careers.stream().map(career -> {
-			Career care = new Career();
-			care.setLawyer(this);
-			care.setContent(career);
-			return care;
-		}).toList());
+		// 기존 데이터와 새로운 데이터를 비교
+		List<Career> toRemove = this.careers.stream()
+				.filter(career -> !careers.contains(career.getContent()))
+				.toList();
+
+		List<String> toAdd = careers.stream()
+				.filter(newCareer -> this.careers.stream()
+						.noneMatch(existingCareer -> existingCareer.getContent().equals(newCareer)))
+				.toList();
+
+		// 삭제
+		toRemove.forEach(career -> career.setLawyer(null));
+		this.careers.removeAll(toRemove);
+
+		// 추가
+		toAdd.forEach(newCareer -> {
+			Career career = new Career();
+			career.setLawyer(this);
+			career.setContent(newCareer);
+			this.careers.add(career);
+		});
 	}
 
 	public void updateEducations(List<String> educations) {
-		this.educations.clear();
-		this.educations.addAll(educations.stream().map(education -> {
-			Education edu = new Education();
-			edu.setLawyer(this);
-			edu.setContent(education);
-			return edu;
-		}).toList());
+		List<Education> toRemove = this.educations.stream()
+				.filter(edu -> !educations.contains(edu.getContent()))
+				.toList();
+		List<String> toAdd = educations.stream()
+				.filter(newEdu -> this.educations.stream()
+						.noneMatch(existingEdu -> existingEdu.getContent().equals(newEdu))
+				)
+				.toList();
+		toRemove.forEach(education -> education.setLawyer(null));
+		this.educations.removeAll(toRemove);
+
+		toAdd.forEach(newEdu ->{
+			Education education = new Education();
+			education.setLawyer(this);
+			education.setContent(newEdu);
+			this.educations.add(education);
+		});
 	}
 
 	public void updateOfficeInfo(OfficeInfo officeInfo){
@@ -105,6 +139,7 @@ public class Lawyer extends BaseUser {
 	public String getNickname() {
 		return this.getName();
 	}
+
 	@Override
 	public String getResponseName(){
 		return this.getName();

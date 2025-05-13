@@ -19,4 +19,10 @@ public class ProfileImageProperty extends FileProperty {
 
 	@OneToOne
 	private BaseUser user;
+
+	@Override
+	public void clear() {
+		this.user.setProfileImage(null);
+		this.user = null;
+	}
 }

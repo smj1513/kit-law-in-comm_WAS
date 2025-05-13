@@ -43,7 +43,10 @@ public class FileAppService {
 		String path = fileProperty.getPath();
 
 		fileStorage.delete(path);
+		//연관 관계를 해제 시켜줘야 fileProperty가 삭제됨
+		fileProperty.clear();
 		filePropertyRepository.delete(fileProperty);
+		filePropertyRepository.flush();
 
 		return FileResponse.from(fileProperty);
 	}

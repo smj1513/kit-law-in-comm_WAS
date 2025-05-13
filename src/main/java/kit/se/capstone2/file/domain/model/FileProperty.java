@@ -27,6 +27,5 @@ public abstract class FileProperty extends BaseTime {
 	private Long size;
 	private String path;
 
-	@ManyToOne
-	private BaseUser uploader;
+	public abstract void clear();
 }

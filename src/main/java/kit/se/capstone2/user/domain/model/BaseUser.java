@@ -39,6 +39,7 @@ public abstract class BaseUser {
 	@OneToOne(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Account account;
 
+
 	@OneToOne(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private ProfileImageProperty profileImage;
 
