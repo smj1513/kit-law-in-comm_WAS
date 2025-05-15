@@ -26,7 +26,7 @@ public class SecurityUtils {
 
 	public Optional<Account> getNullableCurrentAccount(){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if(authentication == null || authentication.getPrincipal() == null){
+		if(authentication.getPrincipal().equals("anonymousUser")){
 			return Optional.empty();
 		}
 		Account principal = (Account) authentication.getPrincipal();
