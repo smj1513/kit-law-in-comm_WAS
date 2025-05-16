@@ -31,6 +31,7 @@ public class AdminResponse {
 	public static class ReportedAnswer {
 		private Long answerId;
 		private Long authorId;
+		private String authorName;
 
 		private String title;
 		private String content;
@@ -45,6 +46,7 @@ public class AdminResponse {
 			return answer == null ? null :
 					ReportedAnswer.builder()
 							.answerId(answer.getId())
+							.authorName(answer.getAuthor().getName())
 							.authorId(answer.getAuthor().getId())
 							.title(answer.getQuestion().getTitle())
 							.content(answer.getContent())
@@ -63,6 +65,7 @@ public class AdminResponse {
 	public static class ReportedQuestion {
 		private Long questionId;
 		private Long authorId;
+		private String authorName;
 
 		private String title;
 		private String content;
@@ -78,6 +81,7 @@ public class AdminResponse {
 		public static ReportedQuestion from(Question question) {
 			return question == null ? null : ReportedQuestion.builder()
 					.questionId(question.getId())
+					.authorName(question.getAuthor().getName())
 					.authorId(question.getAuthor().getId())
 					.title(question.getTitle())
 					.content(question.getContent())
