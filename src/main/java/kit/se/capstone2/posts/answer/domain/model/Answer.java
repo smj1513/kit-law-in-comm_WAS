@@ -38,7 +38,7 @@ public class Answer extends BaseTime {
 	@JoinColumn(name = "question_id")
 	private Question question;
 
-	@OneToMany(mappedBy = "answer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "answer", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	@Builder.Default
 	private List<AnswerReport> answerReports = new ArrayList<>();
 

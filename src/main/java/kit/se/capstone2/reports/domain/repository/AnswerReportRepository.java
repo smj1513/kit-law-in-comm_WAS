@@ -7,7 +7,10 @@ import kit.se.capstone2.user.domain.model.BaseUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 public interface AnswerReportRepository extends JpaRepository<AnswerReport, Long> {
 
@@ -16,4 +19,8 @@ public interface AnswerReportRepository extends JpaRepository<AnswerReport, Long
 
 
 	boolean existsByAnswerAndReporter(Answer answer, BaseUser reporter);
+
+	@Modifying
+	@Query("DELETE FROM AnswerReport r where r.answer.id in :answerIds")
+	int deleteAllByAnswerIds(@Param("answerIds") List<Long> answerId);
 }

@@ -7,6 +7,8 @@ import kit.se.capstone2.posts.answer.domain.model.Answer;
 import kit.se.capstone2.posts.answer.domain.repository.AnswerRepository;
 import kit.se.capstone2.posts.question.domain.model.Question;
 import kit.se.capstone2.posts.question.domain.repository.QuestionRepository;
+import kit.se.capstone2.reports.domain.repository.AnswerReportRepository;
+import kit.se.capstone2.reports.domain.repository.QuestionReportRepository;
 import kit.se.capstone2.user.domain.enums.ApprovalStatus;
 import kit.se.capstone2.user.domain.model.lawyer.Lawyer;
 import kit.se.capstone2.user.domain.model.lawyer.LegalSpecialityInfo;
@@ -27,6 +29,8 @@ public class AdminAppService {
 	private final LawyerRepository lawyerRepository;
 	private final AnswerRepository answerRepository;
 	private final QuestionRepository questionRepository;
+	private final QuestionReportRepository questionReportRepository;
+	private final AnswerReportRepository answerReportRepository;
 
 
 	public Page<AdminResponse.ConfirmationLawyer> getConfirmationLawyers(int page, int size) {
@@ -75,11 +79,13 @@ public class AdminAppService {
 
 	public AdminResponse.RemoveQuestions removeQuestions(AdminRequest.RemoveQuestionsReq request) {
 		answerRepository.deleteAllByQuestionId(request.getQuestionIds());
+		questionReportRepository.deleteAllByQuestionIds(request.getQuestionIds());
 		int count = questionRepository.deleteAllById(request.getQuestionIds());
 		return AdminResponse.RemoveQuestions.builder().removedCount(count).build();
 	}
 
 	public AdminResponse.RemoveAnswers removeAnswers(AdminRequest.RemoveAnswersReq request) {
+		answerReportRepository.deleteAllByAnswerIds(request.getAnswerIds());
 		int count = answerRepository.deleteAllById(request.getAnswerIds());
 		return AdminResponse.RemoveAnswers.builder().removedCount(count).build();
 	}

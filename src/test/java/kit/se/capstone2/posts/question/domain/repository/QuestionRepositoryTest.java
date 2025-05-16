@@ -3,8 +3,11 @@ package kit.se.capstone2.posts.question.domain.repository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import kit.se.capstone2.auth.domain.repository.AccountRepository;
+import kit.se.capstone2.posts.answer.domain.model.Answer;
+import kit.se.capstone2.posts.answer.domain.repository.AnswerRepository;
 import kit.se.capstone2.posts.question.domain.model.Question;
 import kit.se.capstone2.reports.domain.model.QuestionReport;
+import kit.se.capstone2.reports.domain.repository.AnswerReportRepository;
 import kit.se.capstone2.reports.domain.repository.QuestionReportRepository;
 import kit.se.capstone2.user.domain.enums.LegalSpeciality;
 import kit.se.capstone2.user.domain.model.ClientUser;
@@ -41,6 +44,10 @@ class QuestionRepositoryTest {
 	ClientUserRepository clientUserRepository;
 	@Autowired
 	AccountRepository accountRepository;
+	@Autowired
+	private AnswerReportRepository answerReportRepository;
+	@Autowired
+	private AnswerRepository answerRepository;
 
 
 	@Test
@@ -152,11 +159,16 @@ class QuestionRepositoryTest {
 		Question q2 = Question.builder().title("Question 2").content("Content 2").author(author).build();
 		Question q3 = Question.builder().title("Question 3").content("Content 3").author(author).build();
 
+		Answer answer = Answer.builder().content("Answer 1").build();
+		q1.addAnswer(answer);
+
 		questionRepository.saveAndFlush(q1);
 		questionRepository.saveAndFlush(q2);
 		questionRepository.saveAndFlush(q3);
 
 		// when
+
+		answerRepository.deleteAllByQuestionId(List.of(q1.getId()));
 		int deletedCount = questionRepository.deleteAllById(List.of(q1.getId(), q2.getId()));
 		em.flush();
 		em.clear();

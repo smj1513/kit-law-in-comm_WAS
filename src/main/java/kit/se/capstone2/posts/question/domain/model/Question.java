@@ -46,14 +46,14 @@ public class Question extends BaseTime {
 	@NotNull
 	private BaseUser author;
 
-	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	@Builder.Default
 	private List<QuestionReport> reports = new ArrayList<>();
 
 	@Formula("(select count(*) from question_report qr where qr.question_id = id)")
 	private int reportsCount;
 
-	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	@Builder.Default
 	private List<Answer> answers = new ArrayList<>();
 
