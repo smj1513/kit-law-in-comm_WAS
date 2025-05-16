@@ -16,12 +16,15 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
+@Transactional
 @AutoConfigureTestDatabase
 @ActiveProfiles("test")
 class QuestionRepositoryTest {
@@ -139,4 +142,28 @@ class QuestionRepositoryTest {
 		assertEquals(4, result5.getTotalElements());
 	}
 
+	@Test
+	void deleteAllById() {
+		// given
+		ClientUser author = ClientUser.builder().name("name").nickname("nickname").birthDate(LocalDate.now()).build();
+		clientUserRepository.saveAndFlush(author);
+
+		Question q1 = Question.builder().title("Question 1").content("Content 1").author(author).build();
+		Question q2 = Question.builder().title("Question 2").content("Content 2").author(author).build();
+		Question q3 = Question.builder().title("Question 3").content("Content 3").author(author).build();
+
+		questionRepository.saveAndFlush(q1);
+		questionRepository.saveAndFlush(q2);
+		questionRepository.saveAndFlush(q3);
+
+		// when
+		int deletedCount = questionRepository.deleteAllById(List.of(q1.getId(), q2.getId()));
+		em.flush();
+		em.clear();
+		// then
+		assertEquals(2, deletedCount);
+		assertTrue(questionRepository.findById(q1.getId()).isEmpty());
+		assertTrue(questionRepository.findById(q2.getId()).isEmpty());
+		assertTrue(questionRepository.findById(q3.getId()).isPresent());
+	}
 }

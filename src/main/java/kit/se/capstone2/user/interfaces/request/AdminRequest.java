@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.parameters.P;
+
+import java.util.List;
 
 public class AdminRequest {
 	@Data
@@ -14,5 +17,21 @@ public class AdminRequest {
 	public static class Confirmation{
 		@NotNull
 		private Boolean isApprove;
+	}
+
+	@Data
+	@Builder
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class RemoveQuestionsReq {
+		private List<Long> questionIds;
+	}
+
+	@Data
+	@NoArgsConstructor
+	@AllArgsConstructor
+	@Builder
+	public static class RemoveAnswersReq {
+		private List<Long> answerIds;
 	}
 }

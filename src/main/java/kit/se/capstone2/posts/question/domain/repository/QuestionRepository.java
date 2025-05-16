@@ -6,7 +6,10 @@ import kit.se.capstone2.user.domain.enums.LegalSpeciality;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
@@ -30,4 +33,8 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 			select q from Question q where q.author.id = :authorId
 			""")
 	Page<Question> findByAuthorId(Long authorId, Pageable pageable);
+
+	@Modifying
+	@Query("DELETE FROM Question q where q.id in :ids")
+	int deleteAllById(List<Long> ids);
 }

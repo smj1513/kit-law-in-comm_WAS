@@ -72,4 +72,14 @@ public class AdminAppService {
 		Page<Question> questions = questionRepository.findByReportsCount(threshold, pageRequest);
 		return questions.map(AdminResponse.ReportedQuestion::from);
 	}
+
+	public AdminResponse.RemoveQuestions removeQuestions(AdminRequest.RemoveQuestionsReq request) {
+		int count = questionRepository.deleteAllById(request.getQuestionIds());
+		return AdminResponse.RemoveQuestions.builder().removedCount(count).build();
+	}
+
+	public AdminResponse.RemoveAnswers removeAnswers(AdminRequest.RemoveAnswersReq request) {
+		int count = answerRepository.deleteAllById(request.getAnswerIds());
+		return AdminResponse.RemoveAnswers.builder().removedCount(count).build();
+	}
 }

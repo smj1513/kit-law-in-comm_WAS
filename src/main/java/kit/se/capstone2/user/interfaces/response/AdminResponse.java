@@ -153,4 +153,21 @@ public class AdminResponse {
 					.build();
 		}
 	}
+
+	@Data
+	@Builder
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class RemoveQuestions {
+		private int removedCount;
+	}
+
+
+	@Data
+	@NoArgsConstructor
+	@AllArgsConstructor
+	@Builder
+	public static class RemoveAnswers {
+		private int removedCount;
+	}
 }

@@ -14,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
@@ -51,5 +53,30 @@ class AnswerRepositoryTest {
 		assertEquals(1, thres5.getTotalElements());
 		assertEquals(0, thres11.getTotalElements());
 
+	}
+	@Test
+	void deleteAllById() {
+		// given
+		Answer answer1 = Answer.builder().content("Answer 1").build();
+		Answer answer2 = Answer.builder().content("Answer 2").build();
+		Answer answer3 = Answer.builder().content("Answer 3").build();
+
+		answerRepository.saveAndFlush(answer1);
+		answerRepository.saveAndFlush(answer2);
+		answerRepository.saveAndFlush(answer3);
+
+		em.flush();
+		em.clear();
+
+		// when
+		int deletedCount = answerRepository.deleteAllById(List.of(answer1.getId(), answer2.getId()));
+		em.flush();
+		em.clear();
+
+		// then
+		assertEquals(2, deletedCount);
+		assertTrue(answerRepository.findById(answer1.getId()).isEmpty());
+		assertTrue(answerRepository.findById(answer2.getId()).isEmpty());
+		assertTrue(answerRepository.findById(answer3.getId()).isPresent());
 	}
 }
