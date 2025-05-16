@@ -26,4 +26,9 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
 	@Modifying
 	@Query("DELETE FROM Answer a WHERE a.id in :ids")
 	int deleteAllById(List<Long> ids);
+
+
+	@Modifying
+	@Query("DELETE FROM Answer a WHERE a.question.id in :questionId")
+	int deleteAllByQuestionId(@Param("questionId") List<Long> questionId);
 }

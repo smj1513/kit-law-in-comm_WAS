@@ -74,6 +74,7 @@ public class AdminAppService {
 	}
 
 	public AdminResponse.RemoveQuestions removeQuestions(AdminRequest.RemoveQuestionsReq request) {
+		answerRepository.deleteAllByQuestionId(request.getQuestionIds());
 		int count = questionRepository.deleteAllById(request.getQuestionIds());
 		return AdminResponse.RemoveQuestions.builder().removedCount(count).build();
 	}
