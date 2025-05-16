@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -34,8 +35,8 @@ public class AdminResponse {
 		private String title;
 		private String content;
 
-		private String createdAt;
-		private String updatedAt;
+		private LocalDateTime createdAt;
+		private LocalDateTime updatedAt;
 
 		private int ViewCount;
 		private int reportCount;
@@ -47,8 +48,8 @@ public class AdminResponse {
 							.authorId(answer.getAuthor().getId())
 							.title(answer.getQuestion().getTitle())
 							.content(answer.getContent())
-							.createdAt(answer.getCreatedAt().toString())
-							.updatedAt(answer.getUpdatedAt().toString())
+							.createdAt(answer.getCreatedAt())
+							.updatedAt(answer.getUpdatedAt())
 							.ViewCount(answer.getQuestion().getViewCount())
 							.reportCount(answer.getReportsCount())
 							.build();
@@ -68,8 +69,8 @@ public class AdminResponse {
 
 		private LegalSpeciality legalSpeciality;
 
-		private String createdAt;
-		private String updatedAt;
+		private LocalDateTime createdAt;
+		private LocalDateTime updatedAt;
 
 		private int viewCount;
 		private int reportCount;
@@ -80,8 +81,8 @@ public class AdminResponse {
 					.authorId(question.getAuthor().getId())
 					.title(question.getTitle())
 					.content(question.getContent())
-					.createdAt(question.getCreatedAt().toString())
-					.updatedAt(question.getUpdatedAt().toString())
+					.createdAt(question.getCreatedAt())
+					.updatedAt(question.getUpdatedAt())
 					.viewCount(question.getViewCount())
 					.reportCount(question.getReportsCount())
 					.legalSpeciality(question.getLegalSpeciality())
