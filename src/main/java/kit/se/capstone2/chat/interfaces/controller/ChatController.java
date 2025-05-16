@@ -1,5 +1,6 @@
 package kit.se.capstone2.chat.interfaces.controller;
 
+import kit.se.capstone2.auth.security.SecurityUtils;
 import kit.se.capstone2.chat.application.ChatAppService;
 import kit.se.capstone2.chat.domain.model.ChatMessage;
 import kit.se.capstone2.chat.interfaces.dto.request.ChatRequest;
@@ -7,8 +8,10 @@ import kit.se.capstone2.chat.interfaces.dto.response.ChatResponse;
 import kit.se.capstone2.common.api.code.SuccessCode;
 import kit.se.capstone2.common.api.response.CommonResponse;
 import kit.se.capstone2.docs.ChatDocsController;
+import kit.se.capstone2.user.domain.model.BaseUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.catalina.security.SecurityUtil;
 import org.springframework.data.domain.Slice;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -17,6 +20,8 @@ import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @Log4j2
@@ -27,6 +32,8 @@ public class ChatController implements ChatDocsController {
 	private final SimpMessageSendingOperations messagingTemplate;
 	private final SimpUserRegistry simpUserRegistry;
 	private final ChatAppService chatService;
+	private final SecurityUtils securityUtils;
+
 
 	//특정 사용자의 채팅방 목록 조회
 	@GetMapping("/chatRooms")
@@ -48,6 +55,13 @@ public class ChatController implements ChatDocsController {
 		return CommonResponse.success(SuccessCode.OK, chatService.getChatMessages(chatRoomId, page, size));
 	}
 
+	//채팅 중 읽음 처리
+	@MessageMapping("/chat/{chatRoomId}/read")
+	public void markMessagesAsRead(@DestinationVariable Long chatRoomId,
+	                               Principal principal) {
+		chatService.readMessages(chatRoomId, principal);
+
+	}
 
 	@MessageMapping("/chat/{chatRoomId}") // /publish/chat
 	public void sendMessage(@RequestBody ChatRequest.ChatMessageReq request,

@@ -9,8 +9,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChatResponse {
+
+	@Data
+	@Builder
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class ReadStatusRes{
+		private Long readerId;
+		@Builder.Default
+		private List<Long> messageIds = new ArrayList<>();
+	}
 
 	@Data
 	@Builder

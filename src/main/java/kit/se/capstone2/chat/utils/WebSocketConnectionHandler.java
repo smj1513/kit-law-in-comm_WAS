@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 public class WebSocketConnectionHandler implements CommandHandler{
 	private final SecurityUtils securityUtils;
 	private final JwtUtils jwtUtils;
+
 	@Override
 	public void handle(StompHeaderAccessor accessor, StompCommand command) {
 		String authorizationHeader = String.valueOf(accessor.getNativeHeader(JwtProperties.AUTH_HEADER));

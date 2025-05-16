@@ -17,10 +17,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -31,6 +34,7 @@ public class ChatAppService {
 	private final ChatMessageService chatMessageService;
 	private final ChatMessageRepository chatMessageRepository;
 	private final AccountRepository accountRepository;
+	private final SimpMessageSendingOperations messagingTemplate;
 
 	public Slice<ChatResponse.ChatRoomRes> getChatRooms(int page, int size) {
 		PageRequest pageRequest = PageRequest.of(page, size);
@@ -83,5 +87,23 @@ public class ChatAppService {
 		chatRoom.addMessage(message);
 		return chatMessageRepository.save(message);
 
+	}
+
+	public void readMessages(Long chatRoomId, Principal principal) {
+		String name = principal.getName();
+		BaseUser currentUser = accountRepository.findByUsername(name).getUser();
+		List<ChatMessage> unreadMessages = chatMessageRepository.findUnreadMessages(chatRoomId, currentUser.getId());
+
+		for (ChatMessage message : unreadMessages) {
+			message.readFrom(currentUser);
+		}
+		// 읽음 처리된 메시지 목록을 발신자에게 알림
+		messagingTemplate.convertAndSend(
+				"/sub/chat/" + chatRoomId + "/read",
+				ChatResponse.ReadStatusRes.builder()
+						.readerId(currentUser.getId())
+						.messageIds(unreadMessages.stream().map(ChatMessage::getId).collect(Collectors.toList()))
+						.build()
+		);
 	}
 }

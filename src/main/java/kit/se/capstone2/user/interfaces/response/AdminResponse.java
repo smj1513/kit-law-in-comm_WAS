@@ -28,7 +28,7 @@ public class AdminResponse {
 	@AllArgsConstructor
 	@Builder
 	public static class ReportedAnswer {
-		private Long postId;
+		private Long answerId;
 		private Long authorId;
 
 		private String title;
@@ -43,7 +43,7 @@ public class AdminResponse {
 		public static ReportedAnswer from(Answer answer) {
 			return answer == null ? null :
 					ReportedAnswer.builder()
-							.postId(answer.getId())
+							.answerId(answer.getId())
 							.authorId(answer.getAuthor().getId())
 							.title(answer.getQuestion().getTitle())
 							.content(answer.getContent())
@@ -60,7 +60,7 @@ public class AdminResponse {
 	@AllArgsConstructor
 	@Builder
 	public static class ReportedQuestion {
-		private Long postId;
+		private Long questionId;
 		private Long authorId;
 
 		private String title;
@@ -76,7 +76,7 @@ public class AdminResponse {
 
 		public static ReportedQuestion from(Question question) {
 			return question == null ? null : ReportedQuestion.builder()
-					.postId(question.getId())
+					.questionId(question.getId())
 					.authorId(question.getAuthor().getId())
 					.title(question.getTitle())
 					.content(question.getContent())

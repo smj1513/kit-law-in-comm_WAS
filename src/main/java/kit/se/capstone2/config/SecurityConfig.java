@@ -39,7 +39,8 @@ import java.util.List;
 
 import static org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl.fromHierarchy;
 
-@EnableWebSecurity(debug = true)
+//@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
@@ -90,7 +91,7 @@ public class SecurityConfig {
 		http.authorizeHttpRequests(auth -> auth
 				.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 				.requestMatchers(
-						"/", "/swagger-ui/**", "/api-docs/**", "/common/**"
+						"/", "/swagger-ui/**", "/api-docs/**", "/common/**", "/ws-stomp/**" // 웹 소켓을 통한 인증 관리는 별도의 Interceptor를 통해 처리함.
 				).permitAll()
 				.requestMatchers(HttpMethod.POST, "/auth/token/refresh").permitAll()
 				.requestMatchers("/users/join/**").permitAll()

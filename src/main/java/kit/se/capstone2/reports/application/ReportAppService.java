@@ -94,4 +94,5 @@ public class ReportAppService {
 		Page<QuestionReport> questionReports = questionReportRepository.findByQuestionId(questionId, pageRequest);
 		return questionReports.map(ReportResponse.QuestionReportDetails::from);
 	}
+
 }

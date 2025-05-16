@@ -33,7 +33,6 @@ public class ReportController implements ReportDocsController {
 		return CommonResponse.success(SuccessCode.OK, reportAppService.getQuestionReportDetails(questionId, page, size));
 	}
 
-
 	@PostMapping("/answers/{id}")
 	public CommonResponse<ReportResponse.AnswerReportRes> reportAnswer(
 			@PathVariable(name = "id") Long id,
