@@ -7,6 +7,8 @@ import kit.se.capstone2.posts.answer.domain.model.Answer;
 import kit.se.capstone2.posts.answer.domain.repository.AnswerRepository;
 import kit.se.capstone2.posts.question.domain.model.Question;
 import kit.se.capstone2.posts.question.domain.repository.QuestionRepository;
+import kit.se.capstone2.reports.domain.repository.AnswerReportRepository;
+import kit.se.capstone2.reports.domain.repository.QuestionReportRepository;
 import kit.se.capstone2.user.domain.enums.ApprovalStatus;
 import kit.se.capstone2.user.domain.model.lawyer.Lawyer;
 import kit.se.capstone2.user.domain.repository.LawyerRepository;
@@ -38,6 +40,10 @@ class AdminAppServiceTest {
 	private AnswerRepository answerRepository;
 	@Mock
 	private QuestionRepository questionRepository;
+	@Mock
+	private QuestionReportRepository questionReportRepository;
+	@Mock
+	private AnswerReportRepository answerReportRepository;
 
 	public AdminAppServiceTest() {
 		MockitoAnnotations.openMocks(this);
