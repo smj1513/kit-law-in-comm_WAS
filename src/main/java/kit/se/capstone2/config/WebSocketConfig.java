@@ -26,7 +26,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		// stomp 접속 주소 url = ws://{host}:8080/ws
+		// stomp 접속 주소 url = ws://{host}:8080/ws-stomp
 		registry.addEndpoint("/ws-stomp")
 				.setAllowedOriginPatterns("*")
 				.withSockJS();

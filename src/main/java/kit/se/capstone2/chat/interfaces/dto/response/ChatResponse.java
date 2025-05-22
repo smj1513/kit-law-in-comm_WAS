@@ -71,13 +71,15 @@ public class ChatResponse {
 	@AllArgsConstructor
 	public static class ChatRoomUpdateRes{
 		private Long chatRoomId;
+		private Long otherPersonId;
 		private String lastMessage;
 		private LocalDateTime lastMessageAt;
 		private int unReadCount;
 
-		public static ChatRoomUpdateRes from(ChatRoom chatRoom){
+		public static ChatRoomUpdateRes from(ChatRoom chatRoom, BaseUser user){
 			ChatMessage lastMessage1 = chatRoom.getLastMessage();
 			return ChatRoomUpdateRes.builder()
+					.otherPersonId(chatRoom.getOtherPerson(user).getId())
 					.chatRoomId(chatRoom.getId())
 					.lastMessage(lastMessage1.getMessage())
 					.lastMessageAt(lastMessage1.getSentAt())

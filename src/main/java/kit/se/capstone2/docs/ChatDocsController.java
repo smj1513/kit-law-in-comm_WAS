@@ -35,8 +35,7 @@ public interface ChatDocsController {
 
 	@Operation(summary = "메시지 전송", description = "특정 채팅방에 메시지를 전송합니다.")
 	@ApiResponse(responseCode = "200", description = "메시지 전송 성공")
-	public void sendMessage( ChatRequest.ChatMessageReq request,
-	                         Long chatRoomId,
-	                        Principal principal // 추가
-	);
+	public void sendMessage(ChatRequest.ChatMessageReq request, Long chatRoomId, Principal principal);
+
+	public void markMessagesAsRead(@DestinationVariable Long chatRoomId, Principal principal);
 }

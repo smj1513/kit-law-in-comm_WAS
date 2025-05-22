@@ -59,7 +59,7 @@ public class ChatController implements ChatDocsController {
 
 
 	//채팅 메시지 전송
-	@MessageMapping("/chat/{chatRoomId}") // /publish/chat
+	@MessageMapping("/chat/{chatRoomId}") // /pub/chat
 	public void sendMessage(@RequestBody ChatRequest.ChatMessageReq request,
 	                        @DestinationVariable Long chatRoomId,
 	                        Principal principal // 추가
