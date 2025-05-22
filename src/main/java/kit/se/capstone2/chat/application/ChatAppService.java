@@ -113,7 +113,7 @@ public class ChatAppService {
 
 		Slice<ChatRoom> chatRooms = chatRoomRepository.findByUserId(user.getId(), pageRequest);
 		messagingTemplate.convertAndSend("/sub/chatRooms/" + user.getId(),
-				chatRooms.map(ChatResponse.ChatRoomUpdateRes.from(chatRooms, user))
+				chatRooms.map(chatRoom -> ChatResponse.ChatRoomUpdateRes.from(chatRoom, user))
 		);
 	}
 
