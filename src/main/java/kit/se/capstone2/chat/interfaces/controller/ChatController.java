@@ -36,11 +36,6 @@ public class ChatController implements ChatDocsController {
 		return CommonResponse.success(SuccessCode.OK, chatService.getChatRooms(page, size));
 	}
 
-	@GetMapping("/chatRooms/{chatRoomId}")
-	public CommonResponse<ChatResponse.ChatRoomDetails> getChatRoomDetails(@PathVariable Long chatRoomId) {
-		return CommonResponse.success(SuccessCode.OK, chatService.getChatRoomDetails(chatRoomId));
-	}
-
 	//채팅방 생성
 	@PostMapping("/chat/room")
 	public CommonResponse<ChatResponse.ChatRoomRes> createChatRoom(@RequestBody ChatRequest.CreateChatRoomReq request) {
@@ -60,7 +55,6 @@ public class ChatController implements ChatDocsController {
 	public void markMessagesAsRead(@DestinationVariable Long chatRoomId,
 	                               Principal principal) {
 		chatService.readMessages(chatRoomId, principal);
-
 	}
 
 

@@ -32,6 +32,7 @@ dependencies {
 
     //Security
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.security:spring-security-messaging'
     // https://mvnrepository.com/artifact/org.springframework.security/spring-security-jwt
 
     //AWS

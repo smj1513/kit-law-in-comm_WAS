@@ -142,11 +142,6 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	public AuthorizationManager<Message<?>> messageAuthorizationManager() {
-		return AuthenticatedAuthorizationManager.authenticated(); // 모든 메시지 인증 요구
-	}
-
-	@Bean
 	public JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint() {
 		return new JwtAuthenticationEntryPoint(objectMapper);
 	}

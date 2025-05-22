@@ -44,6 +44,7 @@ public class ChatResponse {
 					.chatRoomId(chatRoom.getId())
 					.otherMemberName(otherPerson.getNickname())
 					.otherMemberProfileImage(otherPerson.getProfileImage() == null ? null : FileResponse.from(otherPerson.getProfileImage()))
+					.lastMessage(chatRoom.getLastMessage() == null ? null : chatRoom.getLastMessage().getMessage())
 					.lastMessageAt(chatRoom.getLastMessage() == null ? null : chatRoom.getLastMessage().getSentAt())
 					.unreadMessageCount(chatRoom.getUnreadMessageCount())
 					.build();
