@@ -58,7 +58,8 @@ public class ChatAppService {
 		PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Order.desc("sentAt")));
 		BaseUser currentUser = securityUtils.getCurrentUserAccount().getUser(); //현재 사용자가 누구인지 확인
 
-		Slice<ChatResponse.ChatMessageRes> chatMessages = chatMessageRepository.findByChatRoomId(chatRoomId, pageRequest)
+		//읽음 처리
+		return chatMessageRepository.findByChatRoomId(chatRoomId, pageRequest)
 				.map(chatMessage -> {
 					chatMessage.readFrom(currentUser); //읽음 처리
 					return ChatResponse.ChatMessageRes.builder()
@@ -70,23 +71,22 @@ public class ChatAppService {
 							.isRead(chatMessage.isRead())
 							.build();
 				});
-		return chatMessages;
 	}
 
-	public ChatMessage saveMessage(Long chatRoomId, ChatRequest.ChatMessageReq request, Principal principal) {
+	public ChatMessage saveMessage(Long chatRoomId, ChatRequest.ChatMessageReq request, BaseUser user) {
 		ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId).orElseThrow(() -> new BusinessLogicException(ErrorCode.NOT_FOUND_ENTITY, "채팅방이 존재하지 않습니다."));
-		String name = principal.getName();
-		Account account = accountRepository.findByUsername(name);
-		BaseUser user = account.getUser();
-		if(!chatRoom.isParticipant(user)){
+		if (!chatRoom.isParticipant(user)) {
 			throw new BusinessLogicException(ErrorCode.NO_PERMISSION, "채팅방에 참여하지 않은 사용자입니다.");
 		}
 		ChatMessage message = ChatMessage.builder().message(request.getContent())
 				.sender(user)
 				.build();
 		chatRoom.addMessage(message);
-		return chatMessageRepository.save(message);
+		ChatMessage savedChatMessage = chatMessageRepository.save(message);
 
+		ChatRoom chatRoom1 = savedChatMessage.getChatRoom();
+		chatRoom1.setLastMessage(savedChatMessage);
+		return savedChatMessage;
 	}
 
 	public void readMessages(Long chatRoomId, Principal principal) {
@@ -105,5 +105,40 @@ public class ChatAppService {
 						.messageIds(unreadMessages.stream().map(ChatMessage::getId).collect(Collectors.toList()))
 						.build()
 		);
+	}
+
+
+	public void sendUpdatedChatRoomInfo(BaseUser user) {
+		PageRequest pageRequest = PageRequest.of(0, 30, Sort.by(Sort.Order.desc("last_message_at")));
+
+		Slice<ChatRoom> chatRooms = chatRoomRepository.findByUserId(user.getId(), pageRequest);
+		messagingTemplate.convertAndSend("/sub/chatRooms/" + user.getId(),
+				chatRooms.map(ChatResponse.ChatRoomUpdateRes::from)
+		);
+	}
+
+	/**
+	 * 메시지 보내는 시점에 해야되는거...
+	 * 1. 메시지 저장
+	 * 2. 현재 채팅방 목록을 보고 있는 사람에게 채팅방의 약식 정보를 보내줘야함.(구독 채널 하나 별도로 만들어서..)
+	 * 3. 메시지 전송
+	 */
+	public void sendMessage(ChatRequest.ChatMessageReq request, Long chatRoomId, Principal principal) {
+		String name = principal.getName();
+		Account account = accountRepository.findByUsername(name);
+		BaseUser user = account.getUser();
+		ChatMessage chatMessage = saveMessage(chatRoomId, request, user);
+		messagingTemplate.convertAndSend("/sub/chat/" + chatRoomId,
+				ChatResponse.ChatMessageRes.builder()
+						.senderName(chatMessage.getSender()
+								.getResponseName())
+						.message(chatMessage.getMessage())
+						.senderId(chatMessage.getSender().getAccount().getUsername())
+						.messageId(chatMessage.getId())
+						.createdAt(chatMessage.getSentAt())
+						.isRead(chatMessage.isRead()) // 이 부분은 생각좀 해야할듯..
+						.build()
+		);
+		sendUpdatedChatRoomInfo(user);
 	}
 }

@@ -24,6 +24,8 @@ public class WebSocketConnectionHandler implements CommandHandler{
 		String authorizationHeader = String.valueOf(accessor.getNativeHeader(JwtProperties.AUTH_HEADER));
 		String authorizationHeaderStr = authorizationHeader.replace("[", "").replace("]", "");
 		String token = jwtUtils.extractToken(authorizationHeaderStr);
+
+		//TODO 채팅방 참여자인지 검증 로직이 필요함.
 		try {
 			jwtUtils.isExpired(token);
 		} catch (ExpiredJwtException e) {

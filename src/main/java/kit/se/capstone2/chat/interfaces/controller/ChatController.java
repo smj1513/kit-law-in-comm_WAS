@@ -2,16 +2,13 @@ package kit.se.capstone2.chat.interfaces.controller;
 
 import kit.se.capstone2.auth.security.SecurityUtils;
 import kit.se.capstone2.chat.application.ChatAppService;
-import kit.se.capstone2.chat.domain.model.ChatMessage;
 import kit.se.capstone2.chat.interfaces.dto.request.ChatRequest;
 import kit.se.capstone2.chat.interfaces.dto.response.ChatResponse;
 import kit.se.capstone2.common.api.code.SuccessCode;
 import kit.se.capstone2.common.api.response.CommonResponse;
 import kit.se.capstone2.docs.ChatDocsController;
-import kit.se.capstone2.user.domain.model.BaseUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.apache.catalina.security.SecurityUtil;
 import org.springframework.data.domain.Slice;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -20,8 +17,6 @@ import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @Log4j2
@@ -39,6 +34,11 @@ public class ChatController implements ChatDocsController {
 	@GetMapping("/chatRooms")
 	public CommonResponse<Slice<ChatResponse.ChatRoomRes>> getChatRooms(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
 		return CommonResponse.success(SuccessCode.OK, chatService.getChatRooms(page, size));
+	}
+
+	@GetMapping("/chatRooms/{chatRoomId}")
+	public CommonResponse<ChatResponse.ChatRoomDetails> getChatRoomDetails(@PathVariable Long chatRoomId) {
+		return CommonResponse.success(SuccessCode.OK, chatService.getChatRoomDetails(chatRoomId));
 	}
 
 	//채팅방 생성
@@ -63,19 +63,13 @@ public class ChatController implements ChatDocsController {
 
 	}
 
+
+	//채팅 메시지 전송
 	@MessageMapping("/chat/{chatRoomId}") // /publish/chat
 	public void sendMessage(@RequestBody ChatRequest.ChatMessageReq request,
 	                        @DestinationVariable Long chatRoomId,
 	                        Principal principal // 추가
 	) {
-		ChatMessage chatMessage = chatService.saveMessage(chatRoomId, request, principal);
-		messagingTemplate.convertAndSend("/sub/chat/" + chatRoomId, ChatResponse.ChatMessageRes.builder().senderName(chatMessage.getSender().getResponseName())
-				.message(chatMessage.getMessage())
-				.senderId(chatMessage.getSender().getAccount().getUsername())
-				.messageId(chatMessage.getId())
-				.createdAt(chatMessage.getSentAt())
-				.isRead(chatMessage.isRead()) // 이 부분은 생각좀 해야할듯..
-				.build()
-		);
+		chatService.sendMessage(request, chatRoomId, principal);
 	}
 }
