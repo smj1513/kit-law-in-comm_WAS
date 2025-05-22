@@ -12,6 +12,13 @@ import org.springframework.web.bind.annotation.*;
 public class WebSocketDocumentationController {
 
     @Operation(
+            summary = "웹 소켓 연결",
+            description = "웹 소켓 연결 요청을 보냅니다. -> 채팅방 목록 진입 시점에 웹소켓 연결 필요"
+    )
+    @GetMapping("/ws-stomp")
+    public void connection(){};
+
+    @Operation(
         summary = "채팅 메시지 발행",
         description = "특정 채팅방에 메시지를 발행합니다."
     )
