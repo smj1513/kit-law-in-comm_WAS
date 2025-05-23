@@ -121,7 +121,7 @@ public class ChatAppService {
 		PageRequest pageRequest = PageRequest.of(0, 30, Sort.by(Sort.Order.desc("last_message_at")));
 
 		Slice<ChatRoom> chatRooms = chatRoomRepository.findByUserId(user.getId(), pageRequest);
-		messagingTemplate.convertAndSend("/sub/chatRooms/" + user.getId(),
+		messagingTemplate.convertAndSend("/sub/chatRoomList/" + user.getAccount().getUsername(),
 				chatRooms.map(chatRoom -> ChatResponse.ChatRoomUpdateRes.from(chatRoom, user))
 		);
 	}
