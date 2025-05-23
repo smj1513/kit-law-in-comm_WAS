@@ -18,13 +18,19 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(
+		uniqueConstraints = {
+				@UniqueConstraint(
+						name = "participants_constraint",
+						columnNames = {"creator_id", "participant_id"}
+				)
+		}
+)
 public class ChatRoom extends BaseTime {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	private String title;
 
 	@ManyToOne
 	@JoinColumn(name = "creator_id")

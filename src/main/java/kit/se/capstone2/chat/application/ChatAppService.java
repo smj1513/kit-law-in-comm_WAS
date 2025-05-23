@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -55,7 +56,7 @@ public class ChatAppService {
 		Optional<ChatRoom> chatRoomOptional = chatRoomRepository.findByParticipants(currentUser, otherUser);
 		chatRoomOptional.ifPresent(cr -> {
 			Long id = cr.getId();
-			throw new ChatRoomAlreadyExistsException(ErrorCode.CHAT_ROOM_CREATED_FAILED, "채팅방이 이미 존재합니다.", new HashMap<>().put("chatRoomId", id));
+			throw new ChatRoomAlreadyExistsException(ErrorCode.CHAT_ROOM_CREATED_FAILED, "채팅방이 이미 존재합니다.", Map.of("chatRoomId", id));
 		});
 		ChatRoom chatRoom = currentUser.createChat(otherUser);
 		ChatRoom savedChatRoom = chatRoomRepository.save(chatRoom);
