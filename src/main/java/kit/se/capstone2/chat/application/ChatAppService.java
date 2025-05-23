@@ -51,12 +51,12 @@ public class ChatAppService {
 	public ChatResponse.ChatRoomRes createChatRoom(ChatRequest.CreateChatRoomReq request) {
 		BaseUser currentUser = securityUtils.getCurrentUserAccount().getUser();
 		Long otherPersonId = request.getOtherPersonId();
-		Account account = accountRepository.findById(otherPersonId).orElseThrow(() -> new IllegalArgumentException("상대방이 존재하지 않습니다."));
+		Account account = accountRepository.findById(otherPersonId).orElseThrow(() -> new BusinessLogicException(ErrorCode.NOT_FOUND_ENTITY, "상대방이 존재하지 않습니다."));
 		BaseUser otherUser = account.getUser();
 		Optional<ChatRoom> chatRoomOptional = chatRoomRepository.findByParticipants(currentUser, otherUser);
 		chatRoomOptional.ifPresent(cr -> {
 			Long id = cr.getId();
-			throw new ChatRoomAlreadyExistsException(ErrorCode.CHAT_ROOM_CREATED_FAILED, "채팅방이 이미 존재합니다.", Map.of("chatRoomId", id));
+			throw new ChatRoomAlreadyExistsException(ErrorCode.ALREADY_CHATROOM_CREATED, "채팅방이 이미 존재합니다.", Map.of("chatRoomId", id));
 		});
 		ChatRoom chatRoom = currentUser.createChat(otherUser);
 		ChatRoom savedChatRoom = chatRoomRepository.save(chatRoom);
