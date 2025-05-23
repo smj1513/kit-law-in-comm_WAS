@@ -53,4 +53,13 @@ public class CommonResponse<T> {
 				.build();
 	}
 
+	public static <T> CommonResponse<T> error(ErrorCode errorCode, String message, T body){
+		return CommonResponse.<T>builder()
+				.isSuccess(false)
+				.code(errorCode.getCode())
+				.message(message)
+				.data(body)
+				.build();
+	}
+
 }

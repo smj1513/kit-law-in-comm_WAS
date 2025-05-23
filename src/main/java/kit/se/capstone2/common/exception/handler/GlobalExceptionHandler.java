@@ -4,6 +4,7 @@ import jakarta.validation.ConstraintViolationException;
 import kit.se.capstone2.common.api.code.ErrorCode;
 import kit.se.capstone2.common.api.response.CommonResponse;
 import kit.se.capstone2.common.exception.BusinessLogicException;
+import kit.se.capstone2.common.exception.ChatRoomAlreadyExistsException;
 import kit.se.capstone2.common.exception.CustomAuthorizationException;
 import kit.se.capstone2.common.exception.FileProcessException;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,11 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(BusinessLogicException.class)
 	public ResponseEntity<CommonResponse<Void>> handleBusinessLogicException(BusinessLogicException e) {
 		return ResponseEntity.status(HttpStatus.CONFLICT).body(CommonResponse.error(e.getErrorCode()));
+	}
+
+	@ExceptionHandler(ChatRoomAlreadyExistsException.class)
+	public ResponseEntity<CommonResponse<Object>> handleChatRoomAlreadyExistsException(ChatRoomAlreadyExistsException e){
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(CommonResponse.error(e.getErrorCode(), e.getMessage(), e.getBody()));
 	}
 
 	@ExceptionHandler(CustomAuthorizationException.class)

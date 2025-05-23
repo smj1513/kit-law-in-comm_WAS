@@ -12,6 +12,7 @@ import kit.se.capstone2.chat.interfaces.dto.request.ChatRequest;
 import kit.se.capstone2.chat.interfaces.dto.response.ChatResponse;
 import kit.se.capstone2.common.api.code.ErrorCode;
 import kit.se.capstone2.common.exception.BusinessLogicException;
+import kit.se.capstone2.common.exception.ChatRoomAlreadyExistsException;
 import kit.se.capstone2.user.domain.model.BaseUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -22,7 +23,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,6 +52,11 @@ public class ChatAppService {
 		Long otherPersonId = request.getOtherPersonId();
 		Account account = accountRepository.findById(otherPersonId).orElseThrow(() -> new IllegalArgumentException("상대방이 존재하지 않습니다."));
 		BaseUser otherUser = account.getUser();
+		Optional<ChatRoom> chatRoomOptional = chatRoomRepository.findByParticipants(currentUser, otherUser);
+		chatRoomOptional.ifPresent(cr -> {
+			Long id = cr.getId();
+			throw new ChatRoomAlreadyExistsException(ErrorCode.CHAT_ROOM_CREATED_FAILED, "채팅방이 이미 존재합니다.", new HashMap<>().put("chatRoomId", id));
+		});
 		ChatRoom chatRoom = currentUser.createChat(otherUser);
 		ChatRoom savedChatRoom = chatRoomRepository.save(chatRoom);
 		return ChatResponse.ChatRoomRes.from(savedChatRoom, currentUser);
