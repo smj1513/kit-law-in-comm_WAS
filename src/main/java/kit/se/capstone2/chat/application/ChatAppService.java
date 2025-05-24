@@ -60,6 +60,8 @@ public class ChatAppService {
 		});
 		ChatRoom chatRoom = currentUser.createChat(otherUser);
 		ChatRoom savedChatRoom = chatRoomRepository.save(chatRoom);
+		sendUpdatedChatRoomInfo(currentUser);
+		sendUpdatedChatRoomInfo(otherUser);
 		return ChatResponse.ChatRoomRes.from(savedChatRoom, currentUser);
 	}
 
