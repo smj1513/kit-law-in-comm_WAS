@@ -35,7 +35,6 @@ public class ChatMessage {
 	@Builder.Default
 	private boolean isRead = false;
 
-	@CreatedDate
 	private LocalDateTime sentAt;
 
 	public void readFrom(BaseUser reader) {

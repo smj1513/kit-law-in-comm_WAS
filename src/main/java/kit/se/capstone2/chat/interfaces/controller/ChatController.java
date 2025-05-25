@@ -7,6 +7,7 @@ import kit.se.capstone2.chat.interfaces.dto.response.ChatResponse;
 import kit.se.capstone2.common.api.code.SuccessCode;
 import kit.se.capstone2.common.api.response.CommonResponse;
 import kit.se.capstone2.docs.ChatDocsController;
+import kit.se.capstone2.user.domain.model.BaseUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Slice;

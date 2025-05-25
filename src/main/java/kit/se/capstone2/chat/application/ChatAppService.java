@@ -20,9 +20,11 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,6 +86,7 @@ public class ChatAppService {
 				});
 	}
 
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public ChatMessage saveMessage(Long chatRoomId, ChatRequest.ChatMessageReq request, BaseUser user) {
 		ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId).orElseThrow(() -> new BusinessLogicException(ErrorCode.NOT_FOUND_ENTITY, "채팅방이 존재하지 않습니다."));
 		if (!chatRoom.isParticipant(user)) {
@@ -91,13 +94,13 @@ public class ChatAppService {
 		}
 		ChatMessage message = ChatMessage.builder().message(request.getContent())
 				.sender(user)
+				.sentAt(LocalDateTime.now())
 				.build();
 		chatRoom.addMessage(message);
-		ChatMessage savedChatMessage = chatMessageRepository.save(message);
-
-		ChatRoom chatRoom1 = savedChatMessage.getChatRoom();
-		chatRoom1.setLastMessage(savedChatMessage);
-		return savedChatMessage;
+		chatRoom.setLastMessage(message);
+		ChatMessage save = chatMessageRepository.save(message);
+		chatRoomRepository.saveAndFlush(chatRoom);
+		return save;
 	}
 
 	public void readMessages(Long chatRoomId, Principal principal) {
@@ -119,8 +122,9 @@ public class ChatAppService {
 	}
 
 
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void sendUpdatedChatRoomInfo(BaseUser user) {
-		PageRequest pageRequest = PageRequest.of(0, 30, Sort.by(Sort.Order.desc("last_message_at")));
+		PageRequest pageRequest = PageRequest.of(0, 30, Sort.by(Sort.Order.desc("lastMessageAt")));
 
 		Slice<ChatRoom> chatRooms = chatRoomRepository.findByUserId(user.getId(), pageRequest);
 		messagingTemplate.convertAndSend("/sub/chatRoomList/" + user.getAccount().getUsername(),
@@ -134,11 +138,10 @@ public class ChatAppService {
 	 * 2. 현재 채팅방 목록을 보고 있는 사람에게 채팅방의 약식 정보를 보내줘야함.(구독 채널 하나 별도로 만들어서..)
 	 * 3. 메시지 전송
 	 */
-	public void sendMessage(ChatRequest.ChatMessageReq request, Long chatRoomId, Principal principal) {
-		String name = principal.getName();
-		Account account = accountRepository.findByUsername(name);
-		BaseUser user = account.getUser();
-		ChatMessage chatMessage = saveMessage(chatRoomId, request, user);
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void sendMessage(ChatRequest.ChatMessageReq request, Long chatRoomId, Principal user) {
+		BaseUser baseUser = securityUtils.getBaseUser(user);
+		ChatMessage chatMessage = saveMessage(chatRoomId, request, baseUser);
 		messagingTemplate.convertAndSend("/sub/chat/" + chatRoomId,
 				ChatResponse.ChatMessageRes.builder()
 						.senderName(chatMessage.getSender()
@@ -150,6 +153,6 @@ public class ChatAppService {
 						.isRead(chatMessage.isRead()) // 이 부분은 생각좀 해야할듯..
 						.build()
 		);
-		sendUpdatedChatRoomInfo(user);
+		sendUpdatedChatRoomInfo(baseUser);
 	}
 }

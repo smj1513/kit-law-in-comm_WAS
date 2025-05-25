@@ -6,6 +6,7 @@ import kit.se.capstone2.auth.domain.repository.AccountRepository;
 import kit.se.capstone2.auth.jwt.JwtUtils;
 import kit.se.capstone2.common.api.code.ErrorCode;
 import kit.se.capstone2.common.exception.CustomAuthorizationException;
+import kit.se.capstone2.user.domain.model.BaseUser;
 import kit.se.capstone2.user.domain.model.ClientUser;
 import kit.se.capstone2.user.domain.model.lawyer.Lawyer;
 import lombok.NonNull;
@@ -15,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.security.Principal;
 import java.util.Optional;
 
 @Component
@@ -71,5 +73,12 @@ public class SecurityUtils {
 				account.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 		return usernamePasswordAuthenticationToken;
+	}
+
+	public BaseUser getBaseUser(Principal principal){
+		String name = principal.getName();
+		Account account = accountRepository.findByUsername(name);
+		BaseUser user = account.getUser();
+		return user;
 	}
 }
