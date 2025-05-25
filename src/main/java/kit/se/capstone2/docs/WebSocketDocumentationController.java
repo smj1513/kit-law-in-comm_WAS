@@ -57,7 +57,7 @@ public class WebSocketDocumentationController {
         description = "사용자의 채팅방 목록 업데이트를 실시간으로 구독합니다."
     )
     @GetMapping("/sub/chatRooms/{userId}")
-    public ChatResponse.ChatRoomUpdateRes subscribeChatRooms(
+    public ChatResponse.ChatRoomRes subscribeChatRooms(
         @Parameter(description = "사용자 ID") @PathVariable Long userId
     ) {
         return null;

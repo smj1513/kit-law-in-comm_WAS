@@ -129,7 +129,7 @@ public class ChatAppService {
 	public void sendUpdatedChatRoomInfo(BaseUser user) {
 		List<ChatRoom> chatRooms = chatRoomRepository.findByUserId(user.getId());
 		messagingTemplate.convertAndSend("/sub/chatRoomList/" + user.getAccount().getUsername(),
-				chatRooms.stream().map(chatRoom -> ChatResponse.ChatRoomUpdateRes.from(chatRoom, user))
+				chatRooms.stream().map(chatRoom -> ChatResponse.ChatRoomRes.from(chatRoom, user))
 		);
 	}
 

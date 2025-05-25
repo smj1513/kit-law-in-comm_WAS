@@ -43,7 +43,7 @@ public class ChatResponse {
 			return ChatRoomRes.builder()
 					.chatRoomId(chatRoom.getId())
 					.otherMemberName(otherPerson.getNickname())
-					.otherMemberProfileImage(otherPerson.getProfileImage() == null ? null : FileResponse.from(otherPerson.getProfileImage()))
+					.otherMemberProfileImage(FileResponse.from(otherPerson.getProfileImage()))
 					.lastMessage(chatRoom.getLastMessage() == null ? null : chatRoom.getLastMessage().getMessage())
 					.lastMessageAt(chatRoom.getLastMessage() == null ? null : chatRoom.getLastMessage().getSentAt())
 					.unreadMessageCount(chatRoom.getUnreadMessageCount())
@@ -64,30 +64,4 @@ public class ChatResponse {
 		private boolean isRead;
 	}
 
-
-	@Data
-	@Builder
-	@NoArgsConstructor
-	@AllArgsConstructor
-	public static class ChatRoomUpdateRes{
-		private Long chatRoomId;
-		private Long otherPersonId;
-		private FileResponse otherMemberProfileImage;
-		private String lastMessage;
-		private LocalDateTime lastMessageAt;
-		private int unReadCount;
-
-		public static ChatRoomUpdateRes from(ChatRoom chatRoom, BaseUser user){
-			ChatMessage lastMessage1 = chatRoom.getLastMessage();
-			BaseUser otherPerson = chatRoom.getOtherPerson(user);
-			return ChatRoomUpdateRes.builder()
-					.otherPersonId(otherPerson.getId())
-					.otherMemberProfileImage(FileResponse.from(otherPerson.getProfileImage()))
-					.chatRoomId(chatRoom.getId())
-					.lastMessage(lastMessage1 == null ? null : lastMessage1.getMessage())
-					.lastMessageAt(lastMessage1 == null ? null : lastMessage1.getSentAt())
-					.unReadCount(chatRoom.getUnreadMessageCount())
-					.build();
-		}
-	}
 }
