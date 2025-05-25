@@ -81,8 +81,8 @@ public class ChatResponse {
 			return ChatRoomUpdateRes.builder()
 					.otherPersonId(chatRoom.getOtherPerson(user).getId())
 					.chatRoomId(chatRoom.getId())
-					.lastMessage(lastMessage1.getMessage())
-					.lastMessageAt(lastMessage1.getSentAt())
+					.lastMessage(lastMessage1 == null ? null : lastMessage1.getMessage())
+					.lastMessageAt(lastMessage1 == null ? null : lastMessage1.getSentAt())
 					.unReadCount(chatRoom.getUnreadMessageCount())
 					.build();
 		}
