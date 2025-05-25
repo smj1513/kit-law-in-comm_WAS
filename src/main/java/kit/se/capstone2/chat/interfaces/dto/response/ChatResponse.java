@@ -72,14 +72,17 @@ public class ChatResponse {
 	public static class ChatRoomUpdateRes{
 		private Long chatRoomId;
 		private Long otherPersonId;
+		private FileResponse otherPersonProfileImage;
 		private String lastMessage;
 		private LocalDateTime lastMessageAt;
 		private int unReadCount;
 
 		public static ChatRoomUpdateRes from(ChatRoom chatRoom, BaseUser user){
 			ChatMessage lastMessage1 = chatRoom.getLastMessage();
+			BaseUser otherPerson = chatRoom.getOtherPerson(user);
 			return ChatRoomUpdateRes.builder()
-					.otherPersonId(chatRoom.getOtherPerson(user).getId())
+					.otherPersonId(otherPerson.getId())
+					.otherPersonProfileImage(FileResponse.from(otherPerson.getProfileImage()))
 					.chatRoomId(chatRoom.getId())
 					.lastMessage(lastMessage1 == null ? null : lastMessage1.getMessage())
 					.lastMessageAt(lastMessage1 == null ? null : lastMessage1.getSentAt())

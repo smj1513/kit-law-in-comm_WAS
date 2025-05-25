@@ -18,6 +18,7 @@ import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @Log4j2
@@ -33,8 +34,8 @@ public class ChatController implements ChatDocsController {
 
 	//특정 사용자의 채팅방 목록 조회
 	@GetMapping("/chatRooms")
-	public CommonResponse<Slice<ChatResponse.ChatRoomRes>> getChatRooms(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-		return CommonResponse.success(SuccessCode.OK, chatService.getChatRooms(page, size));
+	public CommonResponse<List<ChatResponse.ChatRoomRes>> getChatRooms(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+		return CommonResponse.success(SuccessCode.OK, chatService.getChatRooms());
 	}
 
 	//채팅방 생성

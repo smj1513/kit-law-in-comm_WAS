@@ -28,6 +28,10 @@ import java.util.List;
 )
 public class ChatRoom extends BaseTime {
 
+
+	@Transient
+	public static final int CHAT_ROOM_CREATION_LIMIT = 1000;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;

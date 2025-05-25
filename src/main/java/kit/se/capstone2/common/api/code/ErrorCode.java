@@ -27,7 +27,9 @@ public enum ErrorCode {
 	CHAT_ROOM_CREATED_FAILED(HttpStatus.CONFLICT, EntityCode.CHAT , ExceptionCode.COMMON, "ChatRoom Created Failed" ),
 	ENTITY_DUPLICATED(HttpStatus.CONFLICT, EntityCode.COMMON, ExceptionCode.CONFLICT, "Entity Duplicated"),
 	CONSTRAINT_VIOLATION(HttpStatus.BAD_REQUEST, EntityCode.COMMON , ExceptionCode.VIOLATION ,"Constraints Violation" ),
-	ALREADY_CHATROOM_CREATED(HttpStatus.CONFLICT, EntityCode.CHAT, ExceptionCode.CONFLICT, "채팅방이 이미 존재합니다.");
+	ALREADY_CHATROOM_CREATED(HttpStatus.CONFLICT, EntityCode.CHAT, ExceptionCode.CONFLICT, "채팅방이 이미 존재합니다."),
+	EXCEEDED_CHATROOM_CREATION(HttpStatus.TOO_MANY_REQUESTS, EntityCode.CHAT, ExceptionCode.TOO_MANY_REQUESTS, "채팅방 개수를 초과하였습니다")
+	;
 	private final HttpStatus httpStatus;
 	private final EntityCode entityCode;
 	private final ExceptionCode exceptionCode;

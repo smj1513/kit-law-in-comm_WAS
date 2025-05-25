@@ -42,12 +42,11 @@ public class ChatAppService {
 	private final AccountRepository accountRepository;
 	private final SimpMessageSendingOperations messagingTemplate;
 
-	public Slice<ChatResponse.ChatRoomRes> getChatRooms(int page, int size) {
-		PageRequest pageRequest = PageRequest.of(page, size);
+	public List<ChatResponse.ChatRoomRes> getChatRooms() {
 		Account currentUserAccount = securityUtils.getCurrentUserAccount();
 		BaseUser user = currentUserAccount.getUser();
-		Slice<ChatRoom> chatRooms = chatRoomRepository.findByUserId(user.getId(), pageRequest);
-		return chatRooms.map(chatRoom -> ChatResponse.ChatRoomRes.from(chatRoom, user));
+		List<ChatRoom> chatRooms = chatRoomRepository.findByUserId(user.getId());
+		return chatRooms.stream().map(chatRoom -> ChatResponse.ChatRoomRes.from(chatRoom, user)).toList();
 	}
 
 	public ChatResponse.ChatRoomRes createChatRoom(ChatRequest.CreateChatRoomReq request) {
@@ -55,6 +54,10 @@ public class ChatAppService {
 		Long otherPersonId = request.getOtherPersonId();
 		Account account = accountRepository.findById(otherPersonId).orElseThrow(() -> new BusinessLogicException(ErrorCode.NOT_FOUND_ENTITY, "상대방이 존재하지 않습니다."));
 		BaseUser otherUser = account.getUser();
+		if (chatRoomRepository.hasExceededCreationLimit(currentUser, ChatRoom.CHAT_ROOM_CREATION_LIMIT) || chatRoomRepository.hasExceededCreationLimit(otherUser, ChatRoom.CHAT_ROOM_CREATION_LIMIT)){
+			throw new BusinessLogicException(ErrorCode.CHAT_ROOM_CREATED_FAILED, "채팅방 생성 개수를 초과하였습니다.");
+		}
+
 		Optional<ChatRoom> chatRoomOptional = chatRoomRepository.findByParticipants(currentUser, otherUser);
 		chatRoomOptional.ifPresent(cr -> {
 			Long id = cr.getId();
@@ -124,11 +127,9 @@ public class ChatAppService {
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void sendUpdatedChatRoomInfo(BaseUser user) {
-		PageRequest pageRequest = PageRequest.of(0, 30, Sort.by(Sort.Order.desc("lastMessageAt")));
-
-		Slice<ChatRoom> chatRooms = chatRoomRepository.findByUserId(user.getId(), pageRequest);
+		List<ChatRoom> chatRooms = chatRoomRepository.findByUserId(user.getId());
 		messagingTemplate.convertAndSend("/sub/chatRoomList/" + user.getAccount().getUsername(),
-				chatRooms.map(chatRoom -> ChatResponse.ChatRoomUpdateRes.from(chatRoom, user))
+				chatRooms.stream().map(chatRoom -> ChatResponse.ChatRoomUpdateRes.from(chatRoom, user))
 		);
 	}
 
