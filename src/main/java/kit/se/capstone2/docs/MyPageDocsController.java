@@ -19,7 +19,7 @@ public interface MyPageDocsController {
 
 	@Operation(summary = "마이페이지 변호사 정보 조회")
 	@ApiResponse(responseCode = "200", description = "성공")
-	public CommonResponse<MyPageResponse.LawyerInfo> getLawyerInfo();
+	public CommonResponse<MyPageResponse.LawyerInfo> getLawyerInfo(Long id);
 
 	@Operation(summary = "마이페이지 일반회원 정보 수정")
 	@ApiResponse(responseCode = "202", description = "성공")

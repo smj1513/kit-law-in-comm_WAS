@@ -1,6 +1,8 @@
 package kit.se.capstone2.user.application;
 
 import kit.se.capstone2.auth.security.SecurityUtils;
+import kit.se.capstone2.common.api.code.ErrorCode;
+import kit.se.capstone2.common.exception.BusinessLogicException;
 import kit.se.capstone2.posts.answer.domain.model.Answer;
 import kit.se.capstone2.posts.answer.domain.repository.AnswerRepository;
 import kit.se.capstone2.posts.question.domain.model.Question;
@@ -8,6 +10,8 @@ import kit.se.capstone2.posts.question.domain.repository.QuestionRepository;
 import kit.se.capstone2.user.domain.model.BaseUser;
 import kit.se.capstone2.user.domain.model.ClientUser;
 import kit.se.capstone2.user.domain.model.lawyer.Lawyer;
+import kit.se.capstone2.user.domain.repository.BaseUserRepository;
+import kit.se.capstone2.user.domain.repository.LawyerRepository;
 import kit.se.capstone2.user.interfaces.request.MyPageRequest;
 import kit.se.capstone2.user.interfaces.response.MyPageResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +27,8 @@ public class MyPageAppService {
 	private final SecurityUtils securityUtils;
 	private final QuestionRepository questionRepository;
 	private final AnswerRepository answerRepository;
+	private final BaseUserRepository baseUserRepository;
+	private final LawyerRepository lawyerRepository;
 
 	public MyPageResponse.GeneralInfo getGeneralInfo() {
 		BaseUser user = securityUtils.getCurrentUserAccount().getUser();
@@ -33,9 +39,9 @@ public class MyPageAppService {
 				.build();
 	}
 
-	public MyPageResponse.LawyerInfo getLawyerInfo() {
-		Lawyer currentLawyer = securityUtils.getCurrentLawyer();
-		return MyPageResponse.LawyerInfo.from(currentLawyer);
+	public MyPageResponse.LawyerInfo getLawyerInfo(Long id) {
+		Lawyer lawyer = lawyerRepository.findById(id).orElseThrow(() -> new BusinessLogicException(ErrorCode.NOT_FOUND_ENTITY));
+		return MyPageResponse.LawyerInfo.from(lawyer);
 	}
 
 	public MyPageResponse.GeneralInfo updateGeneralInfo(MyPageRequest.UpdateGeneralInfo request) {
@@ -71,5 +77,9 @@ public class MyPageAppService {
 		Lawyer currentLawyer = securityUtils.getCurrentLawyer();
 		Page<Answer> answers = answerRepository.findByAuthorId(currentLawyer.getId(), PageRequest.of(page, size));
 		return answers.map(MyPageResponse.AnswerInfo::from);
+	}
+
+	public MyPageResponse.LawyerInfo retrieveLawyerInfo(String username) {
+		return null;
 	}
 }

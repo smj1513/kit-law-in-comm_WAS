@@ -94,6 +94,7 @@ public class SecurityConfig {
 						"/", "/swagger-ui/**", "/api-docs/**", "/common/**", "/ws-stomp/**" // 웹 소켓을 통한 인증 관리는 별도의 Interceptor를 통해 처리함.
 				).permitAll()
 				.requestMatchers(HttpMethod.POST, "/auth/token/refresh").permitAll()
+				.requestMatchers(HttpMethod.GET, "/users/info/**").permitAll()
 				.requestMatchers("/users/join/**").permitAll()
 				.requestMatchers("/users/legal-speciality").permitAll()
 				.requestMatchers(HttpMethod.GET,"/question/**").permitAll()

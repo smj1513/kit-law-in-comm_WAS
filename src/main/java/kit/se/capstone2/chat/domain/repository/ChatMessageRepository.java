@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> {
-	@Query("select distinct cm from ChatMessage cm where cm.chatRoom.id = :chatRoomId")
+	@Query("select cm from ChatMessage cm where cm.chatRoom.id = :chatRoomId")
 	Slice<ChatMessage> findByChatRoomId(Long chatRoomId, Pageable pageable);
 
 	@Query("SELECT cm FROM ChatMessage cm " +

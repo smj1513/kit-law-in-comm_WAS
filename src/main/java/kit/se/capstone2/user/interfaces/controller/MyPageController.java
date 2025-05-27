@@ -21,9 +21,9 @@ public class MyPageController implements MyPageDocsController {
 		return CommonResponse.success(SuccessCode.OK, myPageAppService.getGeneralInfo());
 	}
 
-	@GetMapping("/lawyer")
-	public CommonResponse<MyPageResponse.LawyerInfo> getLawyerInfo() {
-		return CommonResponse.success(SuccessCode.OK,myPageAppService.getLawyerInfo());
+	@GetMapping("/lawyer/{id}")
+	public CommonResponse<MyPageResponse.LawyerInfo> getLawyerInfo(@PathVariable Long id) {
+		return CommonResponse.success(SuccessCode.OK,myPageAppService.getLawyerInfo(id));
 	}
 
 	@PutMapping

@@ -13,5 +13,6 @@ public class JwtProperties {
 	public static final String ROLE = "role";
 	public static final String USERNAME = "jti";
 	public static final String CATEGORY = "category";
+	public static final String ID = "id";
 }
 

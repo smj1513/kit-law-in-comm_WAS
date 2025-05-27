@@ -1,6 +1,7 @@
 package kit.se.capstone2.auth.jwt;
 
 import io.jsonwebtoken.Jwts;
+import kit.se.capstone2.auth.domain.model.Account;
 import kit.se.capstone2.auth.interfaces.response.LoginResponse;
 import kit.se.capstone2.auth.jwt.model.RefreshToken;
 import lombok.Setter;
@@ -24,8 +25,10 @@ public class JwtTokenProvider {
 		String authorities = authentication.getAuthorities().stream()
 				.map(GrantedAuthority::getAuthority)
 				.collect(Collectors.joining(","));
-		Map<String, Object> accessClaims = Map.of(JwtProperties.ROLE, authorities, JwtProperties.CATEGORY, JwtProperties.ACCESS_TOKEN_TYPE);
-		Map<String, Object> refreshClaims = Map.of(JwtProperties.ROLE, authorities, JwtProperties.CATEGORY, JwtProperties.REFRESH_TOKEN_TYPE);
+		Account account = (Account) authentication.getPrincipal();
+		Long id = account.getId();
+		Map<String, Object> accessClaims = Map.of(JwtProperties.ROLE, authorities, JwtProperties.CATEGORY, JwtProperties.ACCESS_TOKEN_TYPE, JwtProperties.ID, id);
+		Map<String, Object> refreshClaims = Map.of(JwtProperties.ROLE, authorities, JwtProperties.CATEGORY, JwtProperties.REFRESH_TOKEN_TYPE, JwtProperties.ID, id);
 		String accessToken = generateAccessToken(authentication.getName(), accessClaims);
 		RefreshToken refreshToken = generateRefreshToken(authentication.getName(), refreshClaims);
 
