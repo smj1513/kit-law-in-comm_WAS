@@ -95,6 +95,7 @@ public class SecurityConfig {
 				).permitAll()
 				.requestMatchers(HttpMethod.POST, "/auth/token/refresh").permitAll()
 				.requestMatchers(HttpMethod.GET, "/users/info/**").permitAll()
+				.requestMatchers(HttpMethod.GET, "/users/my-page/lawyer/**").permitAll()
 				.requestMatchers("/users/join/**").permitAll()
 				.requestMatchers("/users/legal-speciality").permitAll()
 				.requestMatchers(HttpMethod.GET,"/question/**").permitAll()
