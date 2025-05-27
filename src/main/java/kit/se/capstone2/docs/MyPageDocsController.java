@@ -41,6 +41,6 @@ public interface MyPageDocsController {
 	@Operation(summary = "마이페이지 변호사 답변글 조회")
 	@ApiResponse(responseCode = "200", description = "성공")
 	public CommonResponse<Page<MyPageResponse.AnswerInfo>> getAnswerInfo(
-			int page, int size
+			Long id, int page, int size
 	);
 }

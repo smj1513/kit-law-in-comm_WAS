@@ -47,11 +47,11 @@ public class MyPageController implements MyPageDocsController {
 		return CommonResponse.success(SuccessCode.OK, myPageAppService.retrieveQuestions(page, size));
 	}
 
-	@GetMapping("/lawyer/answers")
+	@GetMapping("/lawyer/{id}/answers")
 	public CommonResponse<Page<MyPageResponse.AnswerInfo>> getAnswerInfo(
-			@RequestParam int page, @RequestParam int size
+			@PathVariable Long id,@RequestParam int page, @RequestParam int size
 	) {
-		return CommonResponse.success(SuccessCode.OK, myPageAppService.retrieveAnswers(page, size));
+		return CommonResponse.success(SuccessCode.OK, myPageAppService.retrieveAnswers(id, page, size));
 	}
 
 }

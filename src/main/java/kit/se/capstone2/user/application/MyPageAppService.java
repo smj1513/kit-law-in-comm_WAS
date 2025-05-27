@@ -73,13 +73,11 @@ public class MyPageAppService {
 		return questions.map(MyPageResponse.QuestionInfo::from);
 	}
 
-	public Page<MyPageResponse.AnswerInfo> retrieveAnswers(int page, int size) {
-		Lawyer currentLawyer = securityUtils.getCurrentLawyer();
-		Page<Answer> answers = answerRepository.findByAuthorId(currentLawyer.getId(), PageRequest.of(page, size));
+	public Page<MyPageResponse.AnswerInfo> retrieveAnswers(Long id, int page, int size) {
+	//	Lawyer currentLawyer = securityUtils.getCurrentLawyer();
+
+		Page<Answer> answers = answerRepository.findByAuthorId(id, PageRequest.of(page, size));
 		return answers.map(MyPageResponse.AnswerInfo::from);
 	}
 
-	public MyPageResponse.LawyerInfo retrieveLawyerInfo(String username) {
-		return null;
-	}
 }
