@@ -6,17 +6,23 @@ import kit.se.capstone2.auth.domain.enums.Role;
 import kit.se.capstone2.common.entity.BaseTime;
 import kit.se.capstone2.user.domain.enums.ApprovalStatus;
 import kit.se.capstone2.user.domain.model.BaseUser;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 @Entity
+@Table(
+		indexes = {
+				@Index(name = "idx_account_user_id_username", columnList = "user_id, username")
+		}
+)
 @Getter
 @Setter
 @SuperBuilder
@@ -38,7 +44,7 @@ public class Account extends BaseTime implements UserDetails {
 
 	private Role role;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER)
 	private BaseUser user;
 
 	//일반 사용자는 회원가입시 바로 승인, 변호사는 관리자 승인 후 승인
@@ -46,10 +52,10 @@ public class Account extends BaseTime implements UserDetails {
 	private ApprovalStatus approvalStatus;
 
 
-	public void changeApprovalStatus(boolean isApproval){
-		if(isApproval){
+	public void changeApprovalStatus(boolean isApproval) {
+		if (isApproval) {
 			this.approvalStatus = ApprovalStatus.APPROVED;
-		}else{
+		} else {
 			this.approvalStatus = ApprovalStatus.REJECTED;
 		}
 	}
