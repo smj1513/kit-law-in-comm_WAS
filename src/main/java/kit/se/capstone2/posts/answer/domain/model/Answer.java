@@ -49,4 +49,9 @@ public class Answer extends BaseTime {
 		this.answerReports.add(answerReport);
 		answerReport.setAnswer(this);
 	}
+
+	@PreRemove
+	private void preRemove(){
+		answerReports.clear();
+	}
 }

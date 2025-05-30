@@ -57,6 +57,12 @@ public class Question extends BaseTime {
 	@Builder.Default
 	private List<Answer> answers = new ArrayList<>();
 
+	@PreRemove
+	private void preRemove(){
+		reports.clear();
+		answers.clear();
+	}
+
 	public void addAnswer(Answer answer) {
 		this.answers.add(answer);
 		answer.setQuestion(this);
