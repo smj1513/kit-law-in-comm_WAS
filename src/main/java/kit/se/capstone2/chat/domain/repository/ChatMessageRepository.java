@@ -18,6 +18,6 @@ public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> 
 			"WHERE cm.chatRoom.id = :chatRoomId " +
 			"AND cm.isRead = false " +
 			"AND cm.sender.id != :userId")
-	@EntityGraph(attributePaths = {"sender", "sender.account"})
+	//@EntityGraph(attributePaths = {"sender", "sender.account"})
 	List<ChatMessage> findUnreadMessages(@Param("chatRoomId") Long chatRoomId, @Param("userId") Long userId);
 }
