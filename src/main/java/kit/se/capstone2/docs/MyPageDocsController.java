@@ -38,7 +38,7 @@ public interface MyPageDocsController {
 			int page, int size
 	);
 
-	@Operation(summary = "마이페이지 변호사 답변글 조회")
+	@Operation(summary = "마이페이지 변호사 ㄹ답변글 조회")
 	@ApiResponse(responseCode = "200", description = "성공")
 	public CommonResponse<Page<MyPageResponse.AnswerInfo>> getAnswerInfo(
 			Long id, int page, int size

@@ -32,6 +32,7 @@ public class AdminResponse {
 		private Long answerId;
 		private Long authorId;
 		private String authorName;
+		private FileResponse fileResponse;
 
 		private String title;
 		private String content;
@@ -48,6 +49,7 @@ public class AdminResponse {
 							.answerId(answer.getId())
 							.authorName(answer.getAuthor().getName())
 							.authorId(answer.getAuthor().getId())
+							.fileResponse(FileResponse.from(answer.getAuthor().getProfileImage()))
 							.title(answer.getQuestion().getTitle())
 							.content(answer.getContent())
 							.createdAt(answer.getCreatedAt())
@@ -66,6 +68,7 @@ public class AdminResponse {
 		private Long questionId;
 		private Long authorId;
 		private String authorName;
+		private FileResponse profileImage;
 
 		private String title;
 		private String content;
@@ -82,6 +85,7 @@ public class AdminResponse {
 			return question == null ? null : ReportedQuestion.builder()
 					.questionId(question.getId())
 					.authorName(question.getAuthor().getName())
+					.profileImage(FileResponse.from(question.getAuthor().getProfileImage()))
 					.authorId(question.getAuthor().getId())
 					.title(question.getTitle())
 					.content(question.getContent())
