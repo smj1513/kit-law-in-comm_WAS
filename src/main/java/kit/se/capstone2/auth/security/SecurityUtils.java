@@ -9,6 +9,8 @@ import kit.se.capstone2.common.exception.CustomAuthorizationException;
 import kit.se.capstone2.user.domain.model.BaseUser;
 import kit.se.capstone2.user.domain.model.ClientUser;
 import kit.se.capstone2.user.domain.model.lawyer.Lawyer;
+import kit.se.capstone2.user.domain.repository.ClientUserRepository;
+import kit.se.capstone2.user.domain.repository.LawyerRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,6 +26,8 @@ import java.util.Optional;
 public class SecurityUtils {
 
 	private final AccountRepository accountRepository;
+	private final LawyerRepository lawyerRepository;
+	private final ClientUserRepository clientUserRepository;
 	private final JwtUtils jwtUtils;
 
 	public Optional<Account> getNullableCurrentAccount(){
@@ -46,18 +50,18 @@ public class SecurityUtils {
 	}
 
 	public Lawyer getCurrentLawyer() {
-		Account currentUser = getCurrentUserAccount();
-		if(currentUser.getRole().equals(Role.ROLE_LAWYER)){
-			return (Lawyer) currentUser.getUser();
+		Account account = getCurrentUserAccount();
+		if(account.getRole().equals(Role.ROLE_LAWYER)){
+			return lawyerRepository.findByAccount(account);
 		}else{
 			throw new CustomAuthorizationException(ErrorCode.NO_PERMISSION, "변호사가 아닙니다.");
 		}
 	}
 
 	public ClientUser getCurrentClientUser() {
-		Account currentUser = getCurrentUserAccount();
-		if(currentUser.getRole().equals(Role.ROLE_USER) || currentUser.getRole().equals(Role.ROLE_ADMIN)){
-			return (ClientUser) currentUser.getUser();
+		Account account = getCurrentUserAccount();
+		if(account.getRole().equals(Role.ROLE_USER) || account.getRole().equals(Role.ROLE_ADMIN)){
+			return clientUserRepository.findByAccount(account);
 		}else{
 			throw new CustomAuthorizationException(ErrorCode.NO_PERMISSION, "일반 사용자가 아닙니다.");
 		}
