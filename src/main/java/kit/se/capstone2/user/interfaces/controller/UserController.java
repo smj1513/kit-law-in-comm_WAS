@@ -38,7 +38,7 @@ public class UserController implements UserDocsController {
 		return CommonResponse.success(SuccessCode.OK, appService.joinLawyer(data, licenseImage));
 	}
 
-	@GetMapping("/id/dup-check")
+	@GetMapping("/join/id/dupe-check")
 	public CommonResponse<UserResponse.IdDupCheck> checkIdDuplication(@RequestParam String id
 	){
 		return CommonResponse.success(SuccessCode.OK, appService.checkIdDupCheck(id));
