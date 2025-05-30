@@ -55,7 +55,11 @@ public class SecurityConfig {
 
 		UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
-		corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000", "http://127.0.0.1:3000", "http://www.law-in-comm.site","http://202.31.202.38", "http://localhost:8080"));
+		corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000",
+				"http://127.0.0.1:3000",
+				"http://www.law-in-comm.site",
+				"https://www.law-in-comm.site:80",
+				"http://202.31.202.38", "http://localhost:8080"));
 		corsConfiguration.setAllowedMethods(List.of("*"));
 		corsConfiguration.setAllowedHeaders(List.of("*"));
 		corsConfiguration.setExposedHeaders(List.of(
