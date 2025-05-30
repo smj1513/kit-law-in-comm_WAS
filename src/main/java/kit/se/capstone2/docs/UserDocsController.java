@@ -15,6 +15,7 @@ import kit.se.capstone2.user.interfaces.response.UserResponse;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
@@ -52,4 +53,10 @@ public interface UserDocsController {
 	CommonResponse<Boolean> checkNicknameDuplication(
 	                                                 @Pattern(regexp = "^[가-힣a-z0-9]{2,8}", message = "닉네임은 2~8자의 한글 및 영문 대소문자와 숫자로 이루어져야 합니다.")
 	                                                 String nickname);
+
+	@Operation(summary = "아이디 중복 체크", description = "아이디 중복체크를 한다.")
+	@ApiResponse(responseCode = "200", description = "성공")
+	public CommonResponse<UserResponse.IdDupCheck> checkIdDuplication(@org.springframework.web.bind.annotation.RequestBody
+	                                                                  UserRequest.IdDupCheck request
+	);
 }
