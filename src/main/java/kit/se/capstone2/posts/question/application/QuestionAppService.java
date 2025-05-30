@@ -88,6 +88,7 @@ public class QuestionAppService {
 		Question question = questionRepository.findById(id).orElseThrow(() -> new BusinessLogicException(ErrorCode.NOT_FOUND_ENTITY, "해당하는 질문이 존재하지 않습니다."));
 		BaseUser author = question.getAuthor();
 		userService.validateRemoveAuthority(user, author);
+		question.clear();
 		questionRepository.delete(question);
 		return QuestionResponse.PostQuestion
 				.from(question);

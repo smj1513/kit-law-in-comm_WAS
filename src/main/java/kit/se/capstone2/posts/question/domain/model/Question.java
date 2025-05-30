@@ -58,7 +58,7 @@ public class Question extends BaseTime {
 	private List<Answer> answers = new ArrayList<>();
 
 	@PreRemove
-	private void preRemove(){
+	public void clear(){
 		reports.clear();
 		answers.clear();
 	}

@@ -51,7 +51,7 @@ public class Answer extends BaseTime {
 	}
 
 	@PreRemove
-	private void preRemove(){
+	public void clear(){
 		answerReports.clear();
 	}
 }
