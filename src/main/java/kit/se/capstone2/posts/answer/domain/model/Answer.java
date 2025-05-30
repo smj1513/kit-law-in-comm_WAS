@@ -8,6 +8,8 @@ import kit.se.capstone2.user.domain.model.lawyer.Lawyer;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,7 @@ public class Answer extends BaseTime {
 
 	@ManyToOne
 	@JoinColumn(name = "question_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Question question;
 
 	@OneToMany(mappedBy = "answer", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)

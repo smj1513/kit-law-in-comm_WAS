@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @DiscriminatorValue("question")
@@ -20,6 +22,7 @@ public class QuestionReport extends Report{
 
 	@ManyToOne
 	@JoinColumn(name = "question_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Question question;
 
 }
