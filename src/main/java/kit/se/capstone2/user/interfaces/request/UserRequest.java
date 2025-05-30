@@ -16,6 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserRequest {
+
+	@Data
+	@Builder
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class IdDupCheck{
+		private String id;
+	}
+
 	@Data
 	@Builder
 	@NoArgsConstructor

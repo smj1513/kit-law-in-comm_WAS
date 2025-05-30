@@ -59,7 +59,9 @@ public class SecurityConfig {
 				"http://127.0.0.1:3000",
 				"http://www.law-in-comm.site",
 				"https://www.law-in-comm.site:80",
-				"http://202.31.202.38", "http://localhost:8080"));
+				"http://202.31.202.38",
+				"https://202.31.202.38:80",
+				"http://localhost:8080"));
 		corsConfiguration.setAllowedMethods(List.of("*"));
 		corsConfiguration.setAllowedHeaders(List.of("*"));
 		corsConfiguration.setExposedHeaders(List.of(

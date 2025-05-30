@@ -65,4 +65,12 @@ public class UserResponse  {
 					.build();
 		}
 	}
+
+	@Data
+	@Builder
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class IdDupCheck {
+		private Boolean isDup;
+	}
 }

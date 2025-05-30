@@ -2,6 +2,7 @@ package kit.se.capstone2.user.application;
 
 import kit.se.capstone2.auth.domain.enums.Role;
 import kit.se.capstone2.auth.domain.model.Account;
+import kit.se.capstone2.auth.domain.repository.AccountRepository;
 import kit.se.capstone2.common.api.code.ErrorCode;
 import kit.se.capstone2.common.exception.BusinessLogicException;
 import kit.se.capstone2.user.domain.enums.ApprovalStatus;
@@ -31,6 +32,7 @@ public class UserAppService {
 	private final BaseUserRepository baseUserRepository;
 	private final LawyerService lawyerService;
 	private final PasswordEncoder passwordEncoder;
+	private final AccountRepository accountRepository;
 
 	public UserResponse.General joinGeneralUser(UserRequest.JoinGeneralUser request) {
 		if(clientUserRepository.existsByNickname(request.getNickname())){
@@ -117,5 +119,11 @@ public class UserAppService {
 
 	public Boolean checkNicknameDuplication(String nickname) {
 		return clientUserRepository.existsByNickname(nickname);
+	}
+
+	public UserResponse.IdDupCheck checkIdDupCheck(UserRequest.IdDupCheck request) {
+		return UserResponse.IdDupCheck.builder()
+				.isDup(accountRepository.existsByUsername(request.getId()))
+				.build();
 	}
 }
