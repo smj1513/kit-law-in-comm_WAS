@@ -56,7 +56,6 @@ public interface UserDocsController {
 
 	@Operation(summary = "아이디 중복 체크", description = "아이디 중복체크를 한다.")
 	@ApiResponse(responseCode = "200", description = "성공")
-	public CommonResponse<UserResponse.IdDupCheck> checkIdDuplication(@org.springframework.web.bind.annotation.RequestBody
-	                                                                  UserRequest.IdDupCheck request
+	public CommonResponse<UserResponse.IdDupCheck> checkIdDuplication(String id
 	);
 }

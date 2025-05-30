@@ -39,10 +39,9 @@ public class UserController implements UserDocsController {
 	}
 
 	@PostMapping("/id/dup-check")
-	public CommonResponse<UserResponse.IdDupCheck> checkIdDuplication(@RequestBody
-	                                                                  UserRequest.IdDupCheck request
+	public CommonResponse<UserResponse.IdDupCheck> checkIdDuplication(@RequestParam String id
 	){
-		return CommonResponse.success(SuccessCode.OK, appService.checkIdDupCheck(request));
+		return CommonResponse.success(SuccessCode.OK, appService.checkIdDupCheck(id));
 	}
 
 

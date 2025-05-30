@@ -121,9 +121,9 @@ public class UserAppService {
 		return clientUserRepository.existsByNickname(nickname);
 	}
 
-	public UserResponse.IdDupCheck checkIdDupCheck(UserRequest.IdDupCheck request) {
+	public UserResponse.IdDupCheck checkIdDupCheck(String id) {
 		return UserResponse.IdDupCheck.builder()
-				.isDup(accountRepository.existsByUsername(request.getId()))
+				.isDup(accountRepository.existsByUsername(id))
 				.build();
 	}
 }
