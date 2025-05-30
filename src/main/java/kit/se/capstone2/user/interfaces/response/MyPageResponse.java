@@ -28,7 +28,7 @@ public class MyPageResponse {
 	public static class GeneralInfo {
 		private String name;
 		private String nickname;
-		private LocalDate birth;
+		private LocalDate birthDate;
 	}
 
 	@Data
@@ -40,7 +40,7 @@ public class MyPageResponse {
 		private String name;
 		private String phoneNumber;
 		private String description;
-		private LocalDate birth;
+		private LocalDate birthDate;
 
 		@Builder.Default
 		private List<LegalSpeciality> legalSpecialties = new ArrayList<>();
@@ -54,7 +54,7 @@ public class MyPageResponse {
 					.name(lawyer.getName())
 					.phoneNumber(lawyer.getPhoneNumber())
 					.description(lawyer.getDescription())
-					.birth(lawyer.getBirthDate())
+					.birthDate(lawyer.getBirthDate())
 					.legalSpecialties(lawyer.getLegalSpecialities().stream().map(LegalSpecialityInfo::getLegalSpeciality).toList())
 					.careers(lawyer.getCareers().stream().map(Career::getContent).toList())
 					.educations(lawyer.getEducations().stream().map(Education::getContent).toList())

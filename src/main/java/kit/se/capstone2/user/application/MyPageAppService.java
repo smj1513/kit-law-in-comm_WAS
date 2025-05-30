@@ -35,7 +35,7 @@ public class MyPageAppService {
 		return MyPageResponse.GeneralInfo.builder()
 				.name(user.getName())
 				.nickname(user.getNickname())
-				.birth(user.getBirthDate())
+				.birthDate(user.getBirthDate())
 				.build();
 	}
 
@@ -52,7 +52,7 @@ public class MyPageAppService {
 		return MyPageResponse.GeneralInfo.builder()
 				.name(currentClientUser.getName())
 				.nickname(currentClientUser.getNickname())
-				.birth(currentClientUser.getBirthDate())
+				.birthDate(currentClientUser.getBirthDate())
 				.build();
 	}
 
