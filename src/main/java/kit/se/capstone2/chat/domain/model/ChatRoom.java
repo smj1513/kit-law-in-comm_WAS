@@ -44,7 +44,7 @@ public class ChatRoom extends BaseTime {
 	@JoinColumn(name = "participant_id")
 	private BaseUser participant;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "last_message_id")
 	private ChatMessage lastMessage;
 

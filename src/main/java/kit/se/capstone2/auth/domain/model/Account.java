@@ -44,7 +44,7 @@ public class Account extends BaseTime implements UserDetails {
 
 	private Role role;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 	private BaseUser user;
 
 	//일반 사용자는 회원가입시 바로 승인, 변호사는 관리자 승인 후 승인
