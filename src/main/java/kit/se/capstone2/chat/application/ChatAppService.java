@@ -126,12 +126,11 @@ public class ChatAppService {
 
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void sendUpdatedChatRoomInfo(BaseUser user, BaseUser otherUser) {
+	public void sendUpdatedChatRoomInfo(BaseUser user) {
 		List<ChatRoom> chatRooms = chatRoomRepository.findByUserId(user.getId());
 
 		List<ChatResponse.ChatRoomRes> list = chatRooms.stream().map(chatRoom -> ChatResponse.ChatRoomRes.from(chatRoom, user)).toList();
 		messagingTemplate.convertAndSend("/sub/chatRoomList/" + user.getAccount().getUsername(), list);
-		messagingTemplate.convertAndSend("/sub/chatRoomList/"+otherUser.getAccount().getUsername(), list);
 	}
 
 	/**
@@ -143,7 +142,7 @@ public class ChatAppService {
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void sendMessage(ChatRequest.ChatMessageReq request, Long chatRoomId, Principal user) {
 		BaseUser baseUser = securityUtils.getBaseUser(user);
-		ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId).orElseThrow(()->new BusinessLogicException(ErrorCode.NOT_FOUND_ENTITY, "채팅방이 존재하지 않습니다."));
+		ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId).orElseThrow(()-> new BusinessLogicException(ErrorCode.NOT_FOUND_ENTITY,"채팅방을 찾을 수 없습니다."));
 		ChatMessage chatMessage = saveMessage(chatRoomId, request, baseUser);
 		messagingTemplate.convertAndSend("/sub/chat/" + chatRoomId,
 				ChatResponse.ChatMessageRes.builder()
@@ -156,6 +155,7 @@ public class ChatAppService {
 						.isRead(chatMessage.isRead()) // 이 부분은 생각좀 해야할듯..
 						.build()
 		);
-		sendUpdatedChatRoomInfo(baseUser, chatRoom.getOtherPerson(baseUser));
+		sendUpdatedChatRoomInfo(baseUser);
+		sendUpdatedChatRoomInfo(chatRoom.getOtherPerson(baseUser));
 	}
 }
