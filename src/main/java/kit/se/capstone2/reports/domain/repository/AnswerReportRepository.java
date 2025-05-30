@@ -17,6 +17,10 @@ public interface AnswerReportRepository extends JpaRepository<AnswerReport, Long
 	@Query("select report from AnswerReport report where report.answer.id = :answerId")
 	Page<AnswerReport> findByAnswerId(Long answerId, Pageable pageable);
 
+	@Modifying
+	@Query("DELETE FROM AnswerReport ar WHERE ar.answer.id IN " +
+			"(SELECT a.id FROM Answer a WHERE a.question.id IN :questionIds)")
+	void deleteAllByQuestionIdsInAnswer(@Param("questionIds") List<Long> questionIds);
 
 	boolean existsByAnswerAndReporter(Answer answer, BaseUser reporter);
 
