@@ -72,12 +72,12 @@ public class ChatAppService {
 
 	public Slice<ChatResponse.ChatMessageRes> getChatMessages(Long chatRoomId, int page, int size) {
 		PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Order.desc("sentAt")));
-	//	BaseUser currentUser = securityUtils.getCurrentUserAccount().getUser(); //현재 사용자가 누구인지 확인
+		BaseUser currentUser = securityUtils.getCurrentUserAccount().getUser(); //현재 사용자가 누구인지 확인
 
 		//읽음 처리
 		return chatMessageRepository.findByChatRoomId(chatRoomId, pageRequest)
 				.map(chatMessage -> {
-			//		chatMessage.readFrom(currentUser); //읽음 처리 로직 수정 필요
+					chatMessage.readFrom(currentUser); //읽음 처리 로직 수정 필요
 					return ChatResponse.ChatMessageRes.builder()
 							.messageId(chatMessage.getId())
 							.senderId(chatMessage.getSender().getAccount().getUsername())
