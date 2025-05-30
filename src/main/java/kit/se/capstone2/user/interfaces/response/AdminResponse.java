@@ -14,7 +14,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -32,7 +31,7 @@ public class AdminResponse {
 		private Long answerId;
 		private Long authorId;
 		private String authorName;
-		private FileResponse fileResponse;
+		private FileResponse profileImage;
 
 		private String title;
 		private String content;
@@ -49,7 +48,7 @@ public class AdminResponse {
 							.answerId(answer.getId())
 							.authorName(answer.getAuthor().getName())
 							.authorId(answer.getAuthor().getId())
-							.fileResponse(FileResponse.from(answer.getAuthor().getProfileImage()))
+							.profileImage(FileResponse.from(answer.getAuthor().getProfileImage()))
 							.title(answer.getQuestion().getTitle())
 							.content(answer.getContent())
 							.createdAt(answer.getCreatedAt())
