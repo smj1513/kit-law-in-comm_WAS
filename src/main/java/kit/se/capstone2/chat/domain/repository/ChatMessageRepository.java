@@ -3,6 +3,7 @@ package kit.se.capstone2.chat.domain.repository;
 import kit.se.capstone2.chat.domain.model.ChatMessage;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,5 +18,6 @@ public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> 
 			"WHERE cm.chatRoom.id = :chatRoomId " +
 			"AND cm.isRead = false " +
 			"AND cm.sender.id != :userId")
+	@EntityGraph(attributePaths = {"sender", "sender.account"})
 	List<ChatMessage> findUnreadMessages(@Param("chatRoomId") Long chatRoomId, @Param("userId") Long userId);
 }
