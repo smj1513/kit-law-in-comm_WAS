@@ -27,8 +27,10 @@ public class Question extends BaseTime {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(columnDefinition = "TEXT")
 	private String title;
 
+	@Column(columnDefinition = "TEXT")
 	private String content;
 
 	private LocalDate firstOccurrenceDate;
