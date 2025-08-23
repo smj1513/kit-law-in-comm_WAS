@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://postgres:5432/was
-    username: "postgres"
-    password: "***REMOVED***"
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
@@ -21,6 +21,18 @@ spring:
       port: 6379
       host: redis
       password:
+
+
+aws:
+  s3:
+    credentials:
+      accessKey: ${AWS_S3_ACCESS_KEY}
+      secretKey: ${AWS_S3_SECRET_KEY}
+      region: ${AWS_S3_REGION}
+    bucket: ${AWS_S3_BUCKET}
+
+jwt:
+  secret: ${JWT_SECRET}
 
 server:
   port: 8080

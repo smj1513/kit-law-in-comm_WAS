@@ -21,17 +21,6 @@ logging:
           socket: DEBUG
         messaging: TRACE
 
-aws:
-  s3:
-    credentials:
-      accessKey: ***REMOVED***
-      secretKey: ***REMOVED***
-      region: ***REMOVED***
-    bucket: ***REMOVED***
-
-jwt:
-  secret: ***REMOVED***
-
 springdoc:
   swagger-ui:
     groups-order: DESC

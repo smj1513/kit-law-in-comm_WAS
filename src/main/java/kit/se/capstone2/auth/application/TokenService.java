@@ -5,6 +5,7 @@ import kit.se.capstone2.auth.interfaces.request.TokenRequest;
 import kit.se.capstone2.auth.jwt.JwtUtils;
 import kit.se.capstone2.auth.interfaces.response.LoginResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,8 @@ import java.util.UUID;
 public class TokenService {
 	private final JwtUtils jwtUtils;
 
+	private final RedisTemplate<String, String> redisTemplate;
+
 	public LoginResponse refresh(TokenRequest.Refresh request) {
 		String refreshToken = request.getRefreshToken();
 		jwtUtils.validateRefreshToken(refreshToken);
@@ -24,4 +27,10 @@ public class TokenService {
 		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, UUID.randomUUID().toString(), List.of(authorities));
 		return jwtUtils.generateToken(usernamePasswordAuthenticationToken);
 	}
+
+	public void logout(String accessToken, String userId){
+
+	}
+
+
 }

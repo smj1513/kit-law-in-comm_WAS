@@ -50,8 +50,28 @@ jobs:
           docker build -t capstone2:latest .
 
       - name: Run Docker container
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_USERNAME }}
+          AWS_S3_ACCESS_KEY: ${{ secrets.AWS_S3_ACCESS_KEY }}
+          AWS_S3_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+          AWS_S3_REGION: ${{ secrets.AWS_S3_REGION }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+
         run: |
-          docker run -d --restart=always --network llm-network --name capstone2 -p 8080:8080 -e ACTIVE_PROFILE=prod capstone2:latest
+          docker run -d --restart=always --network llm-network --name capstone2 -p 8080:8080 \
+          -e ACTIVE_PROFILE=prod \
+          -e DATABASE_URL=$DATABASE_URL \
+          -e DATABASE_USERNAME=$DATABASE_USERNAME \
+          -e DATABASE_PASSWORD=$DATABASE_PASSWORD \
+          -e AWS_S3_ACCESS_KEY=$AWS_S3_ACCESS_KEY \
+          -e AWS_S3_SECRET_KEY=$AWS_S3_SECRET_KEY \
+          -e AWS_S3_BUCKET=$AWS_S3_BUCKET \
+          -e AWS_S3_REGION=$AWS_S3_REGION \
+          -e JWT_SECRET=$JWT_SECRET \
+          capstone2:latest
           
 #      - name: Check Docker network
 #        run: |
