@@ -70,25 +70,24 @@
 
 ### 2.1 사용자 인터페이스
 
-**메인화면**
-<img width="1256" height="1239" alt="image" src="https://github.com/user-attachments/assets/9bb3f45e-5a5e-4d16-b6d4-3d34196a8fcc" />
-
-**로그인**
-<img width="1272" height="1037" alt="image" src="https://github.com/user-attachments/assets/056ccddc-0990-42ee-863a-c05085147f0a" />
-**회원 가입 진입**
-<img width="1273" height="1258" alt="image" src="https://github.com/user-attachments/assets/0e36249e-97b2-4401-be78-4516b3c09d08" />
-**변호사 회원가입**
-<img width="1256" height="1258" alt="image" src="https://github.com/user-attachments/assets/09aff84d-bbef-4b79-b748-6746ee4466cc" />
-<img width="1262" height="1261" alt="image" src="https://github.com/user-attachments/assets/269bf373-b111-48d3-b8c7-307e6fe131d1" />
-**사용자 질문**
-<img width="973" height="534" alt="image" src="https://github.com/user-attachments/assets/6b6176e7-dbf9-48cf-ad20-a3c621c42621" />
-**AI 어시스턴트 답변**
-<img width="761" height="1110" alt="image" src="https://github.com/user-attachments/assets/485a3d8e-40ee-4993-becb-8f3ea2e76652" />
-<img width="757" height="545" alt="image" src="https://github.com/user-attachments/assets/162397d5-3af3-4f06-b6a0-2061b89ea8c4" />
-**사용자 질문 작성**
-<img width="1256" height="1256" alt="image" src="https://github.com/user-attachments/assets/bc3011df-4eda-4471-8a04-054494b186e5" />
-**채팅**
-<img width="378" height="559" alt="image" src="https://github.com/user-attachments/assets/43d27eb9-ca21-4b7f-8893-bd7eb359ee57" />
+**메인화면**<br>
+<img width="1256" height="1239" alt="image" src="https://github.com/user-attachments/assets/9bb3f45e-5a5e-4d16-b6d4-3d34196a8fcc" /><br>
+**로그인**<br>
+<img width="1272" height="1037" alt="image" src="https://github.com/user-attachments/assets/056ccddc-0990-42ee-863a-c05085147f0a" /><br>
+**회원 가입 진입**<br>
+<img width="1273" height="1258" alt="image" src="https://github.com/user-attachments/assets/0e36249e-97b2-4401-be78-4516b3c09d08" /><br>
+**변호사 회원가입**<br>
+<img width="1256" height="1258" alt="image" src="https://github.com/user-attachments/assets/09aff84d-bbef-4b79-b748-6746ee4466cc" /><br>
+<img width="1262" height="1261" alt="image" src="https://github.com/user-attachments/assets/269bf373-b111-48d3-b8c7-307e6fe131d1" /><br>
+**사용자 질문**<br>
+<img width="973" height="534" alt="image" src="https://github.com/user-attachments/assets/6b6176e7-dbf9-48cf-ad20-a3c621c42621" /><br>
+**AI 어시스턴트 답변**<br>
+<img width="761" height="1110" alt="image" src="https://github.com/user-attachments/assets/485a3d8e-40ee-4993-becb-8f3ea2e76652" /><br>
+<img width="757" height="545" alt="image" src="https://github.com/user-attachments/assets/162397d5-3af3-4f06-b6a0-2061b89ea8c4" /><br>
+**사용자 질문 작성**<br>
+<img width="1256" height="1256" alt="image" src="https://github.com/user-attachments/assets/bc3011df-4eda-4471-8a04-054494b186e5" /><br>
+**채팅**<br>
+<img width="378" height="559" alt="image" src="https://github.com/user-attachments/assets/43d27eb9-ca21-4b7f-8893-bd7eb359ee57" /><br>
 
 
 
