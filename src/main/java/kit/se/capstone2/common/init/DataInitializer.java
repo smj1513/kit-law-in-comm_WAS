@@ -76,8 +76,8 @@ public class DataInitializer {
 
 		public Lawyer initAIAssistant() {
 			Account aiAccount = Account.builder()
-					.username("minj21")
-					.password(passwordEncoder.encode("mjmj0221!"))
+					.username("**removed**")
+					.password(passwordEncoder.encode("**removed**!"))
 					.role(Role.ROLE_LAWYER)
 					.approvalStatus(ApprovalStatus.APPROVED).build();
 
