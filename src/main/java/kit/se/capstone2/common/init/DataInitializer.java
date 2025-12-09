@@ -67,7 +67,7 @@ public class DataInitializer {
 					.name("관리자")
 					.nickname("관리자")
 					.birthDate(LocalDate.of(2000, 02, 21))
-					.phoneNumber("010-4262-5325")
+					.phoneNumber("removed")
 					.build();
 
 			clientUser.addAccount(adminAccount);
@@ -98,7 +98,7 @@ public class DataInitializer {
 									제가 드리는 답변은 항상 참고용이니 주의 해주세요!
 									어떤 의견과 피드백도 환영입니다! 🤟🏻
 							""")
-					.phoneNumber("054-478-7540")
+					.phoneNumber("removed")
 					.officeInfo(OfficeInfo.builder().address("경상북도 구미시 대학로 61 - 디지털관 D337호")
 							.name("금오공과대학교 컴퓨터 공학부 소프트웨어 공학전공 신호처리 및 지능형 네트워크 연구실")
 							.phoneNumber("054-478-7540")
