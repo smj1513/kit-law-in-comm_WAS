@@ -76,4 +76,8 @@ public class JwtUtils {
 		return extractor.extractUsername(token);
 	}
 
+	public Long getRemainingMillis(String token) {
+		return validator.getRemainingMillis(token);
+	}
+
 }

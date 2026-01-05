@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController implements AuthDocsController {
 
@@ -24,5 +24,11 @@ public class AuthController implements AuthDocsController {
 			@RequestBody TokenRequest.Refresh jwtToken
 	) {
 		return CommonResponse.success(SuccessCode.CREATED, tokenService.refresh(jwtToken));
+	}
+
+	@PostMapping("/logout")
+	public CommonResponse<?> logout(@RequestBody TokenRequest.Logout request) {
+		tokenService.logout(request);
+		return CommonResponse.success(SuccessCode.OK, null);
 	}
 }

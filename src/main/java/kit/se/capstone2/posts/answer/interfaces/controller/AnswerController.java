@@ -19,8 +19,7 @@ public class AnswerController implements AnswerDocsController {
 	@GetMapping("/question/{question-id}/answers")
 	public CommonResponse<Page<AnswerResponse.GetAnswer>> getAnswers(@PathVariable(name = "question-id") Long questionId,
 	                                                                 @RequestParam int page,
-	                                                                 @RequestParam int size
-	) {
+	                                                                 @RequestParam int size) {
 		return CommonResponse.success(SuccessCode.OK, answerAppService.retrieveAnswers(questionId, page, size));
 	}
 

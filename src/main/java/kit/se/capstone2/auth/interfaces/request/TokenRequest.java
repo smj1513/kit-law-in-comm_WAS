@@ -13,4 +13,12 @@ public class TokenRequest {
 	public static class Refresh {
 		private String refreshToken;
 	}
+
+	@Data
+	@Builder
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class Logout {
+		private String refreshToken;
+	}
 }
